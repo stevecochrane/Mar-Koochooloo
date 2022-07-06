@@ -8,6 +8,10 @@ local gfx <const> = playdate.graphics
 -- several functions need to access it.
 local playerSprite = nil
 
+-- TODO: Implement as enum if possible?
+-- Possible values are "up", "right", "down", and "left"
+local playerDirection = "right"
+
 -- A function to set up our game environment.
 function myGameSetUp()
 
@@ -53,17 +57,25 @@ function playdate.update()
     -- (There are multiple ways to read the d-pad; this is the simplest.)
     -- Note that it is possible for more than one of these directions
     -- to be pressed at once, if the user is pressing diagonally.
-    if playdate.buttonIsPressed(playdate.kButtonUp) then
-        playerSprite:moveBy(0, -2)
+    if playdate.buttonJustPressed(playdate.kButtonUp) then
+        playerDirection = "up"
+    elseif playdate.buttonJustPressed(playdate.kButtonRight) then
+        playerDirection = "right"
+    elseif playdate.buttonJustPressed(playdate.kButtonDown) then
+        playerDirection = "down"
+    elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
+        playerDirection = "left"
     end
-    if playdate.buttonIsPressed(playdate.kButtonRight) then
-        playerSprite:moveBy(2, 0)
-    end
-    if playdate.buttonIsPressed(playdate.kButtonDown) then
-        playerSprite:moveBy(0, 2)
-    end
-    if playdate.buttonIsPressed(playdate.kButtonLeft) then
-        playerSprite:moveBy(-2, 0)
+
+    -- TODO: Implement as switch statement, if possible?
+    if (playerDirection == "up") then
+      playerSprite:moveBy(0, -2)
+    elseif (playerDirection == "right") then
+      playerSprite:moveBy(2, 0)
+    elseif (playerDirection == "down") then
+      playerSprite:moveBy(0, 2)
+    elseif (playerDirection == "left") then
+      playerSprite:moveBy(-2, 0)
     end
 
     -- Call this in playdate.update() to draw sprites.
