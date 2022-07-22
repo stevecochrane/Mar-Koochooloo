@@ -63,6 +63,7 @@ myGameSetUp()
 
 function playdate.update()
 
+	-- TODO: Disallow moving in the opposite direction
 	if playdate.buttonJustPressed(playdate.kButtonUp) then
 		playerDirection = "up"
 	elseif playdate.buttonJustPressed(playdate.kButtonRight) then
