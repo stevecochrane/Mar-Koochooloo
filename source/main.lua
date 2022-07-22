@@ -1,6 +1,7 @@
 import "CoreLibs/graphics"
 import "CoreLibs/object"
 import "CoreLibs/sprites"
+import "CoreLibs/timer"
 
 local gfx <const> = playdate.graphics
 
@@ -48,15 +49,8 @@ end
 -- controlled by the OS calling `playdate.update()` 30 times a second.
 myGameSetUp()
 
--- `playdate.update()` is the heart of every Playdate game.
--- This function is called right before every frame is drawn onscreen.
--- Use this function to poll input, run game logic, and move sprites.
 function playdate.update()
 
-	-- Poll the d-pad and move our player accordingly.
-	-- (There are multiple ways to read the d-pad; this is the simplest.)
-	-- Note that it is possible for more than one of these directions
-	-- to be pressed at once, if the user is pressing diagonally.
 	if playdate.buttonJustPressed(playdate.kButtonUp) then
 		playerDirection = "up"
 	elseif playdate.buttonJustPressed(playdate.kButtonRight) then
@@ -78,7 +72,7 @@ function playdate.update()
 	  playerSprite:moveBy(-2, 0)
 	end
 
-	-- Call this in playdate.update() to draw sprites.
 	gfx.sprite.update()
+	playdate.timer.updateTimers()
 
 end
