@@ -5,6 +5,9 @@ import "CoreLibs/sprites"
 
 local gfx <const> = playdate.graphics
 
+-- Size of each tile on the board (and snake segment, and pellet)
+local tileSize = 16
+
 -- Here's our player sprite declaration. We'll scope it to this file because
 -- several functions need to access it.
 local playerSprite = nil
@@ -13,8 +16,17 @@ local playerSprite = nil
 -- Possible values are "up", "right", "down", and "left"
 local playerDirection = "right"
 
+-- The player will move every time the frameTimer hits this number.
+-- Declaring it here also lets us change it later.
+local playerMoveInterval = 10
+
+-- We'll check this on every frame to determine if it's time to move.
+local moveTimer = playdate.frameTimer.new(playerMoveInterval)
+moveTimer.repeats = true
+
 -- A function to set up our game environment.
 function myGameSetUp()
+	print('myGameSetUp()')
 
 	-- Set up the player sprite.
 	-- The :setCenter() call specifies that the sprite will be anchored at its center.
@@ -61,15 +73,17 @@ function playdate.update()
 		playerDirection = "left"
 	end
 
-	-- TODO: Implement as switch statement, if possible?
-	if (playerDirection == "up") then
-	  playerSprite:moveBy(0, -2)
-	elseif (playerDirection == "right") then
-	  playerSprite:moveBy(2, 0)
-	elseif (playerDirection == "down") then
-	  playerSprite:moveBy(0, 2)
-	elseif (playerDirection == "left") then
-	  playerSprite:moveBy(-2, 0)
+	if (moveTimer.frame == playerMoveInterval) then
+		-- TODO: Implement as switch statement, if possible?
+		if (playerDirection == "up") then
+			playerSprite:moveBy(0, -tileSize)
+		elseif (playerDirection == "right") then
+			playerSprite:moveBy(tileSize, 0)
+		elseif (playerDirection == "down") then
+			playerSprite:moveBy(0, tileSize)
+		elseif (playerDirection == "left") then
+			playerSprite:moveBy(-tileSize, 0)
+		end
 	end
 
 	gfx.sprite.update()
