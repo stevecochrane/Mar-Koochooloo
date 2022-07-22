@@ -1,7 +1,7 @@
+import "CoreLibs/frameTimer"
 import "CoreLibs/graphics"
 import "CoreLibs/object"
 import "CoreLibs/sprites"
-import "CoreLibs/timer"
 
 local gfx <const> = playdate.graphics
 
@@ -73,6 +73,6 @@ function playdate.update()
 	end
 
 	gfx.sprite.update()
-	playdate.timer.updateTimers()
+	playdate.frameTimer.updateTimers()
 
 end
