@@ -41,7 +41,7 @@ function myGameSetUp()
 	-- Set up the player sprite.
 	-- The :setCenter() call specifies that the sprite will be anchored at its center.
 	-- The :moveTo() call moves our sprite to the center of the display.
-	local playerImage = gfx.image.new("images/player")
+	local playerImage = gfx.image.new("images/sprite")
 
 	-- 400 / 16 = 25 vertical columns
 	-- 12 * 16 = 192 for middle column
