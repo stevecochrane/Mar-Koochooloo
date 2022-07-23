@@ -24,6 +24,16 @@ local playerMoveInterval = 10
 local moveTimer = playdate.frameTimer.new(playerMoveInterval)
 moveTimer.repeats = true
 
+-- If the player collides with one of these, game over.
+local leftBoundary = 16
+local rightBoundary = 384 -- Right edge of screen (400) minus tileSize (16)
+local topBoundary = 16
+local bottomBoundary = 224 -- Bottom edge of screen (240) minus tileSize (16)
+
+-- TODO: Implement as enum if possible?
+-- Possible values are "play", "end"
+local gameState = "play"
+
 -- A function to set up our game environment.
 function myGameSetUp()
 	print('myGameSetUp()')
@@ -33,9 +43,19 @@ function myGameSetUp()
 	-- The :moveTo() call moves our sprite to the center of the display.
 	local playerImage = gfx.image.new("images/player")
 
+	-- 400 / 16 = 25 vertical columns
+	-- 12 * 16 = 192 for middle column
+	-- 192 + 8 for half of sprite width = 200
+	local startingX = 200
+
+	-- 240 / 16 = 15 horizontal rows
+	-- 7 * 16 = 112 for middle row
+	-- 112 + 8 for half of sprite height = 120
+	local startingY = 120
+
 	playerSprite = gfx.sprite.new(playerImage)
-	playerSprite:moveTo(200, 120) -- this is where the center of the sprite is placed; (200,120) is the center of the Playdate screen
-	playerSprite:add() -- This is critical!
+	playerSprite:moveTo(startingX, startingY)
+	playerSprite:add()
 
 	-- We want an environment displayed behind our sprite.
 	-- There are generally two ways to do this:
@@ -85,6 +105,11 @@ function playdate.update()
 		elseif (playerDirection == "left") then
 			playerSprite:moveBy(-tileSize, 0)
 		end
+	end
+
+	if (playerSprite.x <= leftBoundary or playerSprite.x >= rightBoundary or playerSprite.y <= topBoundary or playerSprite.y >= bottomBoundary) then
+		print('game over')
+		gameState = "end"
 	end
 
 	gfx.sprite.update()
