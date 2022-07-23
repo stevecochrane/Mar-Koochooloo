@@ -82,7 +82,17 @@ end
 myGameSetUp()
 
 function playdate.update()
+	if gameState == "play" then
+		playStateUpdate()
+	elseif gameState == "end" then
+		endStateUpdate()
+	end
 
+	gfx.sprite.update()
+	playdate.frameTimer.updateTimers()
+end
+
+function playStateUpdate()
 	-- TODO: Disallow moving in the opposite direction
 	if playdate.buttonJustPressed(playdate.kButtonUp) then
 		playerDirection = "up"
@@ -108,11 +118,14 @@ function playdate.update()
 	end
 
 	if (playerSprite.x <= leftBoundary or playerSprite.x >= rightBoundary or playerSprite.y <= topBoundary or playerSprite.y >= bottomBoundary) then
-		print('game over')
+		print('gameState = "end"')
 		gameState = "end"
 	end
+end
 
-	gfx.sprite.update()
-	playdate.frameTimer.updateTimers()
-
+function endStateUpdate()
+	if playdate.buttonJustPressed(playdate.kButtonA) then
+		print('gameState = "play"')
+		gameState = "play"
+	end
 end
