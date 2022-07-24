@@ -15,6 +15,7 @@ local playerSprite = nil
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
 local playerDirection = "right"
+local playerDirectionBuffer = playerDirection
 
 -- The player will move every time the frameTimer hits this number.
 -- Declaring it here also lets us change it later.
@@ -93,27 +94,38 @@ function playdate.update()
 end
 
 function playStateUpdate()
-	-- TODO: Disallow moving in the opposite direction
 	if playdate.buttonJustPressed(playdate.kButtonUp) then
-		playerDirection = "up"
+		if (playerDirection ~= "down") then
+			playerDirectionBuffer = "up"
+		end
 	elseif playdate.buttonJustPressed(playdate.kButtonRight) then
-		playerDirection = "right"
+		if playerDirection ~= "left" then
+			playerDirectionBuffer = "right"
+		end
 	elseif playdate.buttonJustPressed(playdate.kButtonDown) then
-		playerDirection = "down"
+		if playerDirection ~= "up" then
+			playerDirectionBuffer = "down"
+		end
 	elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
-		playerDirection = "left"
+		if playerDirection ~= "right" then
+			playerDirectionBuffer = "left"
+		end
 	end
 
 	if (moveTimer.frame == playerMoveInterval) then
 		-- TODO: Implement as switch statement, if possible?
-		if (playerDirection == "up") then
+		if playerDirectionBuffer == "up" then
 			playerSprite:moveBy(0, -tileSize)
-		elseif (playerDirection == "right") then
+			playerDirection = "up"
+		elseif playerDirectionBuffer == "right" then
 			playerSprite:moveBy(tileSize, 0)
-		elseif (playerDirection == "down") then
+			playerDirection = "right"
+		elseif playerDirectionBuffer == "down" then
 			playerSprite:moveBy(0, tileSize)
-		elseif (playerDirection == "left") then
+			playerDirection = "down"
+		elseif playerDirectionBuffer == "left" then
 			playerSprite:moveBy(-tileSize, 0)
+			playerDirection = "left"
 		end
 	end
 
