@@ -155,6 +155,12 @@ function playStateUpdate()
 			playerSprite:moveBy(-tileSize, 0)
 			playerDirection = "left"
 		end
+
+		if playerSprite.x == foodSprite.x and playerSprite.y == foodSprite.y then
+			print("player has eaten food!")
+			-- TODO: Expand snake when food is eaten
+			repositionFood()
+		end
 	end
 
 	if (playerSprite.x <= leftBoundary or playerSprite.x >= rightBoundary or playerSprite.y <= topBoundary or playerSprite.y >= bottomBoundary) then
