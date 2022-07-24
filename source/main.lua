@@ -41,14 +41,20 @@ local bottomBoundary = screenHeight - tileSize
 local gameState = "play"
 
 function repositionFood()
-	-- TODO: Check if colliding with snake, and if so, re-roll
-	local newX = math.random(leftBoundary, rightBoundary)
-	local newY = math.random(topBoundary, bottomBoundary)
+	local newX = nil
+	local newY = nil
 
-	-- Round down to a multiple of tileSize, then add half of tileSize
-	-- since sprite position is the center of the sprite.
-	newX = newX - (newX % tileSize) + (tileSize / 2)
-	newY = newY - (newY % tileSize) + (tileSize / 2)
+	repeat
+		newX = math.random(leftBoundary, rightBoundary)
+		newY = math.random(topBoundary, bottomBoundary)
+
+		-- Round down to a multiple of tileSize, then add half of tileSize
+		-- since sprite position is the center of the sprite.
+		newX = newX - (newX % tileSize) + (tileSize / 2)
+		newY = newY - (newY % tileSize) + (tileSize / 2)
+
+	-- Repeat the above until the food is not on the same tile as the player
+	until newX ~= playerSprite.x or newY ~= playerSprite.y
 
 	foodSprite:moveTo(newX, newY)
 end
