@@ -5,12 +5,13 @@ import "CoreLibs/sprites"
 
 local gfx <const> = playdate.graphics
 
--- Size of each tile on the board (and snake segment, and pellet)
+-- Size of each tile on the board (and snake segment, and food)
 local tileSize = 16
 
--- Here's our player sprite declaration. We'll scope it to this file because
--- several functions need to access it.
+-- Here's our sprite declarations. We'll scope them to this file because
+-- several functions need to access them.
 local playerSprite = nil
+local foodSprite = nil
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
@@ -35,6 +36,11 @@ local bottomBoundary = 224 -- Bottom edge of screen (240) minus tileSize (16)
 -- Possible values are "play", "end"
 local gameState = "play"
 
+function repositionFood()
+	-- TODO: Randomize position, re-roll if colliding with snake
+	foodSprite:moveTo(40, 40)
+end
+
 -- A function to set up our game environment.
 function myGameSetUp()
 	print('myGameSetUp()')
@@ -42,7 +48,7 @@ function myGameSetUp()
 	-- Set up the player sprite.
 	-- The :setCenter() call specifies that the sprite will be anchored at its center.
 	-- The :moveTo() call moves our sprite to the center of the display.
-	local playerImage = gfx.image.new("images/sprite")
+	local spriteImage = gfx.image.new("images/sprite")
 
 	-- 400 / 16 = 25 vertical columns
 	-- 12 * 16 = 192 for middle column
@@ -54,9 +60,13 @@ function myGameSetUp()
 	-- 112 + 8 for half of sprite height = 120
 	local startingY = 120
 
-	playerSprite = gfx.sprite.new(playerImage)
+	playerSprite = gfx.sprite.new(spriteImage)
 	playerSprite:moveTo(startingX, startingY)
 	playerSprite:add()
+
+	foodSprite = gfx.sprite.new(spriteImage)
+	repositionFood()
+	foodSprite:add()
 
 	-- We want an environment displayed behind our sprite.
 	-- There are generally two ways to do this:
