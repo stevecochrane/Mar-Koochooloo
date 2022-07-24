@@ -5,6 +5,10 @@ import "CoreLibs/sprites"
 
 local gfx <const> = playdate.graphics
 
+-- Native display resolution for the Playdate
+local screenWidth = 400
+local screenHeight = 240
+
 -- Size of each tile on the board (and snake segment, and food)
 local tileSize = 16
 
@@ -27,18 +31,26 @@ local moveTimer = playdate.frameTimer.new(playerMoveInterval)
 moveTimer.repeats = true
 
 -- If the player collides with one of these, game over.
-local leftBoundary = 16
-local rightBoundary = 384 -- Right edge of screen (400) minus tileSize (16)
-local topBoundary = 16
-local bottomBoundary = 224 -- Bottom edge of screen (240) minus tileSize (16)
+local leftBoundary = 0 + tileSize
+local rightBoundary = screenWidth - tileSize
+local topBoundary = 0 + tileSize
+local bottomBoundary = screenHeight - tileSize
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "play", "end"
 local gameState = "play"
 
 function repositionFood()
-	-- TODO: Randomize position, re-roll if colliding with snake
-	foodSprite:moveTo(40, 40)
+	-- TODO: Check if colliding with snake, and if so, re-roll
+	local newX = math.random(leftBoundary, rightBoundary)
+	local newY = math.random(topBoundary, bottomBoundary)
+
+	-- Round down to a multiple of tileSize, then add half of tileSize
+	-- since sprite position is the center of the sprite.
+	newX = newX - (newX % tileSize) + (tileSize / 2)
+	newY = newY - (newY % tileSize) + (tileSize / 2)
+
+	foodSprite:moveTo(newX, newY)
 end
 
 -- A function to set up our game environment.
