@@ -178,23 +178,23 @@ function playStateUpdate()
 			playerDirection = "left"
 		end
 
-		-- Remove the current tail coordinates and add the new head
-		table.remove(snakeCoordinates)
-		table.insert(snakeCoordinates, nextCoordinates)
+		-- Add the new head coordinates
+		table.insert(snakeCoordinates, 1, nextCoordinates)
 
-		-- Remove the current tail sprite from the array and from the display list
-		tailSprite = table.remove(snakeSprites)
-		tailSprite:remove()
-
-		-- Position new head sprite and add to array
+		-- Position new head sprite and add to sprites array
 		nextSprite:moveTo(nextCoordinates[1], nextCoordinates[2])
 		nextSprite:add()
-		table.insert(snakeSprites, nextSprite)
+		table.insert(snakeSprites, 1, nextSprite)
 
-		if playerSprite.x == foodSprite.x and playerSprite.y == foodSprite.y then
+		if snakeCoordinates[1][1] == foodSprite.x and snakeCoordinates[1][2] == foodSprite.y then
 			print("player has eaten food!")
-			-- TODO: Expand snake when food is eaten
 			repositionFood()
+		else
+			-- If food has not been eaten on this interval, we remove the last segment from the snake.
+			table.remove(snakeCoordinates)
+			-- Remove the current tail sprite from the array and from the display list
+			tailSprite = table.remove(snakeSprites)
+			tailSprite:remove()
 		end
 	end
 
