@@ -155,20 +155,32 @@ function playStateUpdate()
 	end
 
 	if (moveTimer.frame == playerMoveInterval) then
+		local nextTile = {snakeSegments[1][1], snakeSegments[1][2]}
+
 		-- TODO: Implement as switch statement, if possible?
 		if playerDirectionBuffer == "up" then
+			nextTile[2] = nextTile[2] - tileSize
 			playerSprite:moveBy(0, -tileSize)
 			playerDirection = "up"
 		elseif playerDirectionBuffer == "right" then
+			nextTile[1] = nextTile[1] + tileSize
 			playerSprite:moveBy(tileSize, 0)
 			playerDirection = "right"
 		elseif playerDirectionBuffer == "down" then
+			nextTile[2] = nextTile[2] + tileSize
 			playerSprite:moveBy(0, tileSize)
 			playerDirection = "down"
 		elseif playerDirectionBuffer == "left" then
+			nextTile[1] = nextTile[1] - tileSize
 			playerSprite:moveBy(-tileSize, 0)
 			playerDirection = "left"
 		end
+
+		print("New X position: ", nextTile[1])
+		print("New Y position: ", nextTile[2])
+
+		table.remove(snakeSegments)
+		table.insert(snakeSegments, nextTile)
 
 		if playerSprite.x == foodSprite.x and playerSprite.y == foodSprite.y then
 			print("player has eaten food!")
