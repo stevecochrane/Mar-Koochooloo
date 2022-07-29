@@ -36,6 +36,9 @@ local rightBoundary = screenWidth - tileSize
 local topBoundary = 0 + tileSize
 local bottomBoundary = screenHeight - tileSize
 
+-- Stores a point (e.g. {x, y}) for each segment of the snake.
+local snakeSegments = nil
+
 -- TODO: Implement as enum if possible?
 -- Possible values are "play", "end"
 local gameState = "play"
@@ -68,6 +71,9 @@ function myGameSetUp()
 	-- The :moveTo() call moves our sprite to the center of the display.
 	local spriteImage = gfx.image.new("images/sprite")
 
+	-- (Re-)initialize snakeSegments
+	snakeSegments = {}
+
 	-- 400 / 16 = 25 vertical columns
 	-- 12 * 16 = 192 for middle column
 	-- 192 + 8 for half of sprite width = 200
@@ -77,6 +83,14 @@ function myGameSetUp()
 	-- 7 * 16 = 112 for middle row
 	-- 112 + 8 for half of sprite height = 120
 	local startingY = 120
+
+	-- Add the starting point to snakeSegments
+	table.insert(snakeSegments, {startingX, startingY})
+
+	print("snakeSegments[1][1] = ")
+	print(snakeSegments[1][1])
+	print("snakeSegments[1][2] = ")
+	print(snakeSegments[1][2])
 
 	playerSprite = gfx.sprite.new(spriteImage)
 	playerSprite:moveTo(startingX, startingY)
