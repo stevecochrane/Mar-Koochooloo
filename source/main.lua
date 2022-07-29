@@ -38,8 +38,11 @@ local rightBoundary = screenWidth - tileSize
 local topBoundary = 0 + tileSize
 local bottomBoundary = screenHeight - tileSize
 
--- Stores a point (e.g. {x, y}) for each segment of the snake.
-local snakeSegments = nil
+-- Stores coordinates (e.g. {x, y}) for each segment of the snake.
+local snakeCoordinates = nil
+
+-- Stores sprites for each segment of the snake.
+local snakeSprites = nil
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "play", "end"
@@ -68,8 +71,9 @@ end
 function myGameSetUp()
 	print('myGameSetUp()')
 
-	-- (Re-)initialize snakeSegments
-	snakeSegments = {}
+	-- (Re-)initialize snake arrays
+	snakeCoordinates = {}
+	snakeSprites = {}
 
 	-- 400 / 16 = 25 vertical columns
 	-- 12 * 16 = 192 for middle column
@@ -81,17 +85,19 @@ function myGameSetUp()
 	-- 112 + 8 for half of sprite height = 120
 	local startingY = 120
 
-	-- Add the starting point to snakeSegments
-	table.insert(snakeSegments, {startingX, startingY})
+	-- Add the starting point to snakeCoordinates
+	table.insert(snakeCoordinates, {startingX, startingY})
 
-	print("snakeSegments[1][1] = ")
-	print(snakeSegments[1][1])
-	print("snakeSegments[1][2] = ")
-	print(snakeSegments[1][2])
+	print("snakeCoordinates[1][1] = ")
+	print(snakeCoordinates[1][1])
+	print("snakeCoordinates[1][2] = ")
+	print(snakeCoordinates[1][2])
 
 	playerSprite = gfx.sprite.new(spriteImage)
 	playerSprite:moveTo(startingX, startingY)
 	playerSprite:add()
+
+	table.insert(snakeSprites, playerSprite)
 
 	foodSprite = gfx.sprite.new(spriteImage)
 	repositionFood()
@@ -152,32 +158,38 @@ function playStateUpdate()
 	end
 
 	if (moveTimer.frame == playerMoveInterval) then
-		local nextTile = {snakeSegments[1][1], snakeSegments[1][2]}
-		local nextTileSprite = gfx.sprite.new(spriteImage)
+		-- Initialize coordinates for next snake segment at position of current head
+		local nextCoordinates = {snakeCoordinates[1][1], snakeCoordinates[1][2]}
+		local nextSprite = gfx.sprite.new(spriteImage)
+		local tailSprite = nil
 
 		-- TODO: Implement as switch statement, if possible?
 		if playerDirectionBuffer == "up" then
-			nextTile[2] = nextTile[2] - tileSize
+			nextCoordinates[2] = nextCoordinates[2] - tileSize
 			playerDirection = "up"
 		elseif playerDirectionBuffer == "right" then
-			nextTile[1] = nextTile[1] + tileSize
+			nextCoordinates[1] = nextCoordinates[1] + tileSize
 			playerDirection = "right"
 		elseif playerDirectionBuffer == "down" then
-			nextTile[2] = nextTile[2] + tileSize
+			nextCoordinates[2] = nextCoordinates[2] + tileSize
 			playerDirection = "down"
 		elseif playerDirectionBuffer == "left" then
-			nextTile[1] = nextTile[1] - tileSize
+			nextCoordinates[1] = nextCoordinates[1] - tileSize
 			playerDirection = "left"
 		end
 
-		print("New X position: ", nextTile[1])
-		print("New Y position: ", nextTile[2])
+		-- Remove the current tail coordinates and add the new head
+		table.remove(snakeCoordinates)
+		table.insert(snakeCoordinates, nextCoordinates)
 
-		table.remove(snakeSegments)
-		table.insert(snakeSegments, nextTile)
+		-- Remove the current tail sprite from the array and from the display list
+		tailSprite = table.remove(snakeSprites)
+		tailSprite:remove()
 
-		nextTileSprite:moveTo(nextTile[1], nextTile[2])
-		nextTileSprite:add()
+		-- Position new head sprite and add to array
+		nextSprite:moveTo(nextCoordinates[1], nextCoordinates[2])
+		nextSprite:add()
+		table.insert(snakeSprites, nextSprite)
 
 		if playerSprite.x == foodSprite.x and playerSprite.y == foodSprite.y then
 			print("player has eaten food!")
