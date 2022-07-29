@@ -204,6 +204,8 @@ function playStateUpdate()
 		print('gameState = "end"')
 		gameState = "end"
 	end
+
+	-- TODO: Check if player has collided with any previous snake segments
 end
 
 function endStateUpdate()
