@@ -26,7 +26,7 @@ local playerDirectionBuffer = playerDirection
 
 -- The player will move every time the frameTimer hits this number.
 -- Declaring it here also lets us change it later.
-local playerMoveInterval = 10
+local playerMoveInterval = 5
 
 -- We'll check this on every frame to determine if it's time to move.
 local moveTimer = playdate.frameTimer.new(playerMoveInterval)
@@ -136,6 +136,7 @@ function playdate.update()
 
 	gfx.sprite.update()
 	playdate.frameTimer.updateTimers()
+	playdate.drawFPS(0,0)
 end
 
 function playStateUpdate()
