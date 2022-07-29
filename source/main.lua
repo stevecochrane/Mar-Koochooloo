@@ -62,7 +62,8 @@ function repositionFood()
 		newY = newY - (newY % tileSize) + (tileSize / 2)
 
 	-- Repeat the above until the food is not on the same tile as the player
-	until newX ~= playerSprite.x or newY ~= playerSprite.y
+	-- TODO: Need to check against every snake segment, not just head
+	until newX ~= snakeCoordinates[1][1] or newY ~= snakeCoordinates[1][2]
 
 	foodSprite:moveTo(newX, newY)
 end
@@ -199,7 +200,7 @@ function playStateUpdate()
 		end
 	end
 
-	if (playerSprite.x <= leftBoundary or playerSprite.x >= rightBoundary or playerSprite.y <= topBoundary or playerSprite.y >= bottomBoundary) then
+	if (snakeCoordinates[1][1] <= leftBoundary or snakeCoordinates[1][1] >= rightBoundary or snakeCoordinates[1][2] <= topBoundary or snakeCoordinates[1][2] >= bottomBoundary) then
 		print('gameState = "end"')
 		gameState = "end"
 	end
