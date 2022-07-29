@@ -17,6 +17,8 @@ local tileSize = 16
 local playerSprite = nil
 local foodSprite = nil
 
+local spriteImage = gfx.image.new("images/sprite")
+
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
 local playerDirection = "right"
@@ -65,11 +67,6 @@ end
 -- A function to set up our game environment.
 function myGameSetUp()
 	print('myGameSetUp()')
-
-	-- Set up the player sprite.
-	-- The :setCenter() call specifies that the sprite will be anchored at its center.
-	-- The :moveTo() call moves our sprite to the center of the display.
-	local spriteImage = gfx.image.new("images/sprite")
 
 	-- (Re-)initialize snakeSegments
 	snakeSegments = {}
@@ -156,23 +153,20 @@ function playStateUpdate()
 
 	if (moveTimer.frame == playerMoveInterval) then
 		local nextTile = {snakeSegments[1][1], snakeSegments[1][2]}
+		local nextTileSprite = gfx.sprite.new(spriteImage)
 
 		-- TODO: Implement as switch statement, if possible?
 		if playerDirectionBuffer == "up" then
 			nextTile[2] = nextTile[2] - tileSize
-			playerSprite:moveBy(0, -tileSize)
 			playerDirection = "up"
 		elseif playerDirectionBuffer == "right" then
 			nextTile[1] = nextTile[1] + tileSize
-			playerSprite:moveBy(tileSize, 0)
 			playerDirection = "right"
 		elseif playerDirectionBuffer == "down" then
 			nextTile[2] = nextTile[2] + tileSize
-			playerSprite:moveBy(0, tileSize)
 			playerDirection = "down"
 		elseif playerDirectionBuffer == "left" then
 			nextTile[1] = nextTile[1] - tileSize
-			playerSprite:moveBy(-tileSize, 0)
 			playerDirection = "left"
 		end
 
@@ -181,6 +175,9 @@ function playStateUpdate()
 
 		table.remove(snakeSegments)
 		table.insert(snakeSegments, nextTile)
+
+		nextTileSprite:moveTo(nextTile[1], nextTile[2])
+		nextTileSprite:add()
 
 		if playerSprite.x == foodSprite.x and playerSprite.y == foodSprite.y then
 			print("player has eaten food!")
