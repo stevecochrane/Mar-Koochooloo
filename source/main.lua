@@ -48,9 +48,23 @@ local snakeSprites = nil
 -- Possible values are "play", "end"
 local gameState = "play"
 
+function isSnakeCollidingAt(coordinates)
+	local collided = false
+
+	for i = 1, #snakeCoordinates do
+		if snakeCoordinates[i] == coordinates then
+			collided = true
+			break
+		end
+	end
+
+	return collided
+end
+
 function repositionFood()
 	local newX = nil
 	local newY = nil
+	local hasCollided = nil
 
 	repeat
 		newX = math.random(leftBoundary, rightBoundary)
@@ -61,10 +75,13 @@ function repositionFood()
 		newX = newX - (newX % tileSize) + (tileSize / 2)
 		newY = newY - (newY % tileSize) + (tileSize / 2)
 
-	-- Repeat the above until the food is not on the same tile as the player
-	-- TODO: Need to check against every snake segment, not just head
-	until newX ~= snakeCoordinates[1][1] or newY ~= snakeCoordinates[1][2]
+		-- Check if new food position collides with any part of snake
+		hasCollided = isSnakeCollidingAt({newX, newY})
 
+	-- Repeat the above until the food is not on the same tile as the player
+	until hasCollided == false
+
+	-- We have our new food position, move food sprite there
 	foodSprite:moveTo(newX, newY)
 end
 
