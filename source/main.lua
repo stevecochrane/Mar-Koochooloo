@@ -21,8 +21,8 @@ local spriteImage = gfx.image.new("images/sprite")
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
-local playerDirection = "right"
-local playerDirectionBuffer = playerDirection
+local playerDirection = nil
+local playerDirectionBuffer = nil
 
 -- The player will move every time the frameTimer hits this number.
 -- Declaring it here also lets us change it later.
@@ -97,6 +97,10 @@ function setUpGame()
 	-- (Re-)initialize snake arrays
 	snakeCoordinates = {}
 	snakeSprites = {}
+
+	-- (Re-)intialize player direction
+	playerDirection = "right"
+	playerDirectionBuffer = playerDirection
 
 	-- 400 / 16 = 25 vertical columns
 	-- 12 * 16 = 192 for middle column
