@@ -52,7 +52,7 @@ function isSnakeCollidingAt(coordinates)
 	local collided = false
 
 	for i = 1, #snakeCoordinates do
-		if snakeCoordinates[i] == coordinates then
+		if snakeCoordinates[i][1] == coordinates[1] and snakeCoordinates[i][2] == coordinates[2] then
 			collided = true
 			break
 		end
@@ -197,6 +197,12 @@ function playStateUpdate()
 			playerDirection = "left"
 		end
 
+		-- End the game if the player has collided with their tail
+		if isSnakeCollidingAt(nextCoordinates) then
+			print('Player has eaten their own tail! gameState = "end"')
+			gameState = "end"
+		end
+
 		-- Add the new head coordinates
 		table.insert(snakeCoordinates, 1, nextCoordinates)
 
@@ -205,6 +211,7 @@ function playStateUpdate()
 		nextSprite:add()
 		table.insert(snakeSprites, 1, nextSprite)
 
+		-- Check if player has eaten the food
 		if snakeCoordinates[1][1] == foodSprite.x and snakeCoordinates[1][2] == foodSprite.y then
 			print("player has eaten food!")
 			repositionFood()
@@ -215,14 +222,13 @@ function playStateUpdate()
 			tailSprite = table.remove(snakeSprites)
 			tailSprite:remove()
 		end
-	end
 
-	if (snakeCoordinates[1][1] <= leftBoundary or snakeCoordinates[1][1] >= rightBoundary or snakeCoordinates[1][2] <= topBoundary or snakeCoordinates[1][2] >= bottomBoundary) then
-		print('gameState = "end"')
-		gameState = "end"
+		-- End the game if the player has collided with any of the four stage boundaries
+		if (snakeCoordinates[1][1] <= leftBoundary or snakeCoordinates[1][1] >= rightBoundary or snakeCoordinates[1][2] <= topBoundary or snakeCoordinates[1][2] >= bottomBoundary) then
+			print('Player has collided with stage boundaries! gameState = "end"')
+			gameState = "end"
+		end
 	end
-
-	-- TODO: Check if player has collided with any previous snake segments
 end
 
 function endStateUpdate()
