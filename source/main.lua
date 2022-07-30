@@ -85,9 +85,14 @@ function repositionFood()
 	foodSprite:moveTo(newX, newY)
 end
 
+-- A function for clearing existing sprites. This may be expanded upon later.
+function clearGame()
+	gfx.sprite.removeAll()
+end
+
 -- A function to set up our game environment.
-function myGameSetUp()
-	print('myGameSetUp()')
+function setUpGame()
+	print('setUpGame()')
 
 	-- (Re-)initialize snake arrays
 	snakeCoordinates = {}
@@ -143,7 +148,7 @@ end
 -- Now we'll call the function above to configure our game.
 -- After this runs (it just runs once), nearly everything will be
 -- controlled by the OS calling `playdate.update()` 30 times a second.
-myGameSetUp()
+setUpGame()
 
 function playdate.update()
 	if gameState == "play" then
@@ -234,6 +239,8 @@ end
 function endStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		print('gameState = "play"')
+		clearGame()
+		setUpGame()
 		gameState = "play"
 	end
 end
