@@ -48,7 +48,7 @@ local snakeSprites = nil
 -- Possible values are "play", "end"
 local gameState = "play"
 
-function isSnakeCollidingAt(coordinates)
+function isCollidingWithSnake(coordinates)
 	local collided = false
 
 	for i = 1, #snakeCoordinates do
@@ -61,10 +61,22 @@ function isSnakeCollidingAt(coordinates)
 	return collided
 end
 
+-- TODO: Get this working
+function isCollidingWithStage(coordinates)
+	local collided = false
+
+	if coordinates[1] <= leftBoundary or coordinates[1] >= rightBoundary or coordinates[2] <= topBoundary or coordinates[2] >= bottomBoundary then
+		collided = true
+	end
+
+	return collided
+end
+
 function repositionFood()
 	local newX = nil
 	local newY = nil
-	local hasCollided = nil
+	local hasCollidedWithTail = nil
+	local hasCollidedWithStage = nil
 
 	repeat
 		newX = math.random(leftBoundary, rightBoundary)
@@ -76,10 +88,17 @@ function repositionFood()
 		newY = newY - (newY % tileSize) + (tileSize / 2)
 
 		-- Check if new food position collides with any part of snake
-		hasCollided = isSnakeCollidingAt({newX, newY})
+		hasCollidedWithTail = isCollidingWithSnake({newX, newY})
+
+		-- Check if new food position collides with stage boundaries
+		if (newX <= leftBoundary or newX >= rightBoundary or newY <= topBoundary or newY >= bottomBoundary) then
+			hasCollidedWithStage = true
+		else
+			hasCollidedWithStage = false
+		end
 
 	-- Repeat the above until the food is not on the same tile as the player
-	until hasCollided == false
+	until hasCollidedWithTail == false and hasCollidedWithStage == false
 
 	-- We have our new food position, move food sprite there
 	foodSprite:moveTo(newX, newY)
@@ -207,7 +226,7 @@ function playStateUpdate()
 		end
 
 		-- End the game if the player has collided with their tail
-		if isSnakeCollidingAt(nextCoordinates) then
+		if isCollidingWithSnake(nextCoordinates) then
 			print('Player has eaten their own tail! gameState = "end"')
 			gameState = "end"
 		end
