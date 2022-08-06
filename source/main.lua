@@ -176,7 +176,7 @@ function playdate.update()
 
 	gfx.sprite.update()
 	playdate.frameTimer.updateTimers()
-	playdate.drawFPS(0,0)
+	-- playdate.drawFPS(0,0)
 end
 
 function playStateUpdate()
