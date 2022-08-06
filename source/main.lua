@@ -26,7 +26,7 @@ local playerDirectionBuffer = nil
 
 -- The player will move every time the frameTimer hits this number.
 -- Declaring it here also lets us change it later.
-local playerMoveInterval = 5
+local playerMoveInterval = 10
 
 -- We'll check this on every frame to determine if it's time to move.
 local moveTimer = playdate.frameTimer.new(playerMoveInterval)
