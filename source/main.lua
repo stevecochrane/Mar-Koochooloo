@@ -44,6 +44,9 @@ local snakeCoordinates = nil
 -- Stores sprites for each segment of the snake.
 local snakeSprites = nil
 
+-- This may be customizeable later.
+local startingSnakeSegments = 3
+
 -- TODO: Implement as enum if possible?
 -- Possible values are "play", "end"
 local gameState = "play"
@@ -122,14 +125,19 @@ function setUpGame()
 	-- 112 + 8 for half of sprite height = 120
 	local startingY = 120
 
-	-- Add the starting point to snakeCoordinates
-	table.insert(snakeCoordinates, {startingX, startingY})
+	for i = 1, startingSnakeSegments do
+		-- Add the point to snakeCoordinates
+		table.insert(snakeCoordinates, {startingX, startingY})
 
-	playerSprite = gfx.sprite.new(spriteImage)
-	playerSprite:moveTo(startingX, startingY)
-	playerSprite:add()
+		-- Add the current sprite to snakeSprites
+		playerSprite = gfx.sprite.new(spriteImage)
+		playerSprite:moveTo(startingX, startingY)
+		playerSprite:add()
+		table.insert(snakeSprites, playerSprite)
 
-	table.insert(snakeSprites, playerSprite)
+		-- Decrement startingX to put next segment one tile behind
+		startingX = startingX - tileSize
+	end
 
 	foodSprite = gfx.sprite.new(spriteImage)
 	repositionFood()
