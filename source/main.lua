@@ -125,11 +125,6 @@ function setUpGame()
 	-- Add the starting point to snakeCoordinates
 	table.insert(snakeCoordinates, {startingX, startingY})
 
-	print("snakeCoordinates[1][1] = ")
-	print(snakeCoordinates[1][1])
-	print("snakeCoordinates[1][2] = ")
-	print(snakeCoordinates[1][2])
-
 	playerSprite = gfx.sprite.new(spriteImage)
 	playerSprite:moveTo(startingX, startingY)
 	playerSprite:add()
