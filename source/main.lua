@@ -105,8 +105,6 @@ end
 
 -- A function to set up our game environment.
 function setUpGame()
-	print('setUpGame()')
-
 	-- (Re-)initialize snake arrays
 	snakeCoordinates = {}
 	snakeSprites = {}
@@ -159,7 +157,6 @@ function setUpGame()
 			gfx.clearClipRect() -- clear so we don't interfere with drawing that comes after this
 		end
 	)
-
 end
 
 -- Now we'll call the function above to configure our game.
@@ -177,6 +174,12 @@ function playdate.update()
 	gfx.sprite.update()
 	playdate.frameTimer.updateTimers()
 	-- playdate.drawFPS(0,0)
+end
+
+function switchToPlayState()
+	clearGame()
+	setUpGame()
+	gameState = "play"
 end
 
 function playStateUpdate()
@@ -255,9 +258,6 @@ end
 
 function endStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonA) then
-		print('gameState = "play"')
-		clearGame()
-		setUpGame()
-		gameState = "play"
+		switchToPlayState()
 	end
 end
