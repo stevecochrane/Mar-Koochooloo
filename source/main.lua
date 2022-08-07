@@ -224,8 +224,7 @@ function playStateUpdate()
 
 		-- End the game if the player has collided with their tail
 		if isCollidingWithSnake(nextCoordinates) then
-			print('Player has eaten their own tail! gameState = "end"')
-			gameState = "end"
+			switchToEndState()
 		end
 
 		-- Add the new head coordinates
@@ -250,10 +249,13 @@ function playStateUpdate()
 
 		-- End the game if the player has collided with any of the four stage boundaries
 		if isCollidingWithStage(snakeCoordinates[1]) then
-			print('Player has collided with stage boundaries! gameState = "end"')
-			gameState = "end"
+			switchToEndState()
 		end
 	end
+end
+
+function switchToEndState()
+	gameState = "end"
 end
 
 function endStateUpdate()
