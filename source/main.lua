@@ -18,6 +18,7 @@ local playerSprite = nil
 local foodSprite = nil
 
 local spriteImage = gfx.image.new("images/sprite")
+local gameOverImage = gfx.image.new("images/game-over")
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
@@ -255,7 +256,14 @@ function playStateUpdate()
 end
 
 function switchToEndState()
+	showGameOverScreen()
 	gameState = "end"
+end
+
+function showGameOverScreen()
+	local gameOverSprite = gfx.sprite.new(gameOverImage)
+	gameOverSprite:moveTo(200, 120)
+	gameOverSprite:add()
 end
 
 function endStateUpdate()
