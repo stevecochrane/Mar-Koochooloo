@@ -264,6 +264,7 @@ end
 function showGameOverScreen()
 	local gameOverSprite = gfx.sprite.new(gameOverImage)
 	gameOverSprite:moveTo(200, 120)
+	gameOverSprite:setZIndex(1) -- Ensure this is above the snake
 	gameOverSprite:add()
 end
 
