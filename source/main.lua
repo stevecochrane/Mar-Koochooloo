@@ -17,8 +17,9 @@ local tileSize = 16
 local playerSprite = nil
 local foodSprite = nil
 
-local spriteImage = gfx.image.new("images/sprite")
+local foodImage = gfx.image.new("images/apple")
 local gameOverImage = gfx.image.new("images/game-over")
+local spriteImage = gfx.image.new("images/sprite")
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
@@ -138,7 +139,7 @@ function setUpGame()
 		startingX = startingX - tileSize
 	end
 
-	foodSprite = gfx.sprite.new(spriteImage)
+	foodSprite = gfx.sprite.new(foodImage)
 	repositionFood()
 	foodSprite:add()
 
