@@ -20,6 +20,7 @@ local foodSprite = nil
 local foodImage = gfx.image.new("images/apple")
 local gameOverImage = gfx.image.new("images/game-over")
 local spriteImage = gfx.image.new("images/sprite")
+local titleScreenImage = gfx.image.new("images/title-screen")
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
@@ -50,8 +51,8 @@ local snakeSprites = nil
 local startingSnakeSegments = 3
 
 -- TODO: Implement as enum if possible?
--- Possible values are "play", "end"
-local gameState = "play"
+-- Possible values are "title", "play", "end"
+local gameState = "title"
 
 function isCollidingWithSnake(coordinates)
 	local collided = false
@@ -161,13 +162,18 @@ function setUpGame()
 	)
 end
 
--- Now we'll call the function above to configure our game.
--- After this runs (it just runs once), nearly everything will be
--- controlled by the OS calling `playdate.update()` 30 times a second.
-setUpGame()
+function startGame()
+	local titleScreenSprite = gfx.sprite.new(titleScreenImage)
+	titleScreenSprite:moveTo(200, 120)
+	titleScreenSprite:add()
+end
+
+startGame()
 
 function playdate.update()
-	if gameState == "play" then
+	if gameState == "title" then
+		titleStateUpdate()
+	elseif gameState == "play" then
 		playStateUpdate()
 	elseif gameState == "end" then
 		endStateUpdate()
@@ -176,6 +182,12 @@ function playdate.update()
 	gfx.sprite.update()
 	playdate.frameTimer.updateTimers()
 	-- playdate.drawFPS(0,0)
+end
+
+function titleStateUpdate()
+	if playdate.buttonJustPressed(playdate.kButtonA) then
+		switchToPlayState()
+	end
 end
 
 function switchToPlayState()
