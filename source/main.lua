@@ -51,7 +51,7 @@ local snakeSprites = nil
 local startingSnakeSegments = 3
 
 -- TODO: Implement as enum if possible?
--- Possible values are "title", "play", "end"
+-- Possible values are "title", "options", "play", "end"
 local gameState = "title"
 
 function isCollidingWithSnake(coordinates)
@@ -173,6 +173,8 @@ startGame()
 function playdate.update()
 	if gameState == "title" then
 		titleStateUpdate()
+	elseif gameState == "options" then
+		optionsStateUpdate()
 	elseif gameState == "play" then
 		playStateUpdate()
 	elseif gameState == "end" then
@@ -185,6 +187,16 @@ function playdate.update()
 end
 
 function titleStateUpdate()
+	if playdate.buttonJustPressed(playdate.kButtonA) then
+		switchToOptionsState()
+	end
+end
+
+function switchToOptionsState()
+	gameState = "options"
+end
+
+function optionsStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		switchToPlayState()
 	end
