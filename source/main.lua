@@ -32,8 +32,7 @@ local playerDirectionBuffer = nil
 local playerMoveInterval = 10
 
 -- We'll check this on every frame to determine if it's time to move.
-local moveTimer = playdate.frameTimer.new(playerMoveInterval)
-moveTimer.repeats = true
+local moveTimer = nil
 
 -- If the player collides with one of these, game over.
 local leftBoundary = 0 + tileSize
@@ -116,6 +115,10 @@ function setUpGame()
 	playerDirection = "right"
 	playerDirectionBuffer = playerDirection
 
+	-- (Re-)initialize move timer
+	moveTimer = playdate.frameTimer.new(playerMoveInterval)
+	moveTimer.repeats = true
+
 	-- 400 / 16 = 25 vertical columns
 	-- 12 * 16 = 192 for middle column
 	-- 192 + 8 for half of sprite width = 200
@@ -197,12 +200,19 @@ function switchToOptionsState()
 end
 
 function optionsStateUpdate()
+	if playdate.buttonJustPressed(playdate.kButtonLeft) then
+		playerMoveInterval = playerMoveInterval + 1
+	end
+	if playdate.buttonJustPressed(playdate.kButtonRight) then
+		playerMoveInterval = playerMoveInterval - 1
+	end
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		switchToPlayState()
 	end
 end
 
 function switchToPlayState()
+	print("playerMoveInterval ", playerMoveInterval)
 	clearGame()
 	setUpGame()
 	gameState = "play"
