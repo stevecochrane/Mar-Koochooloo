@@ -1,3 +1,5 @@
+local gfx <const> = playdate.graphics
+
 class('Speed').extends(playdate.graphics.sprite)
 
 function Speed:init()
@@ -18,7 +20,7 @@ function Speed:setSpeed(newSpeed)
 end
 
 function Speed:draw()
-	playdate.graphics.setImageDrawMode(playdate.graphics.kDrawModeFillWhite)
-	playdate.graphics.drawText(tostring(self.speed), 0, 0)
-	playdate.graphics.setImageDrawMode(playdate.graphics.kDrawModeCopy)
+	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+	gfx.drawText(tostring(self.speed), 0, 0)
+	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end
