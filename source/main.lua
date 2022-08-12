@@ -3,6 +3,8 @@ import "CoreLibs/graphics"
 import "CoreLibs/object"
 import "CoreLibs/sprites"
 
+import "speed"
+
 local gfx <const> = playdate.graphics
 
 -- Native display resolution for the Playdate
@@ -52,6 +54,8 @@ local startingSnakeSegments = 3
 -- TODO: Implement as enum if possible?
 -- Possible values are "title", "options", "play", "end"
 local gameState = "title"
+
+local speed = nil
 
 function isCollidingWithSnake(coordinates)
 	local collided = false
@@ -196,15 +200,20 @@ function titleStateUpdate()
 end
 
 function switchToOptionsState()
+	speed = Speed()
+	speed:setSpeed(playerMoveInterval)
+	speed:addSprite()
 	gameState = "options"
 end
 
 function optionsStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonLeft) then
-		playerMoveInterval = playerMoveInterval + 1
+		playerMoveInterval += 1
+		speed:setSpeed(playerMoveInterval)
 	end
 	if playdate.buttonJustPressed(playdate.kButtonRight) then
-		playerMoveInterval = playerMoveInterval - 1
+		playerMoveInterval -= 1
+		speed:setSpeed(playerMoveInterval)
 	end
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		switchToPlayState()
