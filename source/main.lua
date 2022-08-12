@@ -19,6 +19,7 @@ local tileSize = 16
 local playerSprite = nil
 local foodSprite = nil
 
+local backgroundImage = gfx.image.new("images/background")
 local foodImage = gfx.image.new("images/apple")
 local gameOverImage = gfx.image.new("images/game-over")
 local spriteImage = gfx.image.new("images/sprite")
@@ -151,15 +152,6 @@ function setUpGame()
 	repositionFood()
 	foodSprite:add()
 
-	-- We want an environment displayed behind our sprite.
-	-- There are generally two ways to do this:
-	-- 1) Use setBackgroundDrawingCallback() to draw a background image. (This is what we're doing below.)
-	-- 2) Use a tilemap, assign it to a sprite with sprite:setTilemap(tilemap),
-	--    and call :setZIndex() with some low number so the background stays behind
-	--    your other sprites.
-	local backgroundImage = gfx.image.new("images/background")
-	assert(backgroundImage)
-
 	gfx.sprite.setBackgroundDrawingCallback(
 		function(x, y, width, height)
 			gfx.setClipRect(x, y, width, height) -- let's only draw the part of the screen that's dirty
@@ -200,6 +192,13 @@ function titleStateUpdate()
 end
 
 function switchToOptionsState()
+	gfx.sprite.removeAll()
+
+	local backgroundSprite = gfx.sprite.new(backgroundImage)
+	backgroundSprite:setCenter(0, 0)
+	backgroundSprite:moveTo(0, 0)
+	backgroundSprite:add()
+
 	speed = Speed()
 	speed:setSpeed(playerMoveInterval)
 	speed:addSprite()
