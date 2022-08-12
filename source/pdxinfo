@@ -1,0 +1,6 @@
+name=Snake Game for Darya by Nik and Baba
+author=Steve Cochrane
+description=Snake Game for Darya by Nik and Baba
+bundleID=com.stevecochrane.snake
+version=0.1
+imagePath=launcher
