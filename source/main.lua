@@ -28,6 +28,8 @@ local titleScreenImage = gfx.image.new("images/title-screen")
 
 local stageBgm = snd.fileplayer.new()
 local foodSound = snd.sampleplayer.new("sound/instigation-block-clear")
+local turnSound = snd.sampleplayer.new("sound/instigation-move")
+local collisionSound = snd.sampleplayer.new("sound/instigation-curses")
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
@@ -261,16 +263,29 @@ function playStateUpdate()
 		local tailSprite = nil
 
 		-- TODO: Implement as switch statement, if possible?
+		-- TODO: Reduce repetition for turnSound:play() logic
 		if playerDirectionBuffer == "up" then
+			if playerDirection ~= "up" then
+				turnSound:play()
+			end
 			nextCoordinates[2] = nextCoordinates[2] - tileSize
 			playerDirection = "up"
 		elseif playerDirectionBuffer == "right" then
+			if playerDirection ~= "right" then
+				turnSound:play()
+			end
 			nextCoordinates[1] = nextCoordinates[1] + tileSize
 			playerDirection = "right"
 		elseif playerDirectionBuffer == "down" then
+			if playerDirection ~= "down" then
+				turnSound:play()
+			end
 			nextCoordinates[2] = nextCoordinates[2] + tileSize
 			playerDirection = "down"
 		elseif playerDirectionBuffer == "left" then
+			if playerDirection ~= "left" then
+				turnSound:play()
+			end
 			nextCoordinates[1] = nextCoordinates[1] - tileSize
 			playerDirection = "left"
 		end
@@ -310,6 +325,7 @@ end
 
 function switchToEndState()
 	stageBgm:stop()
+	collisionSound:play()
 	showGameOverScreen()
 	gameState = "end"
 end
