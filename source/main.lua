@@ -27,6 +27,7 @@ local spriteImage = gfx.image.new("images/sprite")
 local titleScreenImage = gfx.image.new("images/title-screen")
 
 local stageBgm = snd.fileplayer.new()
+local foodSound = snd.sampleplayer.new("sound/instigation-block-clear")
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
@@ -290,6 +291,7 @@ function playStateUpdate()
 		-- Check if player has eaten the food
 		if snakeCoordinates[1][1] == foodSprite.x and snakeCoordinates[1][2] == foodSprite.y then
 			print("player has eaten food!")
+			foodSound:play()
 			repositionFood()
 		else
 			-- If food has not been eaten on this interval, we remove the last segment from the snake.
