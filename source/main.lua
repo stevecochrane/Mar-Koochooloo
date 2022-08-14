@@ -25,6 +25,8 @@ local gameOverImage = gfx.image.new("images/game-over")
 local spriteImage = gfx.image.new("images/sprite")
 local titleScreenImage = gfx.image.new("images/title-screen")
 
+local stageBgm = playdate.sound.fileplayer.new()
+
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
 local playerDirection = nil
@@ -159,6 +161,11 @@ function setUpGame()
 			gfx.clearClipRect() -- clear so we don't interfere with drawing that comes after this
 		end
 	)
+
+	-- Load main stage background music (this is also needed to start playing from the beginning)
+	stageBgm:load("music/instigation-stage-bgm")
+	-- Play and loop forever
+	stageBgm:play(0)
 end
 
 function startGame()
@@ -299,6 +306,7 @@ function playStateUpdate()
 end
 
 function switchToEndState()
+	stageBgm:stop()
 	showGameOverScreen()
 	gameState = "end"
 end
