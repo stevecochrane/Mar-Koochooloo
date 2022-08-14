@@ -26,7 +26,11 @@ local gameOverImage = gfx.image.new("images/game-over")
 local spriteImage = gfx.image.new("images/sprite")
 local titleScreenImage = gfx.image.new("images/title-screen")
 
+-- Initialize music
 local stageBgm = snd.fileplayer.new()
+stageBgm:setVolume("0.5")
+
+-- Initialize sound effects
 local foodSound = snd.sampleplayer.new("sound/instigation-block-clear")
 local turnSound = snd.sampleplayer.new("sound/instigation-move")
 local collisionSound = snd.sampleplayer.new("sound/instigation-curses")
