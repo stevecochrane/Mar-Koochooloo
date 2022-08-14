@@ -6,6 +6,7 @@ import "CoreLibs/sprites"
 import "speed"
 
 local gfx <const> = playdate.graphics
+local snd <const> = playdate.sound
 
 -- Native display resolution for the Playdate
 local screenWidth = 400
@@ -25,7 +26,7 @@ local gameOverImage = gfx.image.new("images/game-over")
 local spriteImage = gfx.image.new("images/sprite")
 local titleScreenImage = gfx.image.new("images/title-screen")
 
-local stageBgm = playdate.sound.fileplayer.new()
+local stageBgm = snd.fileplayer.new()
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
