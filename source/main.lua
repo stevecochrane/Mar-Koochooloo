@@ -342,6 +342,9 @@ function showGameOverScreen()
 end
 
 function endStateUpdate()
+	if playdate.buttonJustPressed(playdate.kButtonB) then
+		switchToOptionsState()
+	end
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		switchToPlayState()
 	end
