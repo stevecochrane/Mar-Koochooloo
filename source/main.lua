@@ -42,7 +42,13 @@ local playerDirectionBuffer = nil
 
 -- The player will move every time the frameTimer hits this number.
 -- Declaring it here also lets us change it later.
-local playerMoveInterval = 10
+local playerMoveInterval = nil
+-- This is what is displayed to the user for their speed setting.
+local speedSetting = 1
+-- This is the mapping between the above two values.
+local speedSettingMap = {30, 27, 24, 21, 18, 15, 12, 9, 6, 3}
+local speedSettingMin = 0
+local speedSettingMax = 10
 
 -- We'll check this on every frame to determine if it's time to move.
 local moveTimer = nil
@@ -214,20 +220,26 @@ function switchToOptionsState()
 	backgroundSprite:moveTo(0, 0)
 	backgroundSprite:add()
 
+	if playerMoveInterval == nil then
+		playerMoveInterval = speedSettingMap[speedSetting]
+	end
+
 	speed = Speed()
-	speed:setSpeed(playerMoveInterval)
+	speed:setSpeed(speedSetting)
 	speed:addSprite()
 	gameState = "options"
 end
 
 function optionsStateUpdate()
-	if playdate.buttonJustPressed(playdate.kButtonLeft) then
-		playerMoveInterval += 1
-		speed:setSpeed(playerMoveInterval)
+	if playdate.buttonJustPressed(playdate.kButtonLeft) and speedSetting > speedSettingMin then
+		speedSetting -= 1
+		playerMoveInterval = speedSettingMap[speedSetting]
+		speed:setSpeed(speedSetting)
 	end
-	if playdate.buttonJustPressed(playdate.kButtonRight) then
-		playerMoveInterval -= 1
-		speed:setSpeed(playerMoveInterval)
+	if playdate.buttonJustPressed(playdate.kButtonRight) and speedSetting < speedSettingMax then
+		speedSetting += 1
+		playerMoveInterval = speedSettingMap[speedSetting]
+		speed:setSpeed(speedSetting)
 	end
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		switchToPlayState()
