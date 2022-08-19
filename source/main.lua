@@ -46,8 +46,8 @@ local playerMoveInterval = nil
 -- This is what is displayed to the user for their speed setting.
 local speedSetting = 1
 -- This is the mapping between the above two values.
-local speedSettingMap = {30, 27, 24, 21, 18, 15, 12, 9, 6, 3}
-local speedSettingMin = 0
+local speedSettingMap = {29, 26, 23, 20, 17, 14, 11, 8, 5, 2}
+local speedSettingMin = 1
 local speedSettingMax = 10
 
 -- We'll check this on every frame to determine if it's time to move.
