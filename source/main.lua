@@ -334,7 +334,7 @@ function playStateUpdate()
 			if nextCoordinates[1] < 0 then
 				nextCoordinates[1] = nextCoordinates[1] + screenWidth
 			elseif nextCoordinates[1] > screenWidth then
-				nextCoordinates[1] = nextCoordinates - screenWidth
+				nextCoordinates[1] = nextCoordinates[1] - screenWidth
 			end
 		end
 
