@@ -224,14 +224,8 @@ end
 
 function switchToOptionsState()
 	gfx.sprite.removeAll()
-	local backgroundImage = nil
 
-	if wallsEnabled then
-		backgroundSprite = gfx.sprite.new(stageWithWallsImage)
-	else
-		backgroundSprite = gfx.sprite.new(stageWithoutWallsImage)
-	end
-
+	local backgroundSprite = gfx.sprite.new(stageWithWallsImage)
 	backgroundSprite:setCenter(0, 0)
 	backgroundSprite:moveTo(0, 0)
 	backgroundSprite:add()
