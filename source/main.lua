@@ -20,10 +20,10 @@ local tileSize = 16
 local playerSprite = nil
 local foodSprite = nil
 
-local backgroundImage = gfx.image.new("images/background")
 local foodImage = gfx.image.new("images/apple")
 local gameOverImage = gfx.image.new("images/game-over")
 local spriteImage = gfx.image.new("images/sprite")
+local stageWithWallsImage = gfx.image.new("images/stage-with-walls")
 local titleScreenImage = gfx.image.new("images/title-screen")
 
 -- Initialize music
@@ -174,7 +174,7 @@ function setUpGame()
 	gfx.sprite.setBackgroundDrawingCallback(
 		function(x, y, width, height)
 			gfx.setClipRect(x, y, width, height) -- let's only draw the part of the screen that's dirty
-			backgroundImage:draw(0, 0)
+			stageWithWallsImage:draw(0, 0)
 			gfx.clearClipRect() -- clear so we don't interfere with drawing that comes after this
 		end
 	)
@@ -218,7 +218,7 @@ end
 function switchToOptionsState()
 	gfx.sprite.removeAll()
 
-	local backgroundSprite = gfx.sprite.new(backgroundImage)
+	local backgroundSprite = gfx.sprite.new(stageWithWallsImage)
 	backgroundSprite:setCenter(0, 0)
 	backgroundSprite:moveTo(0, 0)
 	backgroundSprite:add()
