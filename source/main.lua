@@ -107,8 +107,13 @@ function repositionFood()
 	local hasCollidedWithSnake = nil
 
 	repeat
-		newX = math.random(leftBoundary, rightBoundary)
-		newY = math.random(topBoundary, bottomBoundary)
+		if wallsEnabled then
+			newX = math.random(leftBoundary, rightBoundary)
+			newY = math.random(topBoundary, bottomBoundary)
+		else
+			newX = math.random(0, screenWidth)
+			newY = math.random(0, screenHeight)
+		end
 
 		-- Round down to a multiple of tileSize, then add half of tileSize
 		-- since sprite position is the center of the sprite.
