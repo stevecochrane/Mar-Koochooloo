@@ -346,7 +346,7 @@ function playStateUpdate()
 		end
 
 		-- End the game if the player has collided with any of the four stage boundaries
-		if isCollidingWithStage(snakeCoordinates[1]) then
+		if wallsEnabled and isCollidingWithStage(snakeCoordinates[1]) then
 			switchToEndState()
 		end
 	end
