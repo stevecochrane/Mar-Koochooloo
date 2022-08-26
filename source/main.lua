@@ -68,6 +68,9 @@ local snakeSprites = nil
 -- This may be customizeable later.
 local startingSnakeSegments = 3
 
+-- This is configurable in the options screen.
+local wallsEnabled = true
+
 -- TODO: Implement as enum if possible?
 -- Possible values are "title", "options", "play", "end"
 local gameState = "title"
@@ -240,6 +243,9 @@ function optionsStateUpdate()
 		speedSetting += 1
 		playerMoveInterval = speedSettingMap[speedSetting]
 		speed:setSpeed(speedSetting)
+	end
+	if playdate.buttonJustPressed(playdate.kButtonB) then
+		wallsEnabled = not wallsEnabled
 	end
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		switchToPlayState()
