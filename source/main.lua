@@ -324,6 +324,20 @@ function playStateUpdate()
 			playerDirection = "left"
 		end
 
+		-- Allow wrapping to the other side of the screen when walls are disabled
+		if not wallsEnabled then
+			if nextCoordinates[2] < 0 then
+				nextCoordinates[2] = nextCoordinates[2] + screenHeight
+			elseif nextCoordinates[2] > screenHeight then
+				nextCoordinates[2] = nextCoordinates[2] - screenHeight
+			end
+			if nextCoordinates[1] < 0 then
+				nextCoordinates[1] = nextCoordinates[1] + screenWidth
+			elseif nextCoordinates[1] > screenWidth then
+				nextCoordinates[1] = nextCoordinates - screenWidth
+			end
+		end
+
 		-- End the game if the player has collided with their tail
 		if isCollidingWithSnake(nextCoordinates) then
 			switchToEndState()
