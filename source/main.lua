@@ -306,39 +306,39 @@ function playStateUpdate()
 			if playerDirection ~= "up" then
 				turnSound:play()
 			end
-			nextCoordinates[2] = nextCoordinates[2] - tileSize
+			nextCoordinates[2] -= tileSize
 			playerDirection = "up"
 		elseif playerDirectionBuffer == "right" then
 			if playerDirection ~= "right" then
 				turnSound:play()
 			end
-			nextCoordinates[1] = nextCoordinates[1] + tileSize
+			nextCoordinates[1] += tileSize
 			playerDirection = "right"
 		elseif playerDirectionBuffer == "down" then
 			if playerDirection ~= "down" then
 				turnSound:play()
 			end
-			nextCoordinates[2] = nextCoordinates[2] + tileSize
+			nextCoordinates[2] += tileSize
 			playerDirection = "down"
 		elseif playerDirectionBuffer == "left" then
 			if playerDirection ~= "left" then
 				turnSound:play()
 			end
-			nextCoordinates[1] = nextCoordinates[1] - tileSize
+			nextCoordinates[1] -= tileSize
 			playerDirection = "left"
 		end
 
 		-- Allow wrapping to the other side of the screen when walls are disabled
 		if not wallsEnabled then
 			if nextCoordinates[2] < 0 then
-				nextCoordinates[2] = nextCoordinates[2] + screenHeight
+				nextCoordinates[2] += screenHeight
 			elseif nextCoordinates[2] > screenHeight then
-				nextCoordinates[2] = nextCoordinates[2] - screenHeight
+				nextCoordinates[2] -= screenHeight
 			end
 			if nextCoordinates[1] < 0 then
-				nextCoordinates[1] = nextCoordinates[1] + screenWidth
+				nextCoordinates[1] += screenWidth
 			elseif nextCoordinates[1] > screenWidth then
-				nextCoordinates[1] = nextCoordinates[1] - screenWidth
+				nextCoordinates[1] -= screenWidth
 			end
 		end
 
