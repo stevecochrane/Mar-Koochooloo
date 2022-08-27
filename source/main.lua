@@ -72,6 +72,10 @@ local startingSnakeSegments = 3
 -- This is configurable in the options screen.
 local wallsEnabled = true
 
+-- This is internally configurable for testing.
+local segmentsGainedWhenEating = 3
+local segmentsToGain = 0
+
 -- TODO: Implement as enum if possible?
 -- Possible values are "title", "options", "play", "end"
 local gameState = "title"
@@ -353,15 +357,20 @@ function playStateUpdate()
 
 		-- Check if player has eaten the food
 		if snakeCoordinates[1][1] == foodSprite.x and snakeCoordinates[1][2] == foodSprite.y then
-			print("player has eaten food!")
 			foodSound:play()
 			repositionFood()
-		else
-			-- If food has not been eaten on this interval, we remove the last segment from the snake.
+			segmentsToGain = segmentsGainedWhenEating
+		end
+
+		if segmentsToGain == 0 then
+			-- If the snake is not growing on this interval, we remove the last segment from the snake.
 			table.remove(snakeCoordinates)
 			-- Remove the current tail sprite from the array and from the display list
 			tailSprite = table.remove(snakeSprites)
 			tailSprite:remove()
+		else
+			-- Otherwise don't remove the last segment, and decrement the counter.
+			segmentsToGain -= 1
 		end
 
 		-- End the game if the player has collided with any of the four stage boundaries
