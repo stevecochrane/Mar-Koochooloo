@@ -246,6 +246,7 @@ function switchToOptionsState()
 
 	speed = Speed()
 	speed:setSpeed(speedSetting)
+	speed:select()
 	speed:addSprite()
 	gameState = "options"
 end

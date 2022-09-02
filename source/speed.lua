@@ -1,10 +1,14 @@
 local gfx <const> = playdate.graphics
 
+local appleImage = gfx.image.new("images/apple")
+
 class("Speed").extends(playdate.graphics.sprite)
 
 function Speed:init()
 	Speed.super.init(self)
 
+	self.appleSprite = nil
+	self.selected = false
 	self.speed = 0
 
 	self:setZIndex(1)
@@ -15,6 +19,25 @@ end
 
 function Speed:setSpeed(newSpeed)
 	self.speed = newSpeed
+	self:markDirty()
+end
+
+function Speed:select()
+	self.selected = true
+
+	self.appleSprite = gfx.sprite.new(appleImage)
+	self.appleSprite:setCenter(0, 0)
+	self.appleSprite:moveTo(self.x, self.y)
+	self.appleSprite:add()
+
+	self:markDirty()
+end
+
+function Speed:unselect()
+	self.selected = false
+
+	self.appleSprite:remove()
+
 	self:markDirty()
 end
 
