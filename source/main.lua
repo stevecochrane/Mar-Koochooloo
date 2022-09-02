@@ -4,6 +4,7 @@ import "CoreLibs/object"
 import "CoreLibs/sprites"
 
 import "speed"
+import "walls"
 
 local gfx <const> = playdate.graphics
 local snd <const> = playdate.sound
@@ -82,6 +83,7 @@ local segmentsToGain = 0
 local gameState = "title"
 
 local speed = nil
+local walls = nil
 
 function isCollidingWithSnake(coordinates)
 	local collided = false
@@ -248,6 +250,10 @@ function switchToOptionsState()
 	speed:setSpeed(speedSetting)
 	speed:select()
 	speed:addSprite()
+
+	walls = Walls()
+	walls:addSprite()
+
 	gameState = "options"
 end
 
