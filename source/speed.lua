@@ -9,8 +9,8 @@ function Speed:init()
 
 	self:setZIndex(1)
 	self:setCenter(0, 0)
-	self:setSize(40, 20)
-	self:moveTo(40, 40)
+	self:setSize(272, 20)
+	self:moveTo(72, 80)
 end
 
 function Speed:setSpeed(newSpeed)
@@ -20,6 +20,12 @@ end
 
 function Speed:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-	gfx.drawText(tostring(self.speed), 0, 0)
+
+	-- Draw "Speed" label text
+	gfx.drawText("Speed", 24, 0)
+
+	-- Draw speed setting number as string
+	gfx.drawText(tostring(self.speed), 184, 0)
+
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end
