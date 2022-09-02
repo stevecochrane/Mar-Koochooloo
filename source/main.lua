@@ -22,6 +22,7 @@ local foodSprite = nil
 
 local foodImage = gfx.image.new("images/apple")
 local gameOverImage = gfx.image.new("images/game-over")
+local optionsScreenImage = gfx.image.new("images/options-screen")
 local spriteImage = gfx.image.new("images/sprite")
 local stageWithWallsImage = gfx.image.new("images/stage-with-walls")
 local stageWithoutWallsImage = gfx.image.new("images/stage-without-walls")
@@ -234,7 +235,7 @@ end
 function switchToOptionsState()
 	gfx.sprite.removeAll()
 
-	local backgroundSprite = gfx.sprite.new(stageWithWallsImage)
+	local backgroundSprite = gfx.sprite.new(optionsScreenImage)
 	backgroundSprite:setCenter(0, 0)
 	backgroundSprite:moveTo(0, 0)
 	backgroundSprite:add()
