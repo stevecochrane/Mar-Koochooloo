@@ -268,9 +268,21 @@ function optionsStateUpdate()
 		playerMoveInterval = speedSettingMap[speedSetting]
 		speed:setSpeed(speedSetting)
 	end
+
+	if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonDown) then
+		if speed.selected == true then
+			speed:deselect()
+			walls:select()
+		elseif walls.selected == true then
+			speed:select()
+			walls:deselect()
+		end
+	end
+
 	if playdate.buttonJustPressed(playdate.kButtonB) then
 		wallsEnabled = not wallsEnabled
 	end
+
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		switchToPlayState()
 	end
