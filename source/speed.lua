@@ -20,12 +20,12 @@ function Speed:init()
 
 	self.arrowLeftSprite = gfx.sprite.new(arrowLeftImage)
 	self.arrowLeftSprite:setCenter(0, 0)
-	self.arrowLeftSprite:moveTo(self.x + 174, self.y)
+	self.arrowLeftSprite:moveTo(self.x + 165, self.y)
 	self.arrowLeftSprite:add()
 
 	self.arrowRightSprite = gfx.sprite.new(arrowRightImage)
 	self.arrowRightSprite:setCenter(0, 0)
-	self.arrowRightSprite:moveTo(self.x + 216, self.y)
+	self.arrowRightSprite:moveTo(self.x + 208, self.y)
 	self.arrowRightSprite:add()
 end
 
@@ -60,7 +60,7 @@ function Speed:draw()
 	gfx.drawText("Speed", 24, 0)
 
 	-- Draw speed setting number as string
-	gfx.drawTextAligned(tostring(self.speed), 199, 0, kTextAlignment.center)
+	gfx.drawTextAligned(tostring(self.speed), 191, 0, kTextAlignment.center)
 
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end
