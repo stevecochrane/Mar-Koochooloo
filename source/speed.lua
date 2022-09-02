@@ -33,7 +33,7 @@ function Speed:select()
 	self:markDirty()
 end
 
-function Speed:unselect()
+function Speed:deselect()
 	self.selected = false
 
 	self.appleSprite:remove()
