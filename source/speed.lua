@@ -1,6 +1,8 @@
 local gfx <const> = playdate.graphics
 
 local appleImage = gfx.image.new("images/apple")
+local arrowLeftImage = gfx.image.new("images/arrow-left")
+local arrowRightImage = gfx.image.new("images/arrow-right")
 
 class("Speed").extends(playdate.graphics.sprite)
 
@@ -15,6 +17,16 @@ function Speed:init()
 	self:setCenter(0, 0)
 	self:setSize(272, 20)
 	self:moveTo(72, 80)
+
+	self.arrowLeftSprite = gfx.sprite.new(arrowLeftImage)
+	self.arrowLeftSprite:setCenter(0, 0)
+	self.arrowLeftSprite:moveTo(self.x + 174, self.y)
+	self.arrowLeftSprite:add()
+
+	self.arrowRightSprite = gfx.sprite.new(arrowRightImage)
+	self.arrowRightSprite:setCenter(0, 0)
+	self.arrowRightSprite:moveTo(self.x + 216, self.y)
+	self.arrowRightSprite:add()
 end
 
 function Speed:setSpeed(newSpeed)
@@ -48,7 +60,7 @@ function Speed:draw()
 	gfx.drawText("Speed", 24, 0)
 
 	-- Draw speed setting number as string
-	gfx.drawText(tostring(self.speed), 184, 0)
+	gfx.drawTextAligned(tostring(self.speed), 199, 0, kTextAlignment.center)
 
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end
