@@ -258,15 +258,24 @@ function switchToOptionsState()
 end
 
 function optionsStateUpdate()
-	if playdate.buttonJustPressed(playdate.kButtonLeft) and speedSetting > speedSettingMin then
-		speedSetting -= 1
-		playerMoveInterval = speedSettingMap[speedSetting]
-		speed:setSpeed(speedSetting)
+	if playdate.buttonJustPressed(playdate.kButtonLeft) then
+		if speed.selected == true and speedSetting > speedSettingMin then
+			speedSetting -= 1
+			playerMoveInterval = speedSettingMap[speedSetting]
+			speed:setSpeed(speedSetting)
+		elseif walls.selected == true then
+			print("Changing walls selection...")
+		end
 	end
-	if playdate.buttonJustPressed(playdate.kButtonRight) and speedSetting < speedSettingMax then
-		speedSetting += 1
-		playerMoveInterval = speedSettingMap[speedSetting]
-		speed:setSpeed(speedSetting)
+
+	if playdate.buttonJustPressed(playdate.kButtonRight) then
+		if speed.selected == true and speedSetting < speedSettingMax then
+			speedSetting += 1
+			playerMoveInterval = speedSettingMap[speedSetting]
+			speed:setSpeed(speedSetting)
+		elseif walls.selected == true then
+			print("Changing walls selection...")
+		end
 	end
 
 	if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonDown) then
