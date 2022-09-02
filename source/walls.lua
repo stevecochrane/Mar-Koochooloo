@@ -32,8 +32,25 @@ function Walls:init()
 	self.radioNoSprite:add()
 end
 
+function Walls:setEnabled(newEnabled)
+	self.enabled = newEnabled
+	self:updateDisplay()
+end
+
 function Walls:toggle()
 	self.enabled = not self.enabled
+	self:updateDisplay()
+end
+
+function Walls:updateDisplay()
+	if self.enabled == true then
+		self.radioYesSprite:setImage(radioSelectedImage)
+		self.radioNoSprite:setImage(radioNotSelectedImage)
+	else
+		self.radioYesSprite:setImage(radioNotSelectedImage)
+		self.radioNoSprite:setImage(radioSelectedImage)
+	end
+
 	self:markDirty()
 end
 

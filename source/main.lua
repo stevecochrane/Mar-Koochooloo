@@ -252,6 +252,7 @@ function switchToOptionsState()
 	speed:addSprite()
 
 	walls = Walls()
+	walls:setEnabled(wallsEnabled)
 	walls:addSprite()
 
 	gameState = "options"
@@ -264,7 +265,8 @@ function optionsStateUpdate()
 			playerMoveInterval = speedSettingMap[speedSetting]
 			speed:setSpeed(speedSetting)
 		elseif walls.selected == true then
-			print("Changing walls selection...")
+			wallsEnabled = not wallsEnabled
+			walls:toggle()
 		end
 	end
 
@@ -274,7 +276,8 @@ function optionsStateUpdate()
 			playerMoveInterval = speedSettingMap[speedSetting]
 			speed:setSpeed(speedSetting)
 		elseif walls.selected == true then
-			print("Changing walls selection...")
+			wallsEnabled = not wallsEnabled
+			walls:toggle()
 		end
 	end
 
@@ -286,10 +289,6 @@ function optionsStateUpdate()
 			speed:select()
 			walls:deselect()
 		end
-	end
-
-	if playdate.buttonJustPressed(playdate.kButtonB) then
-		wallsEnabled = not wallsEnabled
 	end
 
 	if playdate.buttonJustPressed(playdate.kButtonA) then
