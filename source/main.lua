@@ -115,11 +115,11 @@ function repositionFood()
 
 	repeat
 		if wallsEnabled then
-			newX = math.random(leftBoundary, rightBoundary)
-			newY = math.random(topBoundary, bottomBoundary)
+			newX = math.random(leftBoundary, rightBoundary - 1)
+			newY = math.random(topBoundary, bottomBoundary - 1)
 		else
-			newX = math.random(0, screenWidth)
-			newY = math.random(0, screenHeight)
+			newX = math.random(0, screenWidth - 1)
+			newY = math.random(0, screenHeight - 1)
 		end
 
 		-- Round down to a multiple of tileSize, then add half of tileSize
