@@ -199,7 +199,7 @@ function setUpGame()
 	)
 
 	-- Load main stage background music (this is also needed to start playing from the beginning)
-	stageBgm:load("music/instigation-stage-bgm")
+	stageBgm:load("music/nik-watch-the-sound")
 	-- Play and loop forever
 	stageBgm:play(0)
 end
