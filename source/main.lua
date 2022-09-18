@@ -21,9 +21,24 @@ local tileSize = 16
 local playerSprite = nil
 local foodSprite = nil
 
+-- Initialize images
 local foodImage = gfx.image.new("images/apple")
 local gameOverImage = gfx.image.new("images/game-over")
 local optionsScreenImage = gfx.image.new("images/options-screen")
+local snakeBodyDownLeft = gfx.image.new("images/snake-body-down-left")
+local snakeBodyDownRight = gfx.image.new("images/snake-body-down-right")
+local snakeBodyLeftRight = gfx.image.new("images/snake-body-left-right")
+local snakeBodyUpDown = gfx.image.new("images/snake-body-up-down")
+local snakeBodyUpLeft = gfx.image.new("images/snake-body-up-left")
+local snakeBodyUpRight = gfx.image.new("images/snake-body-up-right")
+local snakeHeadDown = gfx.image.new("images/snake-head-down")
+local snakeHeadLeft = gfx.image.new("images/snake-head-left")
+local snakeHeadRight = gfx.image.new("images/snake-head-right")
+local snakeHeadUp = gfx.image.new("images/snake-head-up")
+local snakeTailDown = gfx.image.new("images/snake-tail-down")
+local snakeTailLeft = gfx.image.new("images/snake-tail-left")
+local snakeTailRight = gfx.image.new("images/snake-tail-right")
+local snakeTailUp = gfx.image.new("images/snake-tail-up")
 local spriteImage = gfx.image.new("images/sprite")
 local stageWithWallsImage = gfx.image.new("images/stage-with-walls")
 local stageWithoutWallsImage = gfx.image.new("images/stage-without-walls")
