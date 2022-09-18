@@ -35,7 +35,7 @@ stageBgm:setVolume("0.5")
 
 -- Initialize sound effects
 local foodSound = snd.sampleplayer.new("sound/instigation-block-clear")
-local turnSound = snd.sampleplayer.new("sound/instigation-move")
+local clickSound = snd.sampleplayer.new("sound/instigation-move")
 local collisionSound = snd.sampleplayer.new("sound/instigation-curses")
 
 -- TODO: Implement as enum if possible?
@@ -329,28 +329,28 @@ function playStateUpdate()
 		local tailSprite = nil
 
 		-- TODO: Implement as switch statement, if possible?
-		-- TODO: Reduce repetition for turnSound:play() logic
+		-- TODO: Reduce repetition for clickSound:play() logic
 		if playerDirectionBuffer == "up" then
 			if playerDirection ~= "up" then
-				turnSound:play()
+				clickSound:play()
 			end
 			nextCoordinates[2] -= tileSize
 			playerDirection = "up"
 		elseif playerDirectionBuffer == "right" then
 			if playerDirection ~= "right" then
-				turnSound:play()
+				clickSound:play()
 			end
 			nextCoordinates[1] += tileSize
 			playerDirection = "right"
 		elseif playerDirectionBuffer == "down" then
 			if playerDirection ~= "down" then
-				turnSound:play()
+				clickSound:play()
 			end
 			nextCoordinates[2] += tileSize
 			playerDirection = "down"
 		elseif playerDirectionBuffer == "left" then
 			if playerDirection ~= "left" then
-				turnSound:play()
+				clickSound:play()
 			end
 			nextCoordinates[1] -= tileSize
 			playerDirection = "left"
