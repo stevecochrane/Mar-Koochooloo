@@ -261,10 +261,12 @@ end
 function optionsStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonLeft) then
 		if speed.selected == true and speedSetting > speedSettingMin then
+			clickSound:play()
 			speedSetting -= 1
 			playerMoveInterval = speedSettingMap[speedSetting]
 			speed:setSpeed(speedSetting)
 		elseif walls.selected == true then
+			clickSound:play()
 			wallsEnabled = not wallsEnabled
 			walls:toggle()
 		end
@@ -272,10 +274,12 @@ function optionsStateUpdate()
 
 	if playdate.buttonJustPressed(playdate.kButtonRight) then
 		if speed.selected == true and speedSetting < speedSettingMax then
+			clickSound:play()
 			speedSetting += 1
 			playerMoveInterval = speedSettingMap[speedSetting]
 			speed:setSpeed(speedSetting)
 		elseif walls.selected == true then
+			clickSound:play()
 			wallsEnabled = not wallsEnabled
 			walls:toggle()
 		end
@@ -283,9 +287,11 @@ function optionsStateUpdate()
 
 	if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonDown) then
 		if speed.selected == true then
+			clickSound:play()
 			speed:deselect()
 			walls:select()
 		elseif walls.selected == true then
+			clickSound:play()
 			speed:select()
 			walls:deselect()
 		end
