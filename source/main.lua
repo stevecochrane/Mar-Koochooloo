@@ -346,7 +346,8 @@ function playStateUpdate()
 	if (moveTimer.frame == playerMoveInterval) then
 		-- Initialize coordinates for next snake segment at position of current head
 		local nextCoordinates = {snakeCoordinates[1][1], snakeCoordinates[1][2]}
-		local nextSprite = gfx.sprite.new(spriteImage)
+		local nextSprite = nil
+		local nextSpriteImage = nil
 		local tailSprite = nil
 
 		-- TODO: Implement as switch statement, if possible?
@@ -357,24 +358,28 @@ function playStateUpdate()
 			end
 			nextCoordinates[2] -= tileSize
 			playerDirection = "up"
+			nextSpriteImage = snakeHeadUpImage
 		elseif playerDirectionBuffer == "right" then
 			if playerDirection ~= "right" then
 				clickSound:play()
 			end
 			nextCoordinates[1] += tileSize
 			playerDirection = "right"
+			nextSpriteImage = snakeHeadRightImage
 		elseif playerDirectionBuffer == "down" then
 			if playerDirection ~= "down" then
 				clickSound:play()
 			end
 			nextCoordinates[2] += tileSize
 			playerDirection = "down"
+			nextSpriteImage = snakeHeadDownImage
 		elseif playerDirectionBuffer == "left" then
 			if playerDirection ~= "left" then
 				clickSound:play()
 			end
 			nextCoordinates[1] -= tileSize
 			playerDirection = "left"
+			nextSpriteImage = snakeHeadLeftImage
 		end
 
 		-- Allow wrapping to the other side of the screen when walls are disabled
@@ -400,6 +405,7 @@ function playStateUpdate()
 		table.insert(snakeCoordinates, 1, nextCoordinates)
 
 		-- Position new head sprite and add to sprites array
+		nextSprite = gfx.sprite.new(nextSpriteImage)
 		nextSprite:moveTo(nextCoordinates[1], nextCoordinates[2])
 		nextSprite:add()
 		table.insert(snakeSprites, 1, nextSprite)
