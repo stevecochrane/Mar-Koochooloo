@@ -83,6 +83,9 @@ local snakeCoordinates = nil
 -- Stores sprites for each segment of the snake.
 local snakeSprites = nil
 
+-- Stores the direction the snake was traveling in for each segment of the snake.
+local snakeDirections = nil
+
 -- This may be customizeable later.
 local startingSnakeSegments = 3
 
@@ -162,6 +165,7 @@ function setUpGame()
 	-- (Re-)initialize snake arrays
 	snakeCoordinates = {}
 	snakeSprites = {}
+	snakeDirections = {}
 
 	-- (Re-)intialize player direction
 	playerDirection = "right"
@@ -190,6 +194,9 @@ function setUpGame()
 		playerSprite:moveTo(startingX, startingY)
 		playerSprite:add()
 		table.insert(snakeSprites, playerSprite)
+
+		-- Add direction for each segment to snakeDirections
+		table.insert(snakeDirections, playerDirection)
 
 		-- Decrement startingX to put next segment one tile behind
 		startingX = startingX - tileSize
@@ -410,6 +417,9 @@ function playStateUpdate()
 		nextSprite:add()
 		table.insert(snakeSprites, 1, nextSprite)
 
+		-- Store the new direction
+		table.insert(snakeDirections, 1, playerDirection)
+
 		-- Check if player has eaten the food
 		if snakeCoordinates[1][1] == foodSprite.x and snakeCoordinates[1][2] == foodSprite.y then
 			foodSound:play()
@@ -420,6 +430,7 @@ function playStateUpdate()
 		if segmentsToGain == 0 then
 			-- If the snake is not growing on this interval, we remove the last segment from the snake.
 			table.remove(snakeCoordinates)
+			table.remove(snakeDirections)
 			-- Remove the current tail sprite from the array and from the display list
 			tailSprite = table.remove(snakeSprites)
 			tailSprite:remove()
