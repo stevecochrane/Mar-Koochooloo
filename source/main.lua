@@ -155,6 +155,51 @@ function repositionFood()
 	foodSprite:moveTo(newX, newY)
 end
 
+function updateSnakeHead()
+	-- Find second sprite in table
+	-- Find direction of second sprite and of third sprite
+	local current = snakeDirections[1]
+	local previous = snakeDirections[2]
+
+	local updatedImage = nil
+
+	if current == "up" then
+		if previous == "up" then
+			updatedImage = snakeBodyUpDownImage
+		elseif previous == "right" then
+			updatedImage = snakeBodyUpLeftImage
+		elseif previous == "left" then
+			updatedImage = snakeBodyUpRightImage
+		end
+	elseif current == "right" then
+		if previous == "up" then
+			updatedImage = snakeBodyDownRightImage
+		elseif previous == "right" then
+			updatedImage = snakeBodyLeftRightImage
+		elseif previous == "down" then
+			updatedImage = snakeBodyUpRightImage
+		end
+	elseif current == "down" then
+		if previous == "right" then
+			updatedImage = snakeBodyDownLeftImage
+		elseif previous == "down" then
+			updatedImage = snakeBodyUpDownImage
+		elseif previous == "left" then
+			updatedImage = snakeBodyDownRightImage
+		end
+	elseif current == "left" then
+		if previous == "up" then
+			updatedImage = snakeBodyDownLeftImage
+		elseif previous == "down" then
+			updatedImage = snakeBodyUpLeftImage
+		elseif previous == "left" then
+			updatedImage = snakeBodyLeftRightImage
+		end
+	end
+
+	snakeSprites[2]:setImage(updatedImage)
+end
+
 -- A function for clearing existing sprites. This may be expanded upon later.
 function clearGame()
 	gfx.sprite.removeAll()
@@ -419,6 +464,9 @@ function playStateUpdate()
 
 		-- Store the new direction
 		table.insert(snakeDirections, 1, playerDirection)
+
+		-- Update the second sprite from a head image to a body image
+		updateSnakeHead()
 
 		-- Check if player has eaten the food
 		if snakeCoordinates[1][1] == foodSprite.x and snakeCoordinates[1][2] == foodSprite.y then
