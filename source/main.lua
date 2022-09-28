@@ -200,6 +200,23 @@ function updateSnakeHead()
 	snakeSprites[2]:setImage(updatedImage)
 end
 
+function updateSnakeTail()
+	local lastDirection = snakeDirections[#snakeDirections - 1]
+	local updatedImage = nil
+
+	if lastDirection == "up" then
+		updatedImage = snakeTailUpImage
+	elseif lastDirection == "right" then
+		updatedImage = snakeTailRightImage
+	elseif lastDirection == "down" then
+		updatedImage = snakeTailDownImage
+	elseif lastDirection == "left" then
+		updatedImage = snakeTailLeftImage
+	end
+
+	snakeSprites[#snakeSprites]:setImage(updatedImage)
+end
+
 -- A function for clearing existing sprites. This may be expanded upon later.
 function clearGame()
 	gfx.sprite.removeAll()
@@ -482,6 +499,8 @@ function playStateUpdate()
 			-- Remove the current tail sprite from the array and from the display list
 			tailSprite = table.remove(snakeSprites)
 			tailSprite:remove()
+			-- Update the new tail sprite from a body image to a tail image
+			updateSnakeTail()
 		else
 			-- Otherwise don't remove the last segment, and decrement the counter.
 			segmentsToGain -= 1
