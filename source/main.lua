@@ -83,6 +83,9 @@ local snakeCoordinates = nil
 -- Stores sprites for each segment of the snake.
 local snakeSprites = nil
 
+-- Stores the direction the snake was traveling in for each segment of the snake.
+local snakeDirections = nil
+
 -- This may be customizeable later.
 local startingSnakeSegments = 3
 
@@ -152,6 +155,68 @@ function repositionFood()
 	foodSprite:moveTo(newX, newY)
 end
 
+function updateSnakeHead()
+	-- Find second sprite in table
+	-- Find direction of second sprite and of third sprite
+	local current = snakeDirections[1]
+	local previous = snakeDirections[2]
+
+	local updatedImage = nil
+
+	if current == "up" then
+		if previous == "up" then
+			updatedImage = snakeBodyUpDownImage
+		elseif previous == "right" then
+			updatedImage = snakeBodyUpLeftImage
+		elseif previous == "left" then
+			updatedImage = snakeBodyUpRightImage
+		end
+	elseif current == "right" then
+		if previous == "up" then
+			updatedImage = snakeBodyDownRightImage
+		elseif previous == "right" then
+			updatedImage = snakeBodyLeftRightImage
+		elseif previous == "down" then
+			updatedImage = snakeBodyUpRightImage
+		end
+	elseif current == "down" then
+		if previous == "right" then
+			updatedImage = snakeBodyDownLeftImage
+		elseif previous == "down" then
+			updatedImage = snakeBodyUpDownImage
+		elseif previous == "left" then
+			updatedImage = snakeBodyDownRightImage
+		end
+	elseif current == "left" then
+		if previous == "up" then
+			updatedImage = snakeBodyDownLeftImage
+		elseif previous == "down" then
+			updatedImage = snakeBodyUpLeftImage
+		elseif previous == "left" then
+			updatedImage = snakeBodyLeftRightImage
+		end
+	end
+
+	snakeSprites[2]:setImage(updatedImage)
+end
+
+function updateSnakeTail()
+	local lastDirection = snakeDirections[#snakeDirections - 1]
+	local updatedImage = nil
+
+	if lastDirection == "up" then
+		updatedImage = snakeTailUpImage
+	elseif lastDirection == "right" then
+		updatedImage = snakeTailRightImage
+	elseif lastDirection == "down" then
+		updatedImage = snakeTailDownImage
+	elseif lastDirection == "left" then
+		updatedImage = snakeTailLeftImage
+	end
+
+	snakeSprites[#snakeSprites]:setImage(updatedImage)
+end
+
 -- A function for clearing existing sprites. This may be expanded upon later.
 function clearGame()
 	gfx.sprite.removeAll()
@@ -162,6 +227,7 @@ function setUpGame()
 	-- (Re-)initialize snake arrays
 	snakeCoordinates = {}
 	snakeSprites = {}
+	snakeDirections = {}
 
 	-- (Re-)intialize player direction
 	playerDirection = "right"
@@ -190,6 +256,9 @@ function setUpGame()
 		playerSprite:moveTo(startingX, startingY)
 		playerSprite:add()
 		table.insert(snakeSprites, playerSprite)
+
+		-- Add direction for each segment to snakeDirections
+		table.insert(snakeDirections, playerDirection)
 
 		-- Decrement startingX to put next segment one tile behind
 		startingX = startingX - tileSize
@@ -346,7 +415,8 @@ function playStateUpdate()
 	if (moveTimer.frame == playerMoveInterval) then
 		-- Initialize coordinates for next snake segment at position of current head
 		local nextCoordinates = {snakeCoordinates[1][1], snakeCoordinates[1][2]}
-		local nextSprite = gfx.sprite.new(spriteImage)
+		local nextSprite = nil
+		local nextSpriteImage = nil
 		local tailSprite = nil
 
 		-- TODO: Implement as switch statement, if possible?
@@ -357,24 +427,28 @@ function playStateUpdate()
 			end
 			nextCoordinates[2] -= tileSize
 			playerDirection = "up"
+			nextSpriteImage = snakeHeadUpImage
 		elseif playerDirectionBuffer == "right" then
 			if playerDirection ~= "right" then
 				clickSound:play()
 			end
 			nextCoordinates[1] += tileSize
 			playerDirection = "right"
+			nextSpriteImage = snakeHeadRightImage
 		elseif playerDirectionBuffer == "down" then
 			if playerDirection ~= "down" then
 				clickSound:play()
 			end
 			nextCoordinates[2] += tileSize
 			playerDirection = "down"
+			nextSpriteImage = snakeHeadDownImage
 		elseif playerDirectionBuffer == "left" then
 			if playerDirection ~= "left" then
 				clickSound:play()
 			end
 			nextCoordinates[1] -= tileSize
 			playerDirection = "left"
+			nextSpriteImage = snakeHeadLeftImage
 		end
 
 		-- Allow wrapping to the other side of the screen when walls are disabled
@@ -400,9 +474,16 @@ function playStateUpdate()
 		table.insert(snakeCoordinates, 1, nextCoordinates)
 
 		-- Position new head sprite and add to sprites array
+		nextSprite = gfx.sprite.new(nextSpriteImage)
 		nextSprite:moveTo(nextCoordinates[1], nextCoordinates[2])
 		nextSprite:add()
 		table.insert(snakeSprites, 1, nextSprite)
+
+		-- Store the new direction
+		table.insert(snakeDirections, 1, playerDirection)
+
+		-- Update the second sprite from a head image to a body image
+		updateSnakeHead()
 
 		-- Check if player has eaten the food
 		if snakeCoordinates[1][1] == foodSprite.x and snakeCoordinates[1][2] == foodSprite.y then
@@ -414,9 +495,12 @@ function playStateUpdate()
 		if segmentsToGain == 0 then
 			-- If the snake is not growing on this interval, we remove the last segment from the snake.
 			table.remove(snakeCoordinates)
+			table.remove(snakeDirections)
 			-- Remove the current tail sprite from the array and from the display list
 			tailSprite = table.remove(snakeSprites)
 			tailSprite:remove()
+			-- Update the new tail sprite from a body image to a tail image
+			updateSnakeTail()
 		else
 			-- Otherwise don't remove the last segment, and decrement the counter.
 			segmentsToGain -= 1
