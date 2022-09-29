@@ -251,8 +251,38 @@ function setUpGame()
 		-- Add the point to snakeCoordinates
 		table.insert(snakeCoordinates, {startingX, startingY})
 
+		-- Determine which image to use for this segment based on segment number and direction
+		local segmentImage = nil
+		if i == 1 then
+			if playerDirection == "up" then
+				segmentImage = snakeHeadUpImage
+			elseif playerDirection == "right" then
+				segmentImage = snakeHeadRightImage
+			elseif playerDirection == "down" then
+				segmentImage = snakeHeadDownImage
+			elseif playerDirection == "left" then
+				segmentImage = snakeHeadLeftImage
+			end
+		elseif i == startingSnakeSegments then
+			if playerDirection == "up" then
+				segmentImage = snakeTailUpImage
+			elseif playerDirection == "right" then
+				segmentImage = snakeTailRightImage
+			elseif playerDirection == "down" then
+				segmentImage = snakeTailDownImage
+			elseif playerDirection == "left" then
+				segmentImage = snakeTailLeftImage
+			end
+		else
+			if playerDirection == "up" or playerDirection == "down" then
+				segmentImage = snakeBodyUpDownImage
+			elseif playerDirection == "left" or playerDirection == "right" then
+				segmentImage = snakeBodyLeftRightImage
+			end
+		end
+
 		-- Add the current sprite to snakeSprites
-		playerSprite = gfx.sprite.new(spriteImage)
+		playerSprite = gfx.sprite.new(segmentImage)
 		playerSprite:moveTo(startingX, startingY)
 		playerSprite:add()
 		table.insert(snakeSprites, playerSprite)
