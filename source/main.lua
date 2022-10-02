@@ -99,8 +99,12 @@ local segmentsToGain = 0
 -- Possible values are "title", "options", "play", "end"
 local gameState = "title"
 
+-- User preferences
 local speed = nil
 local walls = nil
+
+-- Store how many pieces of food are eaten per game
+local foodEaten = nil
 
 function isCollidingWithSnake(coordinates)
 	local collided = false
@@ -235,6 +239,9 @@ function setUpGame()
 	-- (Re-)initialize move timer
 	moveTimer = playdate.frameTimer.new(playerMoveInterval)
 	moveTimer.repeats = true
+
+	-- (Re-)initialize food eaten
+	foodEaten = 0
 
 	-- 400 / 16 = 25 vertical columns
 	-- 12 * 16 = 192 for middle column
@@ -519,6 +526,7 @@ function playStateUpdate()
 			foodSound:play()
 			repositionFood()
 			segmentsToGain = segmentsGainedWhenEating
+			foodEaten += 1
 		end
 
 		if segmentsToGain == 0 then
@@ -547,6 +555,7 @@ function switchToEndState()
 	collisionSound:play()
 	showGameOverScreen()
 	gameState = "end"
+	print("food eaten: " .. foodEaten)
 end
 
 function showGameOverScreen()
