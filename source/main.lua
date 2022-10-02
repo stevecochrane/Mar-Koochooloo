@@ -3,6 +3,7 @@ import "CoreLibs/graphics"
 import "CoreLibs/object"
 import "CoreLibs/sprites"
 
+import "foodEaten"
 import "speed"
 import "walls"
 
@@ -104,7 +105,7 @@ local speed = nil
 local walls = nil
 
 -- Store how many pieces of food are eaten per game
-local foodEaten = nil
+local foodEatenCount = nil
 
 function isCollidingWithSnake(coordinates)
 	local collided = false
@@ -241,7 +242,7 @@ function setUpGame()
 	moveTimer.repeats = true
 
 	-- (Re-)initialize food eaten
-	foodEaten = 0
+	foodEatenCount = 0
 
 	-- 400 / 16 = 25 vertical columns
 	-- 12 * 16 = 192 for middle column
@@ -526,7 +527,7 @@ function playStateUpdate()
 			foodSound:play()
 			repositionFood()
 			segmentsToGain = segmentsGainedWhenEating
-			foodEaten += 1
+			foodEatenCount += 1
 		end
 
 		if segmentsToGain == 0 then
@@ -555,7 +556,7 @@ function switchToEndState()
 	collisionSound:play()
 	showGameOverScreen()
 	gameState = "end"
-	print("food eaten: " .. foodEaten)
+	print("food eaten: " .. foodEatenCount)
 end
 
 function showGameOverScreen()
@@ -563,6 +564,10 @@ function showGameOverScreen()
 	gameOverSprite:moveTo(200, 120)
 	gameOverSprite:setZIndex(1) -- Ensure this is above the snake
 	gameOverSprite:add()
+
+	foodEaten = FoodEaten()
+	foodEaten:setCount(foodEatenCount)
+	foodEaten:addSprite()
 end
 
 function endStateUpdate()
