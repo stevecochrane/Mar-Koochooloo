@@ -46,7 +46,9 @@ local titleScreenImage = gfx.image.new("images/title-screen")
 
 -- Initialize music
 local stageBgm = snd.fileplayer.new()
+local menuBgm = snd.fileplayer.new()
 stageBgm:setVolume("0.5")
+menuBgm:setVolume("0.5")
 
 -- Initialize sound effects
 local foodSound = snd.sampleplayer.new("sound/instigation-block-clear")
@@ -329,6 +331,9 @@ function startGame()
 	local titleScreenSprite = gfx.sprite.new(titleScreenImage)
 	titleScreenSprite:moveTo(200, 120)
 	titleScreenSprite:add()
+
+	menuBgm:load("music/game-song-2")
+	menuBgm:play(0)
 end
 
 startGame()
@@ -357,6 +362,8 @@ end
 
 function switchToOptionsState()
 	gfx.sprite.removeAll()
+
+	menuBgm:play(0)
 
 	local backgroundSprite = gfx.sprite.new(optionsScreenImage)
 	backgroundSprite:setCenter(0, 0)
@@ -424,7 +431,7 @@ function optionsStateUpdate()
 end
 
 function switchToPlayState()
-	print("playerMoveInterval ", playerMoveInterval)
+	menuBgm:stop()
 	clearGame()
 	setUpGame()
 	gameState = "play"
