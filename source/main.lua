@@ -53,7 +53,7 @@ menuBgm:setVolume("0.5")
 -- Initialize sound effects
 local foodSound = snd.sampleplayer.new("sound/instigation-block-clear")
 local clickSound = snd.sampleplayer.new("sound/instigation-move")
-local collisionSound = snd.sampleplayer.new("sound/instigation-curses")
+local gameOverSound = snd.sampleplayer.new("sound/game-over")
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
@@ -560,7 +560,7 @@ end
 
 function switchToEndState()
 	stageBgm:stop()
-	collisionSound:play()
+	gameOverSound:play()
 	showGameOverScreen()
 	gameState = "end"
 	print("food eaten: " .. foodEatenCount)
@@ -579,9 +579,11 @@ end
 
 function endStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonB) then
+		gameOverSound:stop()
 		switchToOptionsState()
 	end
 	if playdate.buttonJustPressed(playdate.kButtonA) then
+		gameOverSound:stop()
 		switchToPlayState()
 	end
 end
