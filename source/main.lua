@@ -54,6 +54,7 @@ menuBgm:setVolume("0.5")
 local foodSound = snd.sampleplayer.new("sound/instigation-block-clear")
 local clickSound = snd.sampleplayer.new("sound/instigation-move")
 local gameOverSound = snd.sampleplayer.new("sound/game-over")
+local gameStartSound = snd.sampleplayer.new("sound/game-start")
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
@@ -432,6 +433,7 @@ end
 
 function switchToPlayState()
 	menuBgm:stop()
+	gameStartSound:play()
 	clearGame()
 	setUpGame()
 	gameState = "play"
