@@ -1,4 +1,4 @@
-# playdate-snake-game
+# Mar Koochooloo
 
 This will be my first project for [Playdate](https://play.date), and I'll be
 recreating the
