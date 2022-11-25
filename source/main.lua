@@ -103,6 +103,10 @@ local segmentsToGain = 0
 -- Possible values are "title", "options", "play", "end"
 local gameState = "title"
 
+-- Length of time in frames for switching from state to state
+-- 60 = 2 seconds @ 30 FPS
+local stateSwitchDelay = 60
+
 -- User preferences
 local speed = nil
 local walls = nil
@@ -357,7 +361,7 @@ end
 
 function titleStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonA) then
-		switchToOptionsState()
+		playdate.frameTimer.performAfterDelay(stateSwitchDelay, switchToOptionsState)
 	end
 end
 
@@ -427,7 +431,7 @@ function optionsStateUpdate()
 	end
 
 	if playdate.buttonJustPressed(playdate.kButtonA) then
-		switchToPlayState()
+		playdate.frameTimer.performAfterDelay(stateSwitchDelay, switchToPlayState)
 	end
 end
 
