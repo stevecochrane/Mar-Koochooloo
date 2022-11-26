@@ -4,6 +4,7 @@ import "CoreLibs/object"
 import "CoreLibs/sprites"
 
 import "foodEaten"
+import "PressStart"
 import "speed"
 import "walls"
 
@@ -336,6 +337,10 @@ function startGame()
 	local titleScreenSprite = gfx.sprite.new(titleScreenImage)
 	titleScreenSprite:moveTo(200, 120)
 	titleScreenSprite:add()
+
+	local pressStart = PressStart()
+	pressStart:moveTo(0, 160)
+	pressStart:addSprite()
 
 	menuBgm:load("music/game-song-2")
 	menuBgm:play(0)
