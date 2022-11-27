@@ -380,6 +380,10 @@ function switchToOptionsState()
 	backgroundSprite:moveTo(0, 0)
 	backgroundSprite:add()
 
+	local pressStart = PressStart()
+	pressStart:moveTo(0, 176)
+	pressStart:addSprite()
+
 	if playerMoveInterval == nil then
 		playerMoveInterval = speedSettingMap[speedSetting]
 	end
