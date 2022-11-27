@@ -1,3 +1,4 @@
+import "CoreLibs/animation"
 import "CoreLibs/frameTimer"
 import "CoreLibs/graphics"
 import "CoreLibs/object"
@@ -114,6 +115,9 @@ local walls = nil
 
 -- Store how many pieces of food are eaten per game
 local foodEatenCount = nil
+
+-- Shared variable for PressStart instances
+local pressStart = nil
 
 function isCollidingWithSnake(coordinates)
 	local collided = false
@@ -338,7 +342,7 @@ function startGame()
 	titleScreenSprite:moveTo(200, 120)
 	titleScreenSprite:add()
 
-	local pressStart = PressStart()
+	pressStart = PressStart()
 	pressStart:moveTo(0, 160)
 	pressStart:addSprite()
 
@@ -360,12 +364,14 @@ function playdate.update()
 	end
 
 	gfx.sprite.update()
+	gfx.animation.blinker.updateAll()
 	playdate.frameTimer.updateTimers()
 	-- playdate.drawFPS(0,0)
 end
 
 function titleStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonA) then
+		pressStart:blink()
 		playdate.frameTimer.performAfterDelay(stateSwitchDelay, switchToOptionsState)
 	end
 end
@@ -380,7 +386,7 @@ function switchToOptionsState()
 	backgroundSprite:moveTo(0, 0)
 	backgroundSprite:add()
 
-	local pressStart = PressStart()
+	pressStart = PressStart()
 	pressStart:moveTo(0, 176)
 	pressStart:addSprite()
 
@@ -440,6 +446,7 @@ function optionsStateUpdate()
 	end
 
 	if playdate.buttonJustPressed(playdate.kButtonA) then
+		pressStart:blink()
 		playdate.frameTimer.performAfterDelay(stateSwitchDelay, switchToPlayState)
 	end
 end
