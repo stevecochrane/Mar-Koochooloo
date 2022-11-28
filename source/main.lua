@@ -3,6 +3,7 @@ import "CoreLibs/frameTimer"
 import "CoreLibs/graphics"
 import "CoreLibs/object"
 import "CoreLibs/sprites"
+import "CoreLibs/timer"
 
 import "foodEaten"
 import "PressStart"
@@ -105,9 +106,8 @@ local segmentsToGain = 0
 -- Possible values are "title", "options", "play", "end"
 local gameState = "title"
 
--- Length of time in frames for switching from state to state
--- 60 = 2 seconds @ 30 FPS
-local stateSwitchDelay = 60
+-- Length of time in milliseconds for switching from state to state
+local stateSwitchDelay = 1800
 
 -- User preferences
 local speed = nil
@@ -366,13 +366,14 @@ function playdate.update()
 	gfx.sprite.update()
 	gfx.animation.blinker.updateAll()
 	playdate.frameTimer.updateTimers()
+	playdate.timer.updateTimers()
 	-- playdate.drawFPS(0,0)
 end
 
 function titleStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		pressStart:blink()
-		playdate.frameTimer.performAfterDelay(stateSwitchDelay, switchToOptionsState)
+		playdate.timer.performAfterDelay(stateSwitchDelay, switchToOptionsState)
 	end
 end
 
@@ -447,7 +448,7 @@ function optionsStateUpdate()
 
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		pressStart:blink()
-		playdate.frameTimer.performAfterDelay(stateSwitchDelay, switchToPlayState)
+		playdate.timer.performAfterDelay(stateSwitchDelay, switchToPlayState)
 	end
 end
 
