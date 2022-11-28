@@ -6,6 +6,10 @@ function PressStart:init()
 	PressStart.super.init(self)
 
 	self.blinker = gfx.animation.blinker.new()
+	self.blinker.cycles = 10
+	self.blinker.onDuration = 150
+	self.blinker.offDuration = 150
+
 	self.visible = true
 
 	self:setZIndex(1)
