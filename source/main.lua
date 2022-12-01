@@ -107,7 +107,7 @@ local segmentsToGain = 0
 local gameState = "title"
 
 -- Length of time in milliseconds for switching from state to state
-local stateSwitchDelay = 1800
+local stateSwitchTransitionDelay = 1800
 
 -- User preferences
 local speed = nil
@@ -373,7 +373,7 @@ end
 function titleStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		pressStart:blink()
-		playdate.timer.performAfterDelay(stateSwitchDelay, switchToOptionsState)
+		playdate.timer.performAfterDelay(stateSwitchTransitionDelay, switchToOptionsState)
 	end
 end
 
@@ -448,7 +448,7 @@ function optionsStateUpdate()
 
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		pressStart:blink()
-		playdate.timer.performAfterDelay(stateSwitchDelay, switchToPlayState)
+		playdate.timer.performAfterDelay(stateSwitchTransitionDelay, switchToPlayState)
 	end
 end
 
