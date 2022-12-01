@@ -107,7 +107,9 @@ local segmentsToGain = 0
 local gameState = "title"
 
 -- Length of time in milliseconds for switching from state to state
-local stateSwitchTransitionDelay = 1800
+local stateSwitchAnimationDuration = 1800
+local stateSwitchPauseDuration = 600
+local stateSwitchFullDuration = stateSwitchAnimationDuration + stateSwitchPauseDuration
 
 -- User preferences
 local speed = nil
@@ -350,6 +352,7 @@ function startGame()
 	menuBgm:play(0)
 end
 
+gfx.setBackgroundColor(gfx.kColorBlack)
 startGame()
 
 function playdate.update()
@@ -373,7 +376,8 @@ end
 function titleStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		pressStart:blink()
-		playdate.timer.performAfterDelay(stateSwitchTransitionDelay, switchToOptionsState)
+		playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
+		playdate.timer.performAfterDelay(stateSwitchFullDuration, switchToOptionsState)
 	end
 end
 
@@ -448,7 +452,8 @@ function optionsStateUpdate()
 
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		pressStart:blink()
-		playdate.timer.performAfterDelay(stateSwitchTransitionDelay, switchToPlayState)
+		playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
+		playdate.timer.performAfterDelay(stateSwitchFullDuration, switchToPlayState)
 	end
 end
 
