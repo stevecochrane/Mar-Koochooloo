@@ -1,6 +1,6 @@
 local gfx <const> = playdate.graphics
 
-class("FoodEaten").extends(playdate.graphics.sprite)
+class("FoodEaten").extends(gfx.sprite)
 
 function FoodEaten:init()
 	FoodEaten.super.init(self)

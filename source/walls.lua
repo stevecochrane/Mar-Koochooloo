@@ -4,7 +4,7 @@ local appleImage = gfx.image.new("images/apple")
 local radioNotSelectedImage = gfx.image.new("images/radio-not-selected")
 local radioSelectedImage = gfx.image.new("images/radio-selected")
 
-class("Walls").extends(playdate.graphics.sprite)
+class("Walls").extends(gfx.sprite)
 
 function Walls:init()
 	Walls.super.init(self)

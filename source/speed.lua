@@ -4,7 +4,7 @@ local appleImage = gfx.image.new("images/apple")
 local arrowLeftImage = gfx.image.new("images/arrow-left")
 local arrowRightImage = gfx.image.new("images/arrow-right")
 
-class("Speed").extends(playdate.graphics.sprite)
+class("Speed").extends(gfx.sprite)
 
 function Speed:init()
 	Speed.super.init(self)
