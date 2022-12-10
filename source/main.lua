@@ -6,7 +6,7 @@ import "CoreLibs/sprites"
 import "CoreLibs/timer"
 
 import "foodEaten"
-import "PressStart"
+import "pressStart"
 import "speed"
 import "walls"
 
