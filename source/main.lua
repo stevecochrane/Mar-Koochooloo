@@ -612,8 +612,10 @@ function endStateUpdate()
 		gfx.sprite.removeAll()
 		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToOptionsState)
 	end
+
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		gameOverSound:stop()
-		switchToPlayState()
+		gfx.sprite.removeAll()
+		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
 	end
 end
