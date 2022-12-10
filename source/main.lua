@@ -250,8 +250,9 @@ function setUpGame()
 	moveTimer = playdate.frameTimer.new(playerMoveInterval)
 	moveTimer.repeats = true
 
-	-- (Re-)initialize food eaten
+	-- (Re-)initialize other variables
 	foodEatenCount = 0
+	segmentsToGain = 0
 
 	-- 400 / 16 = 25 vertical columns
 	-- 12 * 16 = 192 for middle column
