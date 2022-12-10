@@ -537,14 +537,6 @@ function playStateUpdate()
 			end
 		end
 
-		-- End the game if the player has collided with their tail
-		if isCollidingWithSnake(nextCoordinates) then
-			switchToEndState()
-		end
-
-		-- Add the new head coordinates
-		table.insert(snakeCoordinates, 1, nextCoordinates)
-
 		-- Position new head sprite and add to sprites array
 		nextSprite = gfx.sprite.new(nextSpriteImage)
 		nextSprite:moveTo(nextCoordinates[1], nextCoordinates[2])
@@ -578,6 +570,17 @@ function playStateUpdate()
 			-- Otherwise don't remove the last segment, and decrement the counter.
 			segmentsToGain -= 1
 		end
+
+		-- End the game if the player has collided with their tail.
+		-- It's important to check this before nextCoordinates is added to snakeCoordinates,
+		-- and after the previous tail segment is removed from snakeCoordinates.
+		if isCollidingWithSnake(nextCoordinates) then
+			switchToEndState()
+			return
+		end
+
+		-- Add the new head coordinates
+		table.insert(snakeCoordinates, 1, nextCoordinates)
 
 		-- End the game if the player has collided with any of the four stage boundaries
 		if wallsEnabled and isCollidingWithStage(snakeCoordinates[1]) then
