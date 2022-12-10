@@ -382,8 +382,6 @@ function titleStateUpdate()
 end
 
 function switchToOptionsState()
-	gfx.sprite.removeAll()
-
 	menuBgm:play(0)
 
 	local backgroundSprite = gfx.sprite.new(optionsScreenImage)
@@ -611,7 +609,8 @@ end
 function endStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonB) then
 		gameOverSound:stop()
-		switchToOptionsState()
+		gfx.sprite.removeAll()
+		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToOptionsState)
 	end
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		gameOverSound:stop()
