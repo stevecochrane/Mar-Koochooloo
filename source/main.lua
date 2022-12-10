@@ -235,11 +235,6 @@ function updateSnakeTail()
 	snakeSprites[#snakeSprites]:setImage(updatedImage)
 end
 
--- A function for clearing existing sprites. This may be expanded upon later.
-function clearGame()
-	gfx.sprite.removeAll()
-end
-
 -- A function to set up our game environment.
 function setUpGame()
 	-- (Re-)initialize snake arrays
@@ -458,7 +453,6 @@ end
 function switchToPlayState()
 	menuBgm:stop()
 	gameStartSound:play()
-	clearGame()
 	setUpGame()
 	gameState = "play"
 end
