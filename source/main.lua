@@ -50,7 +50,6 @@ local titleScreenImage = gfx.image.new("images/title-screen")
 -- Initialize music
 local stageBgm = snd.fileplayer.new()
 local menuBgm = snd.fileplayer.new()
-stageBgm:setVolume("0.5")
 
 -- Initialize sound effects
 local foodSound = snd.sampleplayer.new("sound/instigation-block-clear")
@@ -331,6 +330,7 @@ function setUpGame()
 
 	-- Load main stage background music (this is also needed to start playing from the beginning)
 	stageBgm:load("music/stage-bgm")
+	stageBgm:setVolume("0.5")
 	-- Play and loop forever
 	stageBgm:play(0)
 end
