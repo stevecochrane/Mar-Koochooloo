@@ -372,6 +372,7 @@ end
 
 function titleStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonA) then
+		gameStartSound:play()
 		pressStart:blink()
 		playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
 		playdate.timer.performAfterDelay(stateSwitchFullDuration, switchToOptionsState)
