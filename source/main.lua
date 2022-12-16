@@ -344,7 +344,7 @@ function startGame()
 	pressStart:moveTo(0, 160)
 	pressStart:addSprite()
 
-	menuBgm:load("music/game-song-2")
+	menuBgm:load("music/menu-bgm")
 	menuBgm:setVolume("0.5")
 	menuBgm:play(0)
 end
