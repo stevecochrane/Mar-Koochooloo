@@ -546,7 +546,7 @@ function playStateUpdate()
 		updateSnakeHead()
 
 		-- Check if player has eaten the food
-		if snakeCoordinates[1][1] == foodSprite.x and snakeCoordinates[1][2] == foodSprite.y then
+		if nextCoordinates[1] == foodSprite.x and nextCoordinates[2] == foodSprite.y then
 			foodSound:play()
 			repositionFood()
 			segmentsToGain = segmentsGainedWhenEating
