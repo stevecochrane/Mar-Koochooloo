@@ -51,7 +51,6 @@ local titleScreenImage = gfx.image.new("images/title-screen")
 local stageBgm = snd.fileplayer.new()
 local menuBgm = snd.fileplayer.new()
 stageBgm:setVolume("0.5")
-menuBgm:setVolume("0.5")
 
 -- Initialize sound effects
 local foodSound = snd.sampleplayer.new("sound/instigation-block-clear")
@@ -110,6 +109,7 @@ local gameState = "title"
 local stateSwitchAnimationDuration = 1800
 local stateSwitchPauseDuration = 600
 local stateSwitchFullDuration = stateSwitchAnimationDuration + stateSwitchPauseDuration
+local stateSwitchFullDurationSeconds = stateSwitchFullDuration / 1000
 
 -- User preferences
 local speed = nil
@@ -345,6 +345,7 @@ function startGame()
 	pressStart:addSprite()
 
 	menuBgm:load("music/game-song-2")
+	menuBgm:setVolume("0.5")
 	menuBgm:play(0)
 end
 
@@ -378,6 +379,7 @@ function titleStateUpdate()
 end
 
 function switchToOptionsState()
+	menuBgm:setVolume("0.5")
 	menuBgm:play(0)
 
 	local backgroundSprite = gfx.sprite.new(optionsScreenImage)
@@ -446,6 +448,8 @@ function optionsStateUpdate()
 
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		pressStart:blink()
+		menuBgm:setVolume("0.0", "0.0", stateSwitchFullDurationSeconds);
+		gameStartSound:play()
 		playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
 		playdate.timer.performAfterDelay(stateSwitchFullDuration, switchToPlayState)
 	end
@@ -453,7 +457,6 @@ end
 
 function switchToPlayState()
 	menuBgm:stop()
-	gameStartSound:play()
 	setUpGame()
 	gameState = "play"
 end
