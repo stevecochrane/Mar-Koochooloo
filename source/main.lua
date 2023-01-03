@@ -13,6 +13,10 @@ import "walls"
 local gfx <const> = playdate.graphics
 local snd <const> = playdate.sound
 
+local systemMenu = playdate.getSystemMenu()
+local systemMenuItemNewGame;
+local systemMenuItemOptions;
+
 -- Native display resolution for the Playdate
 local screenWidth = 400
 local screenHeight = 240
@@ -232,6 +236,20 @@ function updateSnakeTail()
 	end
 
 	snakeSprites[#snakeSprites]:setImage(updatedImage)
+end
+
+function addPlayStateSystemMenuItems()
+	systemMenuItemNewGame = systemMenu:addMenuItem("New Game", function()
+		print("New Game selected")
+	end)
+	systemMenuItemOptions = systemMenu:addMenuItem("Options", function()
+		print("Options selected")
+	end)
+end
+
+function removePlayStateSystemMenuItems()
+	systemMenu:removeMenuItem(systemMenuItemNewGame)
+	systemMenu:removeMenuItem(systemMenuItemOptions)
 end
 
 -- A function to set up our game environment.
@@ -458,6 +476,7 @@ end
 
 function switchToPlayState()
 	menuBgm:stop()
+	addPlayStateSystemMenuItems()
 	setUpGame()
 	gameState = "play"
 end
@@ -614,6 +633,7 @@ function endStateUpdate()
 
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		gameOverSound:stop()
+		removePlayStateSystemMenuItems()
 		gfx.sprite.removeAll()
 		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
 	end
