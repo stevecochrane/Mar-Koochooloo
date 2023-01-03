@@ -239,17 +239,20 @@ function updateSnakeTail()
 end
 
 function addPlayStateSystemMenuItems()
+	systemMenu:removeAllMenuItems()
+
 	systemMenuItemNewGame = systemMenu:addMenuItem("New Game", function()
-		print("New Game selected")
+		moveTimer:remove()
+		stageBgm:stop()
+		gfx.sprite.removeAll()
+		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
 	end)
 	systemMenuItemOptions = systemMenu:addMenuItem("Options", function()
-		print("Options selected")
+		moveTimer:remove()
+		stageBgm:stop()
+		gfx.sprite.removeAll()
+		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToOptionsState)
 	end)
-end
-
-function removePlayStateSystemMenuItems()
-	systemMenu:removeMenuItem(systemMenuItemNewGame)
-	systemMenu:removeMenuItem(systemMenuItemOptions)
 end
 
 -- A function to set up our game environment.
@@ -422,6 +425,8 @@ function switchToOptionsState()
 	walls = Walls()
 	walls:setEnabled(wallsEnabled)
 	walls:addSprite()
+
+	systemMenu:removeAllMenuItems()
 
 	gameState = "options"
 end
@@ -633,7 +638,6 @@ function endStateUpdate()
 
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		gameOverSound:stop()
-		removePlayStateSystemMenuItems()
 		gfx.sprite.removeAll()
 		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
 	end
