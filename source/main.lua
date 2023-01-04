@@ -488,7 +488,7 @@ end
 
 function playStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonUp) then
-		if (playerDirection ~= "down") then
+		if playerDirection ~= "down" then
 			playerDirectionBuffer = "up"
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonRight) then
