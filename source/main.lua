@@ -120,6 +120,9 @@ local lastLevel = 8
 local foodGoal = 10
 local foodRemaining = nil
 
+local freeRoam = true
+local justPressedButton = false
+
 function isCollidingWithSnake(coordinates)
 	local collided = false
 
@@ -470,22 +473,26 @@ function playStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonUp) then
 		if playerDirection ~= "down" then
 			playerDirectionBuffer = "up"
+			justPressedButton = true
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonRight) then
 		if playerDirection ~= "left" then
 			playerDirectionBuffer = "right"
+			justPressedButton = true
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonDown) then
 		if playerDirection ~= "up" then
 			playerDirectionBuffer = "down"
+			justPressedButton = true
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
 		if playerDirection ~= "right" then
 			playerDirectionBuffer = "left"
+			justPressedButton = true
 		end
 	end
 
-	if (moveTimer.frame == playerMoveInterval) then
+	if ((freeRoam == false and moveTimer.frame == playerMoveInterval) or (freeRoam == true and justPressedButton == true)) then
 		-- Initialize coordinates for next snake segment at position of current head
 		local nextCoordinates = {snakeCoordinates[1][1], snakeCoordinates[1][2]}
 		local nextSprite = nil
@@ -606,6 +613,8 @@ function playStateUpdate()
 			switchToEndState()
 		end
 	end
+
+	justPressedButton = false
 end
 
 function switchToEndState()
