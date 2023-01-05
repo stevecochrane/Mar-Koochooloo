@@ -113,6 +113,7 @@ local stateSwitchAnimationDuration = 1800
 local stateSwitchPauseDuration = 600
 local stateSwitchFullDuration = stateSwitchAnimationDuration + stateSwitchPauseDuration
 local stateSwitchFullDurationSeconds = stateSwitchFullDuration / 1000
+local stateSwitchInProgress = false
 
 -- User preferences
 local speed = nil
@@ -245,12 +246,15 @@ function addPlayStateSystemMenuItems()
 		moveTimer:remove()
 		stageBgm:stop()
 		gfx.sprite.removeAll()
+		stateSwitchInProgress = true
 		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
 	end)
+
 	systemMenuItemOptions = systemMenu:addMenuItem("Options", function()
 		moveTimer:remove()
 		stageBgm:stop()
 		gfx.sprite.removeAll()
+		stateSwitchInProgress = true
 		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToOptionsState)
 	end)
 end
@@ -392,15 +396,17 @@ function playdate.update()
 end
 
 function titleStateUpdate()
-	if playdate.buttonJustPressed(playdate.kButtonA) then
+	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonA) then
 		gameStartSound:play()
 		pressStart:blink()
+		stateSwitchInProgress = true
 		playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
 		playdate.timer.performAfterDelay(stateSwitchFullDuration, switchToOptionsState)
 	end
 end
 
 function switchToOptionsState()
+	stateSwitchInProgress = false
 	menuBgm:setVolume("0.5")
 	menuBgm:play(0)
 
@@ -470,16 +476,18 @@ function optionsStateUpdate()
 		end
 	end
 
-	if playdate.buttonJustPressed(playdate.kButtonA) then
+	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonA) then
 		pressStart:blink()
 		menuBgm:setVolume("0.0", "0.0", stateSwitchFullDurationSeconds);
 		gameStartSound:play()
+		stateSwitchInProgress = true
 		playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
 		playdate.timer.performAfterDelay(stateSwitchFullDuration, switchToPlayState)
 	end
 end
 
 function switchToPlayState()
+	stateSwitchInProgress = false
 	menuBgm:stop()
 	addPlayStateSystemMenuItems()
 	setUpGame()
@@ -630,15 +638,19 @@ function showGameOverScreen()
 end
 
 function endStateUpdate()
-	if playdate.buttonJustPressed(playdate.kButtonB) then
-		gameOverSound:stop()
-		gfx.sprite.removeAll()
-		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToOptionsState)
-	end
+	if stateSwitchInProgress == false then
+		if playdate.buttonJustPressed(playdate.kButtonB) then
+			gameOverSound:stop()
+			gfx.sprite.removeAll()
+			stateSwitchInProgress = true
+			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToOptionsState)
+		end
 
-	if playdate.buttonJustPressed(playdate.kButtonA) then
-		gameOverSound:stop()
-		gfx.sprite.removeAll()
-		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
+		if playdate.buttonJustPressed(playdate.kButtonA) then
+			gameOverSound:stop()
+			gfx.sprite.removeAll()
+			stateSwitchInProgress = true
+			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
+		end
 	end
 end
