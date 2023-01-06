@@ -1,4 +1,6 @@
 *.pdx
+*.tiled-project
+*.tiled-session
 design-materials
 source/music
 source/sound
