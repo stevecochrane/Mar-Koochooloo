@@ -37,7 +37,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"walls.tsx"
+         "source":"walls.xml"
         }],
  "tilewidth":16,
  "type":"map",
