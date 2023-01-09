@@ -36,8 +36,17 @@
  "tileheight":16,
  "tilesets":[
         {
+         "columns":2,
          "firstgid":1,
-         "source":"walls.xml"
+         "image":"walls-sprite.png",
+         "imageheight":16,
+         "imagewidth":32,
+         "margin":0,
+         "name":"walls",
+         "spacing":0,
+         "tilecount":2,
+         "tileheight":16,
+         "tilewidth":16
         }],
  "tilewidth":16,
  "type":"map",
