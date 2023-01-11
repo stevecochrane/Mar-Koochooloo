@@ -1,4 +1,4 @@
-function loadJsonData(levelJsonFilePath)
+function loadLevelJsonData(levelJsonFilePath)
 	local levelData = nil
 	local file = playdate.file.open(levelJsonFilePath)
 
