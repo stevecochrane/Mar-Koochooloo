@@ -1,3 +1,39 @@
+local function getWallsLayer(levelData)
+	local layers = levelData.layers
+	local wallsLayer = nil
+
+	for i = 1, #layers do
+		if layers[i].name == "walls" then
+			wallsLayer = layers[i]
+		end
+	end
+
+	if not wallsLayer then
+		print('ERROR LOCATING WALLS LAYER IN LEVEL DATA')
+		return nil
+	end
+
+	return wallsLayer
+end
+
+local function getWallsTileset(levelData)
+	local tilesets = levelData.tilesets
+	local wallsTileset = nil
+
+	for i = 1, #tilesets do
+		if tilesets[i].name == "walls" then
+			wallsTileset = tilesets[i]
+		end
+	end
+
+	if not wallsTileset then
+		print('ERROR LOCATING WALLS TILESET IN LEVEL DATA')
+		return nil
+	end
+
+	return wallsTileset
+end
+
 function loadLevelJsonData(levelJsonFilePath)
 	local levelData = nil
 	local file = playdate.file.open(levelJsonFilePath)
@@ -24,18 +60,12 @@ function loadLevelJsonData(levelJsonFilePath)
 end
 
 function getWallLocations(levelData)
-	local layers = levelData.layers
-	local wallsLayer = nil
 	local wallLocations = {}
 
-	for i = 1, #layers do
-		if layers[i].name == "walls" then
-			wallsLayer = layers[i]
-		end
-	end
+	local wallsLayer = getWallsLayer(levelData)
+	local wallsTileset = getWallsTileset(levelData)
 
-	if not wallsLayer then
-		print('ERROR LOCATING WALLS LAYER IN LEVEL DATA')
+	if wallsLayer == nil or wallsTileset == nil then
 		return nil
 	end
 
@@ -43,9 +73,8 @@ function getWallLocations(levelData)
 	local rows = wallsLayer.height
 	local columns = wallsLayer.width
 
-	-- TODO: Get these from the tilemap later
-	local tileHeight = 16
-	local tileWidth = 16
+	local tileHeight = wallsTileset.tileheight
+	local tileWidth = wallsTileset.tilewidth
 
 	-- TODO: Iterate from 0 rather than from 1?
 	for row = 1, rows do
@@ -63,22 +92,4 @@ function getWallLocations(levelData)
 	end
 
 	return wallLocations
-end
-
-local function getWallTilemap(levelData)
-	local tilesets = levelData.tilesets
-	local wallsTileset = nil
-
-	for i = 1, #tilesets do
-		if tilesets[i].name = "walls" then
-			wallsTileset = tilesets[i]
-		end
-	end
-
-	if not wallsTileset then
-		print('ERROR LOCATING WALLS TILESET IN LEVEL DATA')
-		return nil
-	end
-
-	return wallsTileset
 end
