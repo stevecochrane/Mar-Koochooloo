@@ -8,6 +8,7 @@ import "CoreLibs/timer"
 import "foodEaten"
 import "pressStart"
 import "speed"
+import "tilemap"
 import "walls"
 
 local gfx <const> = playdate.graphics
@@ -47,9 +48,8 @@ local snakeTailDownImage = gfx.image.new("images/snake-tail-down")
 local snakeTailLeftImage = gfx.image.new("images/snake-tail-left")
 local snakeTailRightImage = gfx.image.new("images/snake-tail-right")
 local snakeTailUpImage = gfx.image.new("images/snake-tail-up")
-local stageWithWallsImage = gfx.image.new("images/stage-with-walls")
-local stageWithoutWallsImage = gfx.image.new("images/stage-without-walls")
 local titleScreenImage = gfx.image.new("images/title-screen")
+local wallImage = gfx.image.new("images/wall")
 
 -- Initialize music
 local stageBgm = snd.fileplayer.new()
@@ -339,19 +339,17 @@ function setUpGame()
 	repositionFood()
 	foodSprite:add()
 
-	gfx.sprite.setBackgroundDrawingCallback(
-		function(x, y, width, height)
-			gfx.setClipRect(x, y, width, height) -- let's only draw the part of the screen that's dirty
+	if wallsEnabled then
+		local levelData = loadLevelJsonData("tilemaps/level-1.json")
+		local wallLocations = getWallLocations(levelData)
 
-			if wallsEnabled then
-				stageWithWallsImage:draw(0, 0)
-			else
-				stageWithoutWallsImage:draw(0,0)
-			end
-
-			gfx.clearClipRect() -- clear so we don't interfere with drawing that comes after this
+		for i = 1, #wallLocations do
+			local wallSprite = gfx.sprite.new(wallImage)
+			wallSprite:setCenter(0, 0)
+			wallSprite:moveTo(wallLocations[i][1], wallLocations[i][2])
+			wallSprite:add()
 		end
-	)
+	end
 
 	-- Load main stage background music (this is also needed to start playing from the beginning)
 	stageBgm:load("music/stage-bgm")
