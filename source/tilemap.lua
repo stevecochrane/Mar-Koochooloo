@@ -64,3 +64,21 @@ function getWallLocations(levelData)
 
 	return wallLocations
 end
+
+local function getWallTilemap(levelData)
+	local tilesets = levelData.tilesets
+	local wallsTileset = nil
+
+	for i = 1, #tilesets do
+		if tilesets[i].name = "walls" then
+			wallsTileset = tilesets[i]
+		end
+	end
+
+	if not wallsTileset then
+		print('ERROR LOCATING WALLS TILESET IN LEVEL DATA')
+		return nil
+	end
+
+	return wallsTileset
+end
