@@ -340,8 +340,8 @@ function setUpGame()
 	foodSprite:add()
 
 	if wallsEnabled then
-		local levelData = loadLevelJsonData("tilemaps/level-1.json")
-		local wallLocations = getWallLocations(levelData)
+		local levelData = Tilemap:loadLevelJsonData("tilemaps/level-1.json")
+		local wallLocations = Tilemap:getWallLocations(levelData)
 
 		for i = 1, #wallLocations do
 			local wallSprite = gfx.sprite.new(wallImage)

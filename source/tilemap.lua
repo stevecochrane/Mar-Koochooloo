@@ -1,3 +1,5 @@
+Tilemap = {}
+
 local function getWallsLayer(levelData)
 	local layers = levelData.layers
 	local wallsLayer = nil
@@ -34,7 +36,7 @@ local function getWallsTileset(levelData)
 	return wallsTileset
 end
 
-function loadLevelJsonData(levelJsonFilePath)
+function Tilemap:loadLevelJsonData(levelJsonFilePath)
 	local levelData = nil
 	local file = playdate.file.open(levelJsonFilePath)
 
@@ -59,7 +61,7 @@ function loadLevelJsonData(levelJsonFilePath)
 	return jsonTable
 end
 
-function getWallLocations(levelData)
+function Tilemap:getWallLocations(levelData)
 	local wallLocations = {}
 
 	local wallsLayer = getWallsLayer(levelData)
