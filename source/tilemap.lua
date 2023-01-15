@@ -84,10 +84,6 @@ function Tilemap:getWallLocations(levelData)
 			local index = column + ((row - 1) * columns)
 			if wallsData[index] == 2 then
 				local wallLocation = {(column - 1) * tileWidth, (row - 1) * tileHeight}
-				if row == 2 then
-					print('X' .. (column - 1) * tileWidth)
-					print('Y' .. (row - 1) * tileHeight)
-				end
 				table.insert(wallLocations, 1, wallLocation)
 			end
 		end
