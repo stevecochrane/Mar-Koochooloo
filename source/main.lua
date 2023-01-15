@@ -79,12 +79,6 @@ local speedSettingMax = 10
 -- We'll check this on every frame to determine if it's time to move.
 local moveTimer = nil
 
--- If the player collides with one of these, game over.
-local leftBoundary = 0 + tileSize
-local rightBoundary = screenWidth - tileSize
-local topBoundary = 0 + tileSize
-local bottomBoundary = screenHeight - tileSize
-
 -- Stores coordinates (e.g. {x, y}) for each segment of the snake.
 local snakeCoordinates = nil
 
@@ -125,6 +119,8 @@ local foodEatenCount = nil
 -- Shared variable for PressStart instances
 local pressStart = nil
 
+local wallSpriteCoordinates = nil
+
 function isCollidingWithSnake(coordinates)
 	local collided = false
 
@@ -141,8 +137,11 @@ end
 function isCollidingWithStage(coordinates)
 	local collided = false
 
-	if coordinates[1] <= leftBoundary or coordinates[1] >= rightBoundary or coordinates[2] <= topBoundary or coordinates[2] >= bottomBoundary then
-		collided = true
+	for i = 1, #wallSpriteCoordinates do
+		if wallSpriteCoordinates[i][1] == coordinates[1] and wallSpriteCoordinates[i][2] == coordinates[2] then
+			collided = true
+			break
+		end
 	end
 
 	return collided
@@ -152,26 +151,22 @@ function repositionFood()
 	local newX = nil
 	local newY = nil
 	local hasCollidedWithSnake = nil
+	local hasCollidedWithStage = nil
 
 	repeat
-		if optionsWallsEnabled then
-			newX = math.random(leftBoundary, rightBoundary - 1)
-			newY = math.random(topBoundary, bottomBoundary - 1)
-		else
-			newX = math.random(0, screenWidth - 1)
-			newY = math.random(0, screenHeight - 1)
-		end
+		newX = math.random(0, screenWidth - 1)
+		newY = math.random(0, screenHeight - 1)
 
-		-- Round down to a multiple of tileSize, then add half of tileSize
-		-- since sprite position is the center of the sprite.
-		newX = newX - (newX % tileSize) + (tileSize / 2)
-		newY = newY - (newY % tileSize) + (tileSize / 2)
+		-- Round down to a multiple of tileSize
+		newX = newX - (newX % tileSize)
+		newY = newY - (newY % tileSize)
 
-		-- Check if new food position collides with any part of snake
+		-- Check if new food position collides with any part of snake or stage
 		hasCollidedWithSnake = isCollidingWithSnake({newX, newY})
+		hasCollidedWithStage = isCollidingWithStage({newX, newY})
 
 	-- Repeat the above until the food is not on the same tile as the player
-	until hasCollidedWithSnake == false
+	until hasCollidedWithSnake == false and hasCollidedWithStage == false
 
 	-- We have our new food position, move food sprite there
 	foodSprite:moveTo(newX, newY)
@@ -277,16 +272,15 @@ function setUpGame()
 	-- (Re-)initialize other variables
 	foodEatenCount = 0
 	segmentsToGain = 0
+	wallSpriteCoordinates = {}
 
 	-- 400 / 16 = 25 vertical columns
 	-- 12 * 16 = 192 for middle column
-	-- 192 + 8 for half of sprite width = 200
-	local startingX = 200
+	local startingX = 192
 
 	-- 240 / 16 = 15 horizontal rows
 	-- 7 * 16 = 112 for middle row
-	-- 112 + 8 for half of sprite height = 120
-	local startingY = 120
+	local startingY = 112
 
 	for i = 1, startingSnakeSegments do
 		-- Add the point to snakeCoordinates
@@ -324,6 +318,7 @@ function setUpGame()
 
 		-- Add the current sprite to snakeSprites
 		playerSprite = gfx.sprite.new(segmentImage)
+		playerSprite:setCenter(0, 0)
 		playerSprite:moveTo(startingX, startingY)
 		playerSprite:add()
 		table.insert(snakeSprites, playerSprite)
@@ -335,21 +330,27 @@ function setUpGame()
 		startingX = startingX - tileSize
 	end
 
-	foodSprite = gfx.sprite.new(foodImage)
-	repositionFood()
-	foodSprite:add()
-
 	if optionsWallsEnabled then
 		local levelData = Tilemap:loadLevelJsonData("tilemaps/level-1.json")
 		local wallLocations = Tilemap:getWallLocations(levelData)
 
 		for i = 1, #wallLocations do
 			local wallSprite = gfx.sprite.new(wallImage)
+			local wallSpriteX = wallLocations[i][1]
+			local wallSpriteY = wallLocations[i][2]
 			wallSprite:setCenter(0, 0)
-			wallSprite:moveTo(wallLocations[i][1], wallLocations[i][2])
+			wallSprite:moveTo(wallSpriteX, wallSpriteY)
 			wallSprite:add()
+			table.insert(wallSpriteCoordinates, {wallSpriteX, wallSpriteY})
 		end
 	end
+
+	-- Add food sprite. Note this needs to happen after walls are added! If food is added first,
+	-- then a wall might be added on top of the food, making the game is unwinnable.
+	foodSprite = gfx.sprite.new(foodImage)
+	foodSprite:setCenter(0, 0)
+	repositionFood()
+	foodSprite:add()
 
 	-- Load main stage background music (this is also needed to start playing from the beginning)
 	stageBgm:load("music/stage-bgm")
@@ -566,6 +567,7 @@ function playStateUpdate()
 
 		-- Position new head sprite and add to sprites array
 		nextSprite = gfx.sprite.new(nextSpriteImage)
+		nextSprite:setCenter(0, 0)
 		nextSprite:moveTo(nextCoordinates[1], nextCoordinates[2])
 		nextSprite:add()
 		table.insert(snakeSprites, 1, nextSprite)
