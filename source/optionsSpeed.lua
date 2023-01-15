@@ -4,10 +4,10 @@ local appleImage = gfx.image.new("images/apple")
 local arrowLeftImage = gfx.image.new("images/arrow-left")
 local arrowRightImage = gfx.image.new("images/arrow-right")
 
-class("Speed").extends(gfx.sprite)
+class("OptionsSpeed").extends(gfx.sprite)
 
-function Speed:init()
-	Speed.super.init(self)
+function OptionsSpeed:init()
+	OptionsSpeed.super.init(self)
 
 	self.appleSprite = nil
 	self.selected = false
@@ -29,12 +29,12 @@ function Speed:init()
 	self.arrowRightSprite:add()
 end
 
-function Speed:setSpeed(newSpeed)
+function OptionsSpeed:setSpeed(newSpeed)
 	self.speed = newSpeed
 	self:markDirty()
 end
 
-function Speed:select()
+function OptionsSpeed:select()
 	self.selected = true
 
 	self.appleSprite = gfx.sprite.new(appleImage)
@@ -45,7 +45,7 @@ function Speed:select()
 	self:markDirty()
 end
 
-function Speed:deselect()
+function OptionsSpeed:deselect()
 	self.selected = false
 
 	self.appleSprite:remove()
@@ -53,7 +53,7 @@ function Speed:deselect()
 	self:markDirty()
 end
 
-function Speed:draw()
+function OptionsSpeed:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
 
 	-- Draw "Speed" label text

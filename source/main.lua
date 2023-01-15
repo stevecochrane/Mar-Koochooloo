@@ -6,10 +6,10 @@ import "CoreLibs/sprites"
 import "CoreLibs/timer"
 
 import "foodEaten"
+import "optionsSpeed"
+import "optionsWalls"
 import "pressStart"
-import "speed"
 import "tilemap"
-import "walls"
 
 local gfx <const> = playdate.graphics
 local snd <const> = playdate.sound
@@ -98,7 +98,7 @@ local snakeDirections = nil
 local startingSnakeSegments = 3
 
 -- This is configurable in the options screen.
-local wallsEnabled = true
+local optionsWallsEnabled = true
 
 -- This is internally configurable for testing.
 local segmentsGainedWhenEating = 3
@@ -116,8 +116,8 @@ local stateSwitchFullDurationSeconds = stateSwitchFullDuration / 1000
 local stateSwitchInProgress = false
 
 -- User preferences
-local speed = nil
-local walls = nil
+local optionsSpeed = nil
+local optionsWalls = nil
 
 -- Store how many pieces of food are eaten per game
 local foodEatenCount = nil
@@ -154,7 +154,7 @@ function repositionFood()
 	local hasCollidedWithSnake = nil
 
 	repeat
-		if wallsEnabled then
+		if optionsWallsEnabled then
 			newX = math.random(leftBoundary, rightBoundary - 1)
 			newY = math.random(topBoundary, bottomBoundary - 1)
 		else
@@ -339,7 +339,7 @@ function setUpGame()
 	repositionFood()
 	foodSprite:add()
 
-	if wallsEnabled then
+	if optionsWallsEnabled then
 		local levelData = Tilemap:loadLevelJsonData("tilemaps/level-1.json")
 		local wallLocations = Tilemap:getWallLocations(levelData)
 
@@ -421,14 +421,14 @@ function switchToOptionsState()
 		playerMoveInterval = speedSettingMap[speedSetting]
 	end
 
-	speed = Speed()
-	speed:setSpeed(speedSetting)
-	speed:select()
-	speed:addSprite()
+	optionsSpeed = OptionsSpeed()
+	optionsSpeed:setSpeed(speedSetting)
+	optionsSpeed:select()
+	optionsSpeed:addSprite()
 
-	walls = Walls()
-	walls:setEnabled(wallsEnabled)
-	walls:addSprite()
+	optionsWalls = OptionsWalls()
+	optionsWalls:setEnabled(optionsWallsEnabled)
+	optionsWalls:addSprite()
 
 	systemMenu:removeAllMenuItems()
 
@@ -437,40 +437,40 @@ end
 
 function optionsStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonLeft) then
-		if speed.selected == true and speedSetting > speedSettingMin then
+		if optionsSpeed.selected == true and speedSetting > speedSettingMin then
 			clickSound:play()
 			speedSetting -= 1
 			playerMoveInterval = speedSettingMap[speedSetting]
-			speed:setSpeed(speedSetting)
-		elseif walls.selected == true then
+			optionsSpeed:setSpeed(speedSetting)
+		elseif optionsWalls.selected == true then
 			clickSound:play()
-			wallsEnabled = not wallsEnabled
-			walls:toggle()
+			optionsWallsEnabled = not optionsWallsEnabled
+			optionsWalls:toggle()
 		end
 	end
 
 	if playdate.buttonJustPressed(playdate.kButtonRight) then
-		if speed.selected == true and speedSetting < speedSettingMax then
+		if optionsSpeed.selected == true and speedSetting < speedSettingMax then
 			clickSound:play()
 			speedSetting += 1
 			playerMoveInterval = speedSettingMap[speedSetting]
-			speed:setSpeed(speedSetting)
-		elseif walls.selected == true then
+			optionsSpeed:setSpeed(speedSetting)
+		elseif optionsWalls.selected == true then
 			clickSound:play()
-			wallsEnabled = not wallsEnabled
-			walls:toggle()
+			optionsWallsEnabled = not optionsWallsEnabled
+			optionsWalls:toggle()
 		end
 	end
 
 	if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonDown) then
-		if speed.selected == true then
+		if optionsSpeed.selected == true then
 			clickSound:play()
-			speed:deselect()
-			walls:select()
-		elseif walls.selected == true then
+			optionsSpeed:deselect()
+			optionsWalls:select()
+		elseif optionsWalls.selected == true then
 			clickSound:play()
-			speed:select()
-			walls:deselect()
+			optionsSpeed:select()
+			optionsWalls:deselect()
 		end
 	end
 
@@ -550,8 +550,8 @@ function playStateUpdate()
 			nextSpriteImage = snakeHeadLeftImage
 		end
 
-		-- Allow wrapping to the other side of the screen when walls are disabled
-		if not wallsEnabled then
+		-- Allow wrapping to the other side of the screen when optionsWalls are disabled
+		if not optionsWallsEnabled then
 			if nextCoordinates[2] < 0 then
 				nextCoordinates[2] += screenHeight
 			elseif nextCoordinates[2] > screenHeight then
@@ -610,7 +610,7 @@ function playStateUpdate()
 		table.insert(snakeCoordinates, 1, nextCoordinates)
 
 		-- End the game if the player has collided with any of the four stage boundaries
-		if wallsEnabled and isCollidingWithStage(snakeCoordinates[1]) then
+		if optionsWallsEnabled and isCollidingWithStage(snakeCoordinates[1]) then
 			switchToEndState()
 		end
 	end

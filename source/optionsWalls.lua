@@ -4,10 +4,10 @@ local appleImage = gfx.image.new("images/apple")
 local radioNotSelectedImage = gfx.image.new("images/radio-not-selected")
 local radioSelectedImage = gfx.image.new("images/radio-selected")
 
-class("Walls").extends(gfx.sprite)
+class("OptionsWalls").extends(gfx.sprite)
 
-function Walls:init()
-	Walls.super.init(self)
+function OptionsWalls:init()
+	OptionsWalls.super.init(self)
 
 	self.appleSprite = nil
 	self.enabled = true
@@ -32,17 +32,17 @@ function Walls:init()
 	self.radioNoSprite:add()
 end
 
-function Walls:setEnabled(newEnabled)
+function OptionsWalls:setEnabled(newEnabled)
 	self.enabled = newEnabled
 	self:updateDisplay()
 end
 
-function Walls:toggle()
+function OptionsWalls:toggle()
 	self.enabled = not self.enabled
 	self:updateDisplay()
 end
 
-function Walls:updateDisplay()
+function OptionsWalls:updateDisplay()
 	if self.enabled == true then
 		self.radioYesSprite:setImage(radioSelectedImage)
 		self.radioNoSprite:setImage(radioNotSelectedImage)
@@ -54,7 +54,7 @@ function Walls:updateDisplay()
 	self:markDirty()
 end
 
-function Walls:select()
+function OptionsWalls:select()
 	self.selected = true
 
 	self.appleSprite = gfx.sprite.new(appleImage)
@@ -65,7 +65,7 @@ function Walls:select()
 	self:markDirty()
 end
 
-function Walls:deselect()
+function OptionsWalls:deselect()
 	self.selected = false
 
 	self.appleSprite:remove()
@@ -73,10 +73,10 @@ function Walls:deselect()
 	self:markDirty()
 end
 
-function Walls:draw()
+function OptionsWalls:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
 
-	-- Draw "Speed" label text
+	-- Draw "Walls" label text
 	gfx.drawText("Walls", 24, 0)
 
 	-- Draw "Yes" and "No" label text
