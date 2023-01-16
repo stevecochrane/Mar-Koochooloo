@@ -346,7 +346,7 @@ function setUpGame()
 	end
 
 	-- Add food sprite. Note this needs to happen after walls are added! If food is added first,
-	-- then a wall might be added on top of the food, making the game is unwinnable.
+	-- then a wall might be added on top of the food, making the game unwinnable.
 	foodSprite = gfx.sprite.new(foodImage)
 	foodSprite:setCenter(0, 0)
 	repositionFood()
