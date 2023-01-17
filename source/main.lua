@@ -121,6 +121,10 @@ local pressStart = nil
 
 local wallSpriteCoordinates = nil
 
+local currentLevel = 1
+local foodGoal = 10
+local foodRemaining = nil
+
 function isCollidingWithSnake(coordinates)
 	local collided = false
 
@@ -273,6 +277,7 @@ function setUpGame()
 	foodEatenCount = 0
 	segmentsToGain = 0
 	wallSpriteCoordinates = {}
+	foodRemaining = foodGoal
 
 	-- 400 / 16 = 25 vertical columns
 	-- 12 * 16 = 192 for middle column
@@ -383,6 +388,8 @@ function playdate.update()
 		optionsStateUpdate()
 	elseif gameState == "play" then
 		playStateUpdate()
+	elseif gameState == "win" then
+		winStateUpdate()
 	elseif gameState == "end" then
 		endStateUpdate()
 	end
@@ -580,8 +587,16 @@ function playStateUpdate()
 
 		-- Check if player has eaten the food
 		if nextCoordinates[1] == foodSprite.x and nextCoordinates[2] == foodSprite.y then
-			foodSound:play()
-			repositionFood()
+			foodRemaining -= 1
+			print("foodRemaining " .. foodRemaining)
+
+			if foodRemaining == 0 then
+				foodSprite:remove()
+			else
+				foodSound:play()
+				repositionFood()
+			end
+
 			segmentsToGain = segmentsGainedWhenEating
 			foodEatenCount += 1
 		end
@@ -611,7 +626,13 @@ function playStateUpdate()
 		-- Add the new head coordinates
 		table.insert(snakeCoordinates, 1, nextCoordinates)
 
-		-- End the game if the player has collided with any of the four stage boundaries
+		-- End the stage if the player has eaten enough food to meet the goal
+		if foodRemaining == 0 then
+			switchToWinState()
+			return
+		end
+
+		-- End the stage if the player has collided with any of the walls
 		if optionsWallsEnabled and isCollidingWithStage(snakeCoordinates[1]) then
 			switchToEndState()
 		end
@@ -648,6 +669,21 @@ function endStateUpdate()
 
 		if playdate.buttonJustPressed(playdate.kButtonA) then
 			gameOverSound:stop()
+			gfx.sprite.removeAll()
+			stateSwitchInProgress = true
+			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
+		end
+	end
+end
+
+function switchToWinState()
+	stageBgm:stop()
+	gameState = "win"
+end
+
+function winStateUpdate()
+	if stateSwitchInProgress == false then
+		if playdate.buttonJustPressed(playdate.kButtonA) then
 			gfx.sprite.removeAll()
 			stateSwitchInProgress = true
 			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
