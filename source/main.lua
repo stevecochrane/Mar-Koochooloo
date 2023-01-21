@@ -122,6 +122,7 @@ local pressStart = nil
 local wallSpriteCoordinates = nil
 
 local currentLevel = 1
+local lastLevel = 2
 local foodGoal = 10
 local foodRemaining = nil
 
@@ -336,7 +337,7 @@ function setUpGame()
 	end
 
 	if optionsWallsEnabled then
-		local levelData = Tilemap:loadLevelJsonData("tilemaps/level-1.json")
+		local levelData = Tilemap:loadLevelJsonData("tilemaps/level-" .. currentLevel .. ".json")
 		local wallLocations = Tilemap:getWallLocations(levelData)
 
 		for i = 1, #wallLocations do
@@ -388,6 +389,8 @@ function playdate.update()
 		optionsStateUpdate()
 	elseif gameState == "play" then
 		playStateUpdate()
+	elseif gameState == "nextLevel" then
+		nextLevelUpdate()
 	elseif gameState == "win" then
 		winStateUpdate()
 	elseif gameState == "end" then
@@ -628,7 +631,12 @@ function playStateUpdate()
 
 		-- End the stage if the player has eaten enough food to meet the goal
 		if foodRemaining == 0 then
-			switchToWinState()
+			if currentLevel == lastLevel then
+				switchToWinState()
+			else
+				currentLevel += 1
+				switchToNextLevelState()
+			end
 			return
 		end
 
@@ -669,6 +677,20 @@ function endStateUpdate()
 
 		if playdate.buttonJustPressed(playdate.kButtonA) then
 			gameOverSound:stop()
+			gfx.sprite.removeAll()
+			stateSwitchInProgress = true
+			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
+		end
+	end
+end
+
+function switchToNextLevelState()
+	gameState = "nextLevel"
+end
+
+function nextLevelUpdate()
+	if stateSwitchInProgress == false then
+		if playdate.buttonJustPressed(playdate.kButtonA) then
 			gfx.sprite.removeAll()
 			stateSwitchInProgress = true
 			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
