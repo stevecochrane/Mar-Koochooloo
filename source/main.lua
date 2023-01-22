@@ -634,7 +634,7 @@ function playStateUpdate()
 		end
 
 		-- End the stage if the player has collided with any of the walls
-		if optionsWallsEnabled and isCollidingWithStage(snakeCoordinates[1]) then
+		if isCollidingWithStage(snakeCoordinates[1]) then
 			switchToEndState()
 		end
 	end
