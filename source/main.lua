@@ -7,7 +7,6 @@ import "CoreLibs/timer"
 
 import "foodEaten"
 import "optionsSpeed"
-import "optionsWalls"
 import "pressStart"
 import "tilemap"
 
@@ -90,9 +89,6 @@ local snakeDirections = nil
 -- This may be customizeable later.
 local startingSnakeSegments = 3
 
--- This is configurable in the options screen.
-local optionsWallsEnabled = true
-
 -- This is internally configurable for testing.
 local segmentsGainedWhenEating = 3
 local segmentsToGain = 0
@@ -110,7 +106,6 @@ local stateSwitchInProgress = false
 
 -- User preferences
 local optionsSpeed = nil
-local optionsWalls = nil
 
 -- Store how many pieces of food are eaten per game
 local foodEatenCount = nil
@@ -285,16 +280,14 @@ function setUpGame()
 	local startingX = snakeSpawnLocation[1]
 	local startingY = snakeSpawnLocation[2]
 
-	if optionsWallsEnabled then
-		for i = 1, #wallLocations do
-			local wallSprite = gfx.sprite.new(wallImage)
-			local wallSpriteX = wallLocations[i][1]
-			local wallSpriteY = wallLocations[i][2]
-			wallSprite:setCenter(0, 0)
-			wallSprite:moveTo(wallSpriteX, wallSpriteY)
-			wallSprite:add()
-			table.insert(wallSpriteCoordinates, {wallSpriteX, wallSpriteY})
-		end
+	for i = 1, #wallLocations do
+		local wallSprite = gfx.sprite.new(wallImage)
+		local wallSpriteX = wallLocations[i][1]
+		local wallSpriteY = wallLocations[i][2]
+		wallSprite:setCenter(0, 0)
+		wallSprite:moveTo(wallSpriteX, wallSpriteY)
+		wallSprite:add()
+		table.insert(wallSpriteCoordinates, {wallSpriteX, wallSpriteY})
 	end
 
 	for i = 1, startingSnakeSegments do
@@ -431,10 +424,6 @@ function switchToOptionsState()
 	optionsSpeed:select()
 	optionsSpeed:addSprite()
 
-	optionsWalls = OptionsWalls()
-	optionsWalls:setEnabled(optionsWallsEnabled)
-	optionsWalls:addSprite()
-
 	systemMenu:removeAllMenuItems()
 
 	gameState = "options"
@@ -447,10 +436,6 @@ function optionsStateUpdate()
 			speedSetting -= 1
 			playerMoveInterval = speedSettingMap[speedSetting]
 			optionsSpeed:setSpeed(speedSetting)
-		elseif optionsWalls.selected == true then
-			clickSound:play()
-			optionsWallsEnabled = not optionsWallsEnabled
-			optionsWalls:toggle()
 		end
 	end
 
@@ -460,22 +445,6 @@ function optionsStateUpdate()
 			speedSetting += 1
 			playerMoveInterval = speedSettingMap[speedSetting]
 			optionsSpeed:setSpeed(speedSetting)
-		elseif optionsWalls.selected == true then
-			clickSound:play()
-			optionsWallsEnabled = not optionsWallsEnabled
-			optionsWalls:toggle()
-		end
-	end
-
-	if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonDown) then
-		if optionsSpeed.selected == true then
-			clickSound:play()
-			optionsSpeed:deselect()
-			optionsWalls:select()
-		elseif optionsWalls.selected == true then
-			clickSound:play()
-			optionsSpeed:select()
-			optionsWalls:deselect()
 		end
 	end
 
