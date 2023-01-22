@@ -702,8 +702,9 @@ function winStateUpdate()
 	if stateSwitchInProgress == false then
 		if playdate.buttonJustPressed(playdate.kButtonA) then
 			gfx.sprite.removeAll()
+			currentLevel = 1
 			stateSwitchInProgress = true
-			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
+			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToOptionsState)
 		end
 	end
 end
