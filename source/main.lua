@@ -18,9 +18,8 @@ local systemMenu = playdate.getSystemMenu()
 local systemMenuItemNewGame;
 local systemMenuItemOptions;
 
--- Native display resolution for the Playdate
-local screenWidth = 400
-local screenHeight = 240
+local screenWidth = playdate.display.getWidth()
+local screenHeight = playdate.display.getHeight()
 
 -- Size of each tile on the board (and snake segment, and food)
 local tileSize = 16
