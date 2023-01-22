@@ -280,13 +280,23 @@ function setUpGame()
 	wallSpriteCoordinates = {}
 	foodRemaining = foodGoal
 
-	-- 400 / 16 = 25 vertical columns
-	-- 12 * 16 = 192 for middle column
-	local startingX = 192
+	local levelData = Tilemap:loadLevelJsonData("tilemaps/level-" .. currentLevel .. ".json")
+	local wallLocations = Tilemap:getWallLocations(levelData)
+	local snakeSpawnLocation = Tilemap:getSnakeSpawnLocation(levelData)
+	local startingX = snakeSpawnLocation[1]
+	local startingY = snakeSpawnLocation[2]
 
-	-- 240 / 16 = 15 horizontal rows
-	-- 7 * 16 = 112 for middle row
-	local startingY = 112
+	if optionsWallsEnabled then
+		for i = 1, #wallLocations do
+			local wallSprite = gfx.sprite.new(wallImage)
+			local wallSpriteX = wallLocations[i][1]
+			local wallSpriteY = wallLocations[i][2]
+			wallSprite:setCenter(0, 0)
+			wallSprite:moveTo(wallSpriteX, wallSpriteY)
+			wallSprite:add()
+			table.insert(wallSpriteCoordinates, {wallSpriteX, wallSpriteY})
+		end
+	end
 
 	for i = 1, startingSnakeSegments do
 		-- Add the point to snakeCoordinates
@@ -333,22 +343,7 @@ function setUpGame()
 		table.insert(snakeDirections, playerDirection)
 
 		-- Decrement startingX to put next segment one tile behind
-		startingX = startingX - tileSize
-	end
-
-	if optionsWallsEnabled then
-		local levelData = Tilemap:loadLevelJsonData("tilemaps/level-" .. currentLevel .. ".json")
-		local wallLocations = Tilemap:getWallLocations(levelData)
-
-		for i = 1, #wallLocations do
-			local wallSprite = gfx.sprite.new(wallImage)
-			local wallSpriteX = wallLocations[i][1]
-			local wallSpriteY = wallLocations[i][2]
-			wallSprite:setCenter(0, 0)
-			wallSprite:moveTo(wallSpriteX, wallSpriteY)
-			wallSprite:add()
-			table.insert(wallSpriteCoordinates, {wallSpriteX, wallSpriteY})
-		end
+		startingX -= tileSize
 	end
 
 	-- Add food sprite. Note this needs to happen after walls are added! If food is added first,
