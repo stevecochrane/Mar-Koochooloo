@@ -64,15 +64,16 @@ local gameStartSound = snd.sampleplayer.new("sound/game-start")
 local playerDirection = nil
 local playerDirectionBuffer = nil
 
--- The player will move every time the frameTimer hits this number.
--- Declaring it here also lets us change it later.
-local playerMoveInterval = nil
 -- This is what is displayed to the user for their speed setting.
 local speedSetting = 1
 -- This is the mapping between the above two values.
-local speedSettingMap = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
-local speedSettingMin = 1
+-- The first value is for Free Roam mode and isn't actually used.
+local speedSettingMap = {99, 19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
+local speedSettingMin = 0
 local speedSettingMax = 10
+-- The player will move every time the frameTimer hits this number.
+-- Declaring it here also lets us change it later.
+local playerMoveInterval = speedSettingMap[speedSetting + 1]
 
 -- We'll check this on every frame to determine if it's time to move.
 local moveTimer = nil
@@ -120,7 +121,7 @@ local lastLevel = 8
 local foodGoal = 10
 local foodRemaining = nil
 
-local freeRoam = true
+local freeRoam = false
 local justPressedButton = false
 
 function isCollidingWithSnake(coordinates)
@@ -418,10 +419,6 @@ function switchToOptionsState()
 	pressStart:moveTo(0, 176)
 	pressStart:addSprite()
 
-	if playerMoveInterval == nil then
-		playerMoveInterval = speedSettingMap[speedSetting]
-	end
-
 	optionsSpeed = OptionsSpeed()
 	optionsSpeed:setSpeed(speedSetting)
 	optionsSpeed:select()
@@ -437,7 +434,14 @@ function optionsStateUpdate()
 		if optionsSpeed.selected == true and speedSetting > speedSettingMin then
 			clickSound:play()
 			speedSetting -= 1
-			playerMoveInterval = speedSettingMap[speedSetting]
+
+			if speedSetting == 0 then
+				freeRoam = true
+			else
+				freeRoam = false
+			end
+
+			playerMoveInterval = speedSettingMap[speedSetting + 1]
 			optionsSpeed:setSpeed(speedSetting)
 		end
 	end
@@ -446,7 +450,14 @@ function optionsStateUpdate()
 		if optionsSpeed.selected == true and speedSetting < speedSettingMax then
 			clickSound:play()
 			speedSetting += 1
-			playerMoveInterval = speedSettingMap[speedSetting]
+
+			if speedSetting == 0 then
+				freeRoam = true
+			else
+				freeRoam = false
+			end
+
+			playerMoveInterval = speedSettingMap[speedSetting + 1]
 			optionsSpeed:setSpeed(speedSetting)
 		end
 	end
