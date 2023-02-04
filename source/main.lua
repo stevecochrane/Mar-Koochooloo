@@ -64,15 +64,16 @@ local gameStartSound = snd.sampleplayer.new("sound/game-start")
 local playerDirection = nil
 local playerDirectionBuffer = nil
 
--- The player will move every time the frameTimer hits this number.
--- Declaring it here also lets us change it later.
-local playerMoveInterval = nil
 -- This is what is displayed to the user for their speed setting.
 local speedSetting = 1
 -- This is the mapping between the above two values.
-local speedSettingMap = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
-local speedSettingMin = 1
+-- The first value is for Free Roam mode and isn't actually used.
+local speedSettingMap = {99, 19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
+local speedSettingMin = 0
 local speedSettingMax = 10
+-- The player will move every time the frameTimer hits this number.
+-- Declaring it here also lets us change it later.
+local playerMoveInterval = speedSettingMap[speedSetting + 1]
 
 -- We'll check this on every frame to determine if it's time to move.
 local moveTimer = nil
@@ -119,6 +120,9 @@ local currentLevel = 1
 local lastLevel = 8
 local foodGoal = 10
 local foodRemaining = nil
+
+local freeRoam = false
+local justPressedButton = false
 
 function isCollidingWithSnake(coordinates)
 	local collided = false
@@ -415,10 +419,6 @@ function switchToOptionsState()
 	pressStart:moveTo(0, 176)
 	pressStart:addSprite()
 
-	if playerMoveInterval == nil then
-		playerMoveInterval = speedSettingMap[speedSetting]
-	end
-
 	optionsSpeed = OptionsSpeed()
 	optionsSpeed:setSpeed(speedSetting)
 	optionsSpeed:select()
@@ -434,7 +434,14 @@ function optionsStateUpdate()
 		if optionsSpeed.selected == true and speedSetting > speedSettingMin then
 			clickSound:play()
 			speedSetting -= 1
-			playerMoveInterval = speedSettingMap[speedSetting]
+
+			if speedSetting == 0 then
+				freeRoam = true
+			else
+				freeRoam = false
+			end
+
+			playerMoveInterval = speedSettingMap[speedSetting + 1]
 			optionsSpeed:setSpeed(speedSetting)
 		end
 	end
@@ -443,7 +450,14 @@ function optionsStateUpdate()
 		if optionsSpeed.selected == true and speedSetting < speedSettingMax then
 			clickSound:play()
 			speedSetting += 1
-			playerMoveInterval = speedSettingMap[speedSetting]
+
+			if speedSetting == 0 then
+				freeRoam = true
+			else
+				freeRoam = false
+			end
+
+			playerMoveInterval = speedSettingMap[speedSetting + 1]
 			optionsSpeed:setSpeed(speedSetting)
 		end
 	end
@@ -470,22 +484,26 @@ function playStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonUp) then
 		if playerDirection ~= "down" then
 			playerDirectionBuffer = "up"
+			justPressedButton = true
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonRight) then
 		if playerDirection ~= "left" then
 			playerDirectionBuffer = "right"
+			justPressedButton = true
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonDown) then
 		if playerDirection ~= "up" then
 			playerDirectionBuffer = "down"
+			justPressedButton = true
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
 		if playerDirection ~= "right" then
 			playerDirectionBuffer = "left"
+			justPressedButton = true
 		end
 	end
 
-	if (moveTimer.frame == playerMoveInterval) then
+	if ((freeRoam == false and moveTimer.frame == playerMoveInterval) or (freeRoam == true and justPressedButton == true)) then
 		-- Initialize coordinates for next snake segment at position of current head
 		local nextCoordinates = {snakeCoordinates[1][1], snakeCoordinates[1][2]}
 		local nextSprite = nil
@@ -606,6 +624,8 @@ function playStateUpdate()
 			switchToEndState()
 		end
 	end
+
+	justPressedButton = false
 end
 
 function switchToEndState()
