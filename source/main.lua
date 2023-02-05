@@ -14,8 +14,8 @@ local gfx <const> = playdate.graphics
 local snd <const> = playdate.sound
 
 local systemMenu = playdate.getSystemMenu()
-local systemMenuItemNewGame;
-local systemMenuItemOptions;
+local systemMenuItemNewGame = nil
+local systemMenuItemOptions = nil
 
 local screenWidth = playdate.display.getWidth()
 local screenHeight = playdate.display.getHeight()
@@ -465,7 +465,7 @@ function optionsStateUpdate()
 
 	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonA) then
 		pressStart:blink()
-		menuBgm:setVolume("0.0", "0.0", stateSwitchFullDurationSeconds);
+		menuBgm:setVolume("0.0", "0.0", stateSwitchFullDurationSeconds)
 		gameStartSound:play()
 		stateSwitchInProgress = true
 		playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
