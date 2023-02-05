@@ -484,21 +484,25 @@ end
 function playStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonUp) then
 		if playerDirection ~= "down" then
+			clickSound:play()
 			playerDirectionBuffer = "up"
 			justPressedButton = true
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonRight) then
 		if playerDirection ~= "left" then
+			clickSound:play()
 			playerDirectionBuffer = "right"
 			justPressedButton = true
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonDown) then
 		if playerDirection ~= "up" then
+			clickSound:play()
 			playerDirectionBuffer = "down"
 			justPressedButton = true
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
 		if playerDirection ~= "right" then
+			clickSound:play()
 			playerDirectionBuffer = "left"
 			justPressedButton = true
 		end
