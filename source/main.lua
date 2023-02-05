@@ -54,8 +54,8 @@ local stageBgm = snd.fileplayer.new()
 local menuBgm = snd.fileplayer.new()
 
 -- Initialize sound effects
-local foodSound = snd.sampleplayer.new("sound/instigation-block-clear")
-local clickSound = snd.sampleplayer.new("sound/instigation-move")
+local foodSound = snd.sampleplayer.new("sound/power-up")
+local clickSound = snd.sampleplayer.new("sound/click")
 local gameOverSound = snd.sampleplayer.new("sound/game-over")
 local gameStartSound = snd.sampleplayer.new("sound/game-start")
 
