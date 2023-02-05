@@ -58,6 +58,7 @@ local foodSound = snd.sampleplayer.new("sound/power-up")
 local clickSound = snd.sampleplayer.new("sound/click")
 local gameOverSound = snd.sampleplayer.new("sound/game-over")
 local gameStartSound = snd.sampleplayer.new("sound/game-start")
+local turnSound = snd.sampleplayer.new("sound/turn")
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
@@ -511,31 +512,31 @@ function playStateUpdate()
 		local tailSprite = nil
 
 		-- TODO: Implement as switch statement, if possible?
-		-- TODO: Reduce repetition for clickSound:play() logic
+		-- TODO: Reduce repetition for turnSound:play() logic
 		if playerDirectionBuffer == "up" then
 			if playerDirection ~= "up" then
-				clickSound:play()
+				turnSound:play()
 			end
 			nextCoordinates[2] -= tileSize
 			playerDirection = "up"
 			nextSpriteImage = snakeHeadUpImage
 		elseif playerDirectionBuffer == "right" then
 			if playerDirection ~= "right" then
-				clickSound:play()
+				turnSound:play()
 			end
 			nextCoordinates[1] += tileSize
 			playerDirection = "right"
 			nextSpriteImage = snakeHeadRightImage
 		elseif playerDirectionBuffer == "down" then
 			if playerDirection ~= "down" then
-				clickSound:play()
+				turnSound:play()
 			end
 			nextCoordinates[2] += tileSize
 			playerDirection = "down"
 			nextSpriteImage = snakeHeadDownImage
 		elseif playerDirectionBuffer == "left" then
 			if playerDirection ~= "left" then
-				clickSound:play()
+				turnSound:play()
 			end
 			nextCoordinates[1] -= tileSize
 			playerDirection = "left"
