@@ -118,7 +118,7 @@ local pressStart = nil
 local wallSpriteCoordinates = nil
 
 local currentLevel = 1
-local lastLevel = 8
+local lastLevel = 9
 local foodGoal = 10
 local foodRemaining = nil
 
