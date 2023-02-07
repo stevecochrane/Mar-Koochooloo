@@ -1,9 +1,9 @@
 local gfx <const> = playdate.graphics
 
-class("FoodEaten").extends(gfx.sprite)
+class("ApplesEaten").extends(gfx.sprite)
 
-function FoodEaten:init()
-	FoodEaten.super.init(self)
+function ApplesEaten:init()
+	ApplesEaten.super.init(self)
 
 	self.count = 0
 
@@ -13,12 +13,12 @@ function FoodEaten:init()
 	self:moveTo(0, 32)
 end
 
-function FoodEaten:setCount(newCount)
+function ApplesEaten:setCount(newCount)
 	self.count = newCount
 	self:markDirty()
 end
 
-function FoodEaten:draw()
+function ApplesEaten:draw()
 	local noun = "apples"
 
 	if (self.count == 1) then
