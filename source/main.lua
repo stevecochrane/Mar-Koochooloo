@@ -671,6 +671,7 @@ function endStateUpdate()
 end
 
 function switchToNextLevelState()
+	gameStartSound:play()
 	gameState = "nextLevel"
 end
 
