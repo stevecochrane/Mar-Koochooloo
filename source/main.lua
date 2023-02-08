@@ -29,7 +29,7 @@ local playerSprite = nil
 local appleSprite = nil
 
 -- Initialize images
-local appleImage = gfx.image.new("images/apple-1")
+local appleImage = gfx.image.new("images/apple")
 local gameOverImage = gfx.image.new("images/game-over")
 local optionsScreenImage = gfx.image.new("images/options-screen")
 local snakeBodyDownLeftImage = gfx.image.new("images/snake-body-down-left")
