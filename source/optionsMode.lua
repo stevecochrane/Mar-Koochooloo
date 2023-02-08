@@ -18,16 +18,16 @@ function OptionsMode:init()
 	self:setZIndex(1)
 	self:setCenter(0, 0)
 	self:setSize(272, 20)
-	self:moveTo(72, 112)
+	self:moveTo(72, 80)
 
 	self.radioSpeedSprite = gfx.sprite.new(radioSelectedImage)
 	self.radioSpeedSprite:setCenter(0, 0)
-	self.radioSpeedSprite:moveTo(self.x + 138, self.y)
+	self.radioSpeedSprite:moveTo(self.x + 122, self.y)
 	self.radioSpeedSprite:add()
 
 	self.radioPuzzleSprite = gfx.sprite.new(radioNotSelectedImage)
 	self.radioPuzzleSprite:setCenter(0, 0)
-	self.radioPuzzleSprite:moveTo(self.x + 197, self.y)
+	self.radioPuzzleSprite:moveTo(self.x + 205, self.y)
 	self.radioPuzzleSprite:add()
 end
 
@@ -80,8 +80,8 @@ function OptionsMode:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
 
 	gfx.drawText("Mode", 24, 0)
-	gfx.drawText("Speed", 156, 0)
-	gfx.drawText("Puzzle", 215, 0)
+	gfx.drawText("Speed", 140, 0)
+	gfx.drawText("Puzzle", 223, 0)
 
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end

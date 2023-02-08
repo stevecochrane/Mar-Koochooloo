@@ -6,6 +6,7 @@ import "CoreLibs/sprites"
 import "CoreLibs/timer"
 
 import "applesEaten"
+import "optionsMode"
 import "optionsSpeed"
 import "pressStart"
 import "tilemap"
@@ -88,6 +89,9 @@ local snakeSprites = nil
 -- Stores the direction the snake was traveling in for each segment of the snake.
 local snakeDirections = nil
 
+-- This is configurable in the options screen. Can be either "speed" or "puzzle".
+local mode = "speed"
+
 -- This may be customizeable later.
 local startingSnakeSegments = 3
 
@@ -107,6 +111,7 @@ local stateSwitchFullDurationSeconds = stateSwitchFullDuration / 1000
 local stateSwitchInProgress = false
 
 -- User preferences
+local optionsMode = nil
 local optionsSpeed = nil
 
 -- Store how many apples are eaten per game
@@ -420,9 +425,13 @@ function switchToOptionsState()
 	pressStart:moveTo(0, 176)
 	pressStart:addSprite()
 
+	optionsMode = OptionsMode()
+	optionsMode:setMode(mode)
+	optionsMode:select()
+	optionsMode:addSprite()
+
 	optionsSpeed = OptionsSpeed()
 	optionsSpeed:setSpeed(speedSetting)
-	optionsSpeed:select()
 	optionsSpeed:addSprite()
 
 	systemMenu:removeAllMenuItems()
@@ -432,9 +441,50 @@ end
 
 function optionsStateUpdate()
 	if playdate.buttonJustPressed(playdate.kButtonLeft) then
-		if optionsSpeed.selected == true and speedSetting > speedSettingMin then
+		if optionsMode.selected == true then
+			clickSound:play()
+
+			-- TODO: Extract this into a function
+			if mode == "speed" then
+				mode = "puzzle"
+			else
+				mode = "speed"
+			end
+
+			optionsMode:setMode(mode)
+
+		elseif optionsSpeed.selected == true and speedSetting > speedSettingMin then
 			clickSound:play()
 			speedSetting -= 1
+
+			if speedSetting == 0 then
+				freeRoam = true
+			else
+				freeRoam = false
+			end
+
+			playerMoveInterval = speedSettingMap[speedSetting + 1]
+			optionsSpeed:setSpeed(speedSetting)
+
+		end
+	end
+
+	if playdate.buttonJustPressed(playdate.kButtonRight) then
+		if optionsMode.selected == true then
+			clickSound:play()
+
+			-- TODO: Extract this into a function
+			if mode == "speed" then
+				mode = "puzzle"
+			else
+				mode = "speed"
+			end
+
+			optionsMode:setMode(mode)
+
+		elseif optionsSpeed.selected == true and speedSetting < speedSettingMax then
+			clickSound:play()
+			speedSetting += 1
 
 			if speedSetting == 0 then
 				freeRoam = true
@@ -447,19 +497,15 @@ function optionsStateUpdate()
 		end
 	end
 
-	if playdate.buttonJustPressed(playdate.kButtonRight) then
-		if optionsSpeed.selected == true and speedSetting < speedSettingMax then
+	if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonDown) then
+		if optionsMode.selected == true then
 			clickSound:play()
-			speedSetting += 1
-
-			if speedSetting == 0 then
-				freeRoam = true
-			else
-				freeRoam = false
-			end
-
-			playerMoveInterval = speedSettingMap[speedSetting + 1]
-			optionsSpeed:setSpeed(speedSetting)
+			optionsMode:deselect()
+			optionsSpeed:select()
+		elseif optionsSpeed.selected == true then
+			clickSound:play()
+			optionsMode:select()
+			optionsSpeed:deselect()
 		end
 	end
 
