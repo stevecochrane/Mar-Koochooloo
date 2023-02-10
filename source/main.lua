@@ -5,7 +5,7 @@ import "CoreLibs/object"
 import "CoreLibs/sprites"
 import "CoreLibs/timer"
 
-import "applesEaten"
+import "foodEaten"
 import "optionsMode"
 import "optionsSpeed"
 import "pressStart"
@@ -21,16 +21,16 @@ local systemMenuItemOptions = nil
 local screenWidth = playdate.display.getWidth()
 local screenHeight = playdate.display.getHeight()
 
--- Size of each tile on the board (and snake segment, and apples)
+-- Size of each tile on the board (and snake segment, and food)
 local tileSize = 16
 
 -- Here's our sprite declarations. We'll scope them to this file because
 -- several functions need to access them.
 local playerSprite = nil
-local appleSprite = nil
+local foodSprite = nil
 
 -- Initialize images
-local appleImage = gfx.image.new("images/apple")
+local foodImage = gfx.image.new("images/apple")
 local gameOverImage = gfx.image.new("images/game-over")
 local optionsScreenImage = gfx.image.new("images/options-screen")
 local snakeBodyDownLeftImage = gfx.image.new("images/snake-body-down-left")
@@ -55,7 +55,7 @@ local stageBgm = snd.fileplayer.new()
 local menuBgm = snd.fileplayer.new()
 
 -- Initialize sound effects
-local appleSound = snd.sampleplayer.new("sound/power-up")
+local foodSound = snd.sampleplayer.new("sound/power-up")
 local clickSound = snd.sampleplayer.new("sound/click")
 local gameOverSound = snd.sampleplayer.new("sound/game-over")
 local gameStartSound = snd.sampleplayer.new("sound/game-start")
@@ -114,8 +114,8 @@ local stateSwitchInProgress = false
 local optionsMode = nil
 local optionsSpeed = nil
 
--- Store how many apples are eaten per game
-local applesEatenCount = nil
+-- Store how many pieces of food are eaten per game
+local foodEatenCount = nil
 
 -- Shared variable for PressStart instances
 local pressStart = nil
@@ -124,8 +124,8 @@ local wallSpriteCoordinates = nil
 
 local currentLevel = 1
 local lastLevel = 7
-local applesGoal = 10
-local applesRemaining = nil
+local foodGoal = 10
+local foodRemaining = nil
 
 local freeRoam = false
 local justPressedButton = false
@@ -156,7 +156,7 @@ function isCollidingWithStage(coordinates)
 	return collided
 end
 
-function repositionApple()
+function repositionFood()
 	local newX = nil
 	local newY = nil
 	local hasCollidedWithSnake = nil
@@ -170,15 +170,15 @@ function repositionApple()
 		newX = newX - (newX % tileSize)
 		newY = newY - (newY % tileSize)
 
-		-- Check if new apple position collides with any part of snake or stage
+		-- Check if new food position collides with any part of snake or stage
 		hasCollidedWithSnake = isCollidingWithSnake({newX, newY})
 		hasCollidedWithStage = isCollidingWithStage({newX, newY})
 
-	-- Repeat the above until the apple is not on the same tile as the player
+	-- Repeat the above until the food is not on the same tile as the player
 	until hasCollidedWithSnake == false and hasCollidedWithStage == false
 
-	-- We have our new apple position, move apple sprite there
-	appleSprite:moveTo(newX, newY)
+	-- We have our new food position, move food sprite there
+	foodSprite:moveTo(newX, newY)
 end
 
 function updateSnakeHead()
@@ -279,10 +279,10 @@ function setUpGame()
 	moveTimer.repeats = true
 
 	-- (Re-)initialize other variables
-	applesEatenCount = 0
+	foodEatenCount = 0
 	segmentsToGain = 0
 	wallSpriteCoordinates = {}
-	applesRemaining = applesGoal
+	foodRemaining = foodGoal
 
 	local levelData = Tilemap:loadLevelJsonData("tilemaps/level-" .. currentLevel .. ".json")
 	local wallLocations = Tilemap:getWallLocations(levelData)
@@ -348,12 +348,12 @@ function setUpGame()
 		startingX -= tileSize
 	end
 
-	-- Add apple sprite. Note this needs to happen after walls are added! If apple is added first,
-	-- then a wall might be added on top of the apple, making the game unwinnable.
-	appleSprite = gfx.sprite.new(appleImage)
-	appleSprite:setCenter(0, 0)
-	repositionApple()
-	appleSprite:add()
+	-- Add food sprite. Note this needs to happen after walls are added! If food is added first,
+	-- then a wall might be added on top of the food, making the game unwinnable.
+	foodSprite = gfx.sprite.new(foodImage)
+	foodSprite:setCenter(0, 0)
+	repositionFood()
+	foodSprite:add()
 
 	-- Load main stage background music (this is also needed to start playing from the beginning)
 	stageBgm:load("music/stage-bgm")
@@ -618,20 +618,20 @@ function playStateUpdate()
 		-- Update the second sprite from a head image to a body image
 		updateSnakeHead()
 
-		-- Check if player has eaten the apple
-		if nextCoordinates[1] == appleSprite.x and nextCoordinates[2] == appleSprite.y then
-			applesRemaining -= 1
-			print("applesRemaining " .. applesRemaining)
+		-- Check if player has eaten the food
+		if nextCoordinates[1] == foodSprite.x and nextCoordinates[2] == foodSprite.y then
+			foodRemaining -= 1
+			print("foodRemaining " .. foodRemaining)
 
-			if applesRemaining == 0 then
-				appleSprite:remove()
+			if foodRemaining == 0 then
+				foodSprite:remove()
 			else
-				appleSound:play()
-				repositionApple()
+				foodSound:play()
+				repositionFood()
 			end
 
 			segmentsToGain = segmentsGainedWhenEating
-			applesEatenCount += 1
+			foodEatenCount += 1
 		end
 
 		if segmentsToGain == 0 then
@@ -659,8 +659,8 @@ function playStateUpdate()
 		-- Add the new head coordinates
 		table.insert(snakeCoordinates, 1, nextCoordinates)
 
-		-- End the stage if the player has eaten enough apples to meet the goal
-		if applesRemaining == 0 then
+		-- End the stage if the player has eaten enough food to meet the goal
+		if foodRemaining == 0 then
 			if currentLevel == lastLevel then
 				switchToWinState()
 			else
@@ -684,7 +684,7 @@ function switchToEndState()
 	gameOverSound:play()
 	showGameOverScreen()
 	gameState = "end"
-	print("apples eaten: " .. applesEatenCount)
+	print("food eaten: " .. foodEatenCount)
 end
 
 function showGameOverScreen()
@@ -693,9 +693,9 @@ function showGameOverScreen()
 	gameOverSprite:setZIndex(1) -- Ensure this is above the snake
 	gameOverSprite:add()
 
-	applesEaten = ApplesEaten()
-	applesEaten:setCount(applesEatenCount)
-	applesEaten:addSprite()
+	foodEaten = FoodEaten()
+	foodEaten:setCount(foodEatenCount)
+	foodEaten:addSprite()
 end
 
 function endStateUpdate()
