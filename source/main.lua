@@ -126,7 +126,6 @@ local lastLevel = 7
 local foodGoal = 10
 local foodRemaining = nil
 
-local freeRoam = false
 local justPressedButton = false
 
 function isCollidingWithSnake(coordinates)
@@ -539,7 +538,7 @@ function playStateUpdate()
 		end
 	end
 
-	if ((freeRoam == false and moveTimer.frame == playerMoveInterval) or (freeRoam == true and justPressedButton == true)) then
+	if ((mode == "speed" and moveTimer.frame == playerMoveInterval) or (mode == "puzzle" and justPressedButton == true)) then
 		-- Initialize coordinates for next snake segment at position of current head
 		local nextCoordinates = {snakeCoordinates[1][1], snakeCoordinates[1][2]}
 		local nextSprite = nil
