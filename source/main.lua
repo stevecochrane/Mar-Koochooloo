@@ -123,7 +123,7 @@ local pressStart = nil
 local wallSpriteCoordinates = nil
 
 local currentLevel = 1
-local lastLevel = 9
+local lastLevel = 8
 local applesGoal = 10
 local applesRemaining = nil
 
