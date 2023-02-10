@@ -6,8 +6,8 @@ import "CoreLibs/sprites"
 import "CoreLibs/timer"
 
 import "foodEaten"
+import "optionsDifficulty"
 import "optionsMode"
-import "optionsSpeed"
 import "pressStart"
 import "tilemap"
 
@@ -66,15 +66,15 @@ local turnSound = snd.sampleplayer.new("sound/turn")
 local playerDirection = nil
 local playerDirectionBuffer = nil
 
--- This is what is displayed to the user for their speed setting.
-local speedSetting = 1
+-- This is what is displayed to the user for their difficulty setting.
+local difficultySetting = 1
 -- This is the mapping between the above two values.
-local speedSettingMap = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
-local speedSettingMin = 1
-local speedSettingMax = 10
+local difficultySpeedMap = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
+local difficultyMin = 1
+local difficultyMax = 10
 -- The player will move every time the frameTimer hits this number.
 -- Declaring it here also lets us change it later.
-local playerMoveInterval = speedSettingMap[speedSetting]
+local playerMoveInterval = difficultySpeedMap[difficultySetting]
 
 -- We'll check this on every frame to determine if it's time to move.
 local moveTimer = nil
@@ -111,7 +111,7 @@ local stateSwitchInProgress = false
 
 -- User preferences
 local optionsMode = nil
-local optionsSpeed = nil
+local optionsDifficulty = nil
 
 -- Store how many pieces of food are eaten per game
 local foodEatenCount = nil
@@ -428,9 +428,9 @@ function switchToOptionsState()
 	optionsMode:select()
 	optionsMode:addSprite()
 
-	optionsSpeed = OptionsSpeed()
-	optionsSpeed:setSpeed(speedSetting)
-	optionsSpeed:addSprite()
+	optionsDifficulty = OptionsDifficulty()
+	optionsDifficulty:setDifficulty(difficultySetting)
+	optionsDifficulty:addSprite()
 
 	systemMenu:removeAllMenuItems()
 
@@ -451,11 +451,11 @@ function optionsStateUpdate()
 
 			optionsMode:setMode(mode)
 
-		elseif optionsSpeed.selected == true and speedSetting > speedSettingMin then
+		elseif optionsDifficulty.selected == true and difficultySetting > difficultyMin then
 			clickSound:play()
-			speedSetting -= 1
-			playerMoveInterval = speedSettingMap[speedSetting]
-			optionsSpeed:setSpeed(speedSetting)
+			difficultySetting -= 1
+			playerMoveInterval = difficultySpeedMap[difficultySetting]
+			optionsDifficulty:setDifficulty(difficultySetting)
 
 		end
 	end
@@ -473,11 +473,11 @@ function optionsStateUpdate()
 
 			optionsMode:setMode(mode)
 
-		elseif optionsSpeed.selected == true and speedSetting < speedSettingMax then
+		elseif optionsDifficulty.selected == true and difficultySetting < difficultyMax then
 			clickSound:play()
-			speedSetting += 1
-			playerMoveInterval = speedSettingMap[speedSetting]
-			optionsSpeed:setSpeed(speedSetting)
+			difficultySetting += 1
+			playerMoveInterval = difficultySpeedMap[difficultySetting]
+			optionsDifficulty:setDifficulty(difficultySetting)
 		end
 	end
 
@@ -485,11 +485,11 @@ function optionsStateUpdate()
 		if optionsMode.selected == true then
 			clickSound:play()
 			optionsMode:deselect()
-			optionsSpeed:select()
-		elseif optionsSpeed.selected == true then
+			optionsDifficulty:select()
+		elseif optionsDifficulty.selected == true then
 			clickSound:play()
 			optionsMode:select()
-			optionsSpeed:deselect()
+			optionsDifficulty:deselect()
 		end
 	end
 

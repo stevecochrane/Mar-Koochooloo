@@ -4,14 +4,14 @@ local appleImage = gfx.image.new("images/apple")
 local arrowLeftImage = gfx.image.new("images/arrow-left")
 local arrowRightImage = gfx.image.new("images/arrow-right")
 
-class("OptionsSpeed").extends(gfx.sprite)
+class("OptionsDifficulty").extends(gfx.sprite)
 
-function OptionsSpeed:init()
-	OptionsSpeed.super.init(self)
+function OptionsDifficulty:init()
+	OptionsDifficulty.super.init(self)
 
 	self.appleSprite = nil
 	self.selected = false
-	self.speed = 0
+	self.difficulty = 0
 
 	self:setZIndex(1)
 	self:setCenter(0, 0)
@@ -29,12 +29,12 @@ function OptionsSpeed:init()
 	self.arrowRightSprite:add()
 end
 
-function OptionsSpeed:setSpeed(newSpeed)
-	self.speed = newSpeed
+function OptionsDifficulty:setDifficulty(newDifficulty)
+	self.difficulty = newDifficulty
 	self:markDirty()
 end
 
-function OptionsSpeed:select()
+function OptionsDifficulty:select()
 	self.selected = true
 
 	self.appleSprite = gfx.sprite.new(appleImage)
@@ -45,7 +45,7 @@ function OptionsSpeed:select()
 	self:markDirty()
 end
 
-function OptionsSpeed:deselect()
+function OptionsDifficulty:deselect()
 	self.selected = false
 
 	self.appleSprite:remove()
@@ -53,14 +53,14 @@ function OptionsSpeed:deselect()
 	self:markDirty()
 end
 
-function OptionsSpeed:draw()
+function OptionsDifficulty:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
 
-	-- Draw "Speed" label text
-	gfx.drawText("Speed", 24, 0)
+	-- Draw "Difficulty" label text
+	gfx.drawText("Difficulty", 24, 0)
 
-	-- Draw speed setting number as string
-	gfx.drawTextAligned(tostring(self.speed), 191, 0, kTextAlignment.center)
+	-- Draw difficulty setting number as string
+	gfx.drawTextAligned(tostring(self.difficulty), 191, 0, kTextAlignment.center)
 
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end
