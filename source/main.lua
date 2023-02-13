@@ -70,6 +70,7 @@ local playerDirectionBuffer = nil
 local difficultySetting = 1
 -- This is the mapping between the above two values.
 local difficultySpeedMap = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
+local difficultyPuzzleMap = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 local difficultyMin = 1
 local difficultyMax = 10
 -- The player will move every time the frameTimer hits this number.
@@ -95,7 +96,8 @@ local mode = "speed"
 local startingSnakeSegments = 3
 
 -- This is internally configurable for testing.
-local segmentsGainedWhenEating = 3
+local segmentsGainedWhenEating = nil
+local segmentsGainedWhenEatingSpeedDefault = 3
 local segmentsToGain = 0
 
 -- TODO: Implement as enum if possible?
@@ -281,6 +283,12 @@ function setUpGame()
 	segmentsToGain = 0
 	wallSpriteCoordinates = {}
 	foodRemaining = foodGoal
+
+	if mode == "speed" then
+		segmentsGainedWhenEating = segmentsGainedWhenEatingSpeedDefault
+	else
+		segmentsGainedWhenEating = difficultyPuzzleMap[difficultySetting]
+	end
 
 	local levelData = Tilemap:loadLevelJsonData("tilemaps/level-" .. currentLevel .. ".json")
 	local wallLocations = Tilemap:getWallLocations(levelData)
