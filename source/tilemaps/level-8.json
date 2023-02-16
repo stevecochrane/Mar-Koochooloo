@@ -27,7 +27,7 @@
          "width":25,
          "x":0,
          "y":0
-        }, 
+        },
         {
          "draworder":"topdown",
          "id":3,
@@ -42,7 +42,7 @@
                  "visible":true,
                  "width":16,
                  "x":64,
-                 "y":176
+                 "y":208
                 }],
          "opacity":1,
          "type":"objectgroup",
