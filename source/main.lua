@@ -418,6 +418,9 @@ function titleStateUpdate()
 end
 
 function switchToOptionsState()
+	-- Clear player's progress whenever they enter/re-enter the Options screen
+	currentLevel = 1
+
 	stateSwitchInProgress = false
 	menuBgm:setVolume("0.5")
 	menuBgm:play(0)
