@@ -363,7 +363,7 @@ function setUpGame()
 
 	-- Load main stage background music (this is also needed to start playing from the beginning)
 	stageBgm:load("music/stage-bgm")
-	stageBgm:setVolume("0.5")
+	stageBgm:setVolume("0.75")
 	-- Play and loop forever
 	stageBgm:play(0)
 end
@@ -378,7 +378,7 @@ function startGame()
 	pressStart:addSprite()
 
 	menuBgm:load("music/menu-bgm")
-	menuBgm:setVolume("0.5")
+	menuBgm:setVolume("0.75")
 	menuBgm:play(0)
 end
 
@@ -422,7 +422,7 @@ function switchToOptionsState()
 	currentLevel = 1
 
 	stateSwitchInProgress = false
-	menuBgm:setVolume("0.5")
+	menuBgm:setVolume("0.75")
 	menuBgm:play(0)
 
 	local backgroundSprite = gfx.sprite.new(optionsScreenImage)
