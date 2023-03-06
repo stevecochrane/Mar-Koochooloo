@@ -2,5 +2,6 @@
 *.tiled-project
 *.tiled-session
 design-materials
+source/fonts
 source/music
 source/sound
