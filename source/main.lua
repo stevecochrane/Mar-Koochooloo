@@ -5,6 +5,7 @@ import "CoreLibs/object"
 import "CoreLibs/sprites"
 import "CoreLibs/timer"
 
+import "copyright"
 import "foodEaten"
 import "optionsDifficulty"
 import "optionsMode"
@@ -376,6 +377,9 @@ function startGame()
 	pressStart = PressStart()
 	pressStart:moveTo(0, 160)
 	pressStart:addSprite()
+
+	local copyright = Copyright()
+	copyright:addSprite()
 
 	menuBgm:load("music/menu-bgm")
 	menuBgm:setVolume("0.75")
