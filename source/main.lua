@@ -10,6 +10,8 @@ import "optionsDifficulty"
 import "optionsMode"
 import "pressStart"
 import "tilemap"
+import "titleCredits"
+import "titleStart"
 
 local gfx <const> = playdate.graphics
 local snd <const> = playdate.sound
@@ -110,6 +112,10 @@ local stateSwitchPauseDuration = 600
 local stateSwitchFullDuration = stateSwitchAnimationDuration + stateSwitchPauseDuration
 local stateSwitchFullDurationSeconds = stateSwitchFullDuration / 1000
 local stateSwitchInProgress = false
+
+-- Title screen
+local titleCredits = nil
+local titleStart = nil
 
 -- User preferences
 local optionsMode = nil
@@ -373,9 +379,12 @@ function startGame()
 	titleScreenSprite:moveTo(200, 120)
 	titleScreenSprite:add()
 
-	pressStart = PressStart()
-	pressStart:moveTo(0, 160)
-	pressStart:addSprite()
+	titleStart = TitleStart()
+	titleStart:select()
+	titleStart:addSprite()
+
+	titleCredits = TitleCredits()
+	titleCredits:addSprite()
 
 	menuBgm:load("music/menu-bgm")
 	menuBgm:setVolume("0.75")
@@ -408,12 +417,28 @@ function playdate.update()
 end
 
 function titleStateUpdate()
+	if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonDown) then
+		if titleStart.selected == true then
+			clickSound:play()
+			titleStart:deselect()
+			titleCredits:select()
+		elseif titleCredits.selected == true then
+			clickSound:play()
+			titleStart:select()
+			titleCredits:deselect()
+		end
+	end
+
 	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonA) then
-		gameStartSound:play()
-		pressStart:blink()
-		stateSwitchInProgress = true
-		playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
-		playdate.timer.performAfterDelay(stateSwitchFullDuration, switchToOptionsState)
+		if titleStart.selected == true then
+			gameStartSound:play()
+			titleStart:blink()
+			stateSwitchInProgress = true
+			playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
+			playdate.timer.performAfterDelay(stateSwitchFullDuration, switchToOptionsState)
+		elseif titleCredits.selected == true then
+			-- TODO: Switch to Credits state here
+		end
 	end
 end
 
