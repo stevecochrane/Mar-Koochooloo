@@ -14,6 +14,17 @@ import "tilemap"
 import "titleCredits"
 import "titleStart"
 
+-- TODO: Implement as enum if possible?
+-- Possible values are "title", "options", "play", "end"
+gameState = "title"
+
+-- Length of time in milliseconds for switching from state to state
+stateSwitchAnimationDuration = 1800
+stateSwitchPauseDuration = 600
+stateSwitchFullDuration = stateSwitchAnimationDuration + stateSwitchPauseDuration
+stateSwitchFullDurationSeconds = stateSwitchFullDuration / 1000
+stateSwitchInProgress = false
+
 local gfx <const> = playdate.graphics
 local snd <const> = playdate.sound
 
@@ -102,17 +113,6 @@ local startingSnakeSegments = 3
 local segmentsGainedWhenEating = nil
 local segmentsGainedWhenEatingSpeedDefault = 3
 local segmentsToGain = 0
-
--- TODO: Implement as enum if possible?
--- Possible values are "title", "options", "play", "end"
-local gameState = "title"
-
--- Length of time in milliseconds for switching from state to state
-local stateSwitchAnimationDuration = 1800
-local stateSwitchPauseDuration = 600
-local stateSwitchFullDuration = stateSwitchAnimationDuration + stateSwitchPauseDuration
-local stateSwitchFullDurationSeconds = stateSwitchFullDuration / 1000
-local stateSwitchInProgress = false
 
 -- Title screen
 local titleCredits = nil
@@ -376,6 +376,9 @@ function setUpGame()
 end
 
 function startGame()
+	gameState = "title"
+	stateSwitchInProgress = false
+
 	local titleScreenSprite = gfx.sprite.new(titleScreenImage)
 	titleScreenSprite:moveTo(200, 120)
 	titleScreenSprite:add()
