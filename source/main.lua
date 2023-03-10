@@ -9,6 +9,7 @@ import "foodEaten"
 import "optionsDifficulty"
 import "optionsMode"
 import "pressStart"
+import "stateCredits"
 import "tilemap"
 import "titleCredits"
 import "titleStart"
@@ -397,6 +398,8 @@ startGame()
 function playdate.update()
 	if gameState == "title" then
 		titleStateUpdate()
+	elseif gameState == "credits" then
+		StateCredits:update()
 	elseif gameState == "options" then
 		optionsStateUpdate()
 	elseif gameState == "play" then
@@ -437,7 +440,9 @@ function titleStateUpdate()
 			playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
 			playdate.timer.performAfterDelay(stateSwitchFullDuration, switchToOptionsState)
 		elseif titleCredits.selected == true then
-			-- TODO: Switch to Credits state here
+			gfx.sprite.removeAll()
+			stateSwitchInProgress = true
+			playdate.timer.performAfterDelay(stateSwitchPauseDuration, StateCredits.switch)
 		end
 	end
 end
