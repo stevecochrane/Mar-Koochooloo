@@ -1,3 +1,5 @@
+import "creditsText"
+
 local gfx <const> = playdate.graphics
 
 StateCredits = {}
@@ -5,6 +7,9 @@ StateCredits = {}
 function StateCredits:switch()
 	stateSwitchInProgress = false
 	gameState = "credits"
+
+	local creditsText = CreditsText()
+	creditsText:addSprite()
 end
 
 function StateCredits:update()
