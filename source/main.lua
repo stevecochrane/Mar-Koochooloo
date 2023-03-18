@@ -5,11 +5,11 @@ import "CoreLibs/object"
 import "CoreLibs/sprites"
 import "CoreLibs/timer"
 
+import "creditsState"
 import "foodEaten"
 import "optionsDifficulty"
 import "optionsMode"
 import "pressStart"
-import "stateCredits"
 import "tilemap"
 import "titleCredits"
 import "titleStart"
@@ -402,7 +402,7 @@ function playdate.update()
 	if gameState == "title" then
 		titleStateUpdate()
 	elseif gameState == "credits" then
-		StateCredits:update()
+		CreditsState:update()
 	elseif gameState == "options" then
 		optionsStateUpdate()
 	elseif gameState == "play" then
@@ -445,7 +445,7 @@ function titleStateUpdate()
 		elseif titleCredits.selected == true then
 			gfx.sprite.removeAll()
 			stateSwitchInProgress = true
-			playdate.timer.performAfterDelay(stateSwitchPauseDuration, StateCredits.switch)
+			playdate.timer.performAfterDelay(stateSwitchPauseDuration, CreditsState.switch)
 		end
 	end
 end

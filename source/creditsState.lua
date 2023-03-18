@@ -2,9 +2,9 @@ import "creditsText"
 
 local gfx <const> = playdate.graphics
 
-StateCredits = {}
+CreditsState = {}
 
-function StateCredits:switch()
+function CreditsState:switch()
 	stateSwitchInProgress = false
 	gameState = "credits"
 
@@ -12,7 +12,7 @@ function StateCredits:switch()
 	creditsText:addSprite()
 end
 
-function StateCredits:update()
+function CreditsState:update()
 	if stateSwitchInProgress == false and (playdate.buttonJustPressed(playdate.kButtonA) or playdate.buttonJustPressed(playdate.kButtonB)) then
 		gfx.sprite.removeAll()
 		stateSwitchInProgress = true
