@@ -13,6 +13,7 @@ import "pressStart"
 import "tilemap"
 import "titleCredits"
 import "titleStart"
+import "winState"
 
 local gfx <const> = playdate.graphics
 local snd <const> = playdate.sound
@@ -34,6 +35,8 @@ stateSwitchPauseDuration = 600
 stateSwitchFullDuration = stateSwitchAnimationDuration + stateSwitchPauseDuration
 stateSwitchFullDurationSeconds = stateSwitchFullDuration / 1000
 stateSwitchInProgress = false
+
+currentLevel = 1
 
 local systemMenu = playdate.getSystemMenu()
 local systemMenuItemNewGame = nil
@@ -128,7 +131,6 @@ local pressStart = nil
 
 local wallSpriteCoordinates = nil
 
-local currentLevel = 1
 local lastLevel = 8
 local foodGoal = 10
 local foodRemaining = nil
@@ -408,7 +410,7 @@ function playdate.update()
 	elseif gameState == "nextLevel" then
 		nextLevelUpdate()
 	elseif gameState == "win" then
-		winStateUpdate()
+		WinState:update()
 	elseif gameState == "end" then
 		EndState:update()
 	end
@@ -716,22 +718,6 @@ function nextLevelUpdate()
 			gfx.sprite.removeAll()
 			stateSwitchInProgress = true
 			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
-		end
-	end
-end
-
-function switchToWinState()
-	stageBgm:stop()
-	gameState = "win"
-end
-
-function winStateUpdate()
-	if stateSwitchInProgress == false then
-		if playdate.buttonJustPressed(playdate.kButtonA) then
-			gfx.sprite.removeAll()
-			currentLevel = 1
-			stateSwitchInProgress = true
-			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToOptionsState)
 		end
 	end
 end
