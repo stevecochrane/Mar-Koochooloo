@@ -6,7 +6,7 @@ import "CoreLibs/sprites"
 import "CoreLibs/timer"
 
 import "creditsState"
-import "foodEaten"
+import "endState"
 import "optionsDifficulty"
 import "optionsMode"
 import "pressStart"
@@ -14,9 +14,19 @@ import "tilemap"
 import "titleCredits"
 import "titleStart"
 
+local gfx <const> = playdate.graphics
+local snd <const> = playdate.sound
+
+-- Store how many pieces of food are eaten per game
+foodEatenCount = nil
+
 -- TODO: Implement as enum if possible?
 -- Possible values are "title", "options", "play", "end"
 gameState = "title"
+
+-- Initialize music
+menuBgm = snd.fileplayer.new()
+stageBgm = snd.fileplayer.new()
 
 -- Length of time in milliseconds for switching from state to state
 stateSwitchAnimationDuration = 1800
@@ -24,9 +34,6 @@ stateSwitchPauseDuration = 600
 stateSwitchFullDuration = stateSwitchAnimationDuration + stateSwitchPauseDuration
 stateSwitchFullDurationSeconds = stateSwitchFullDuration / 1000
 stateSwitchInProgress = false
-
-local gfx <const> = playdate.graphics
-local snd <const> = playdate.sound
 
 local systemMenu = playdate.getSystemMenu()
 local systemMenuItemNewGame = nil
@@ -45,7 +52,6 @@ local foodSprite = nil
 
 -- Initialize images
 local foodImage = gfx.image.new("images/apple")
-local gameOverImage = gfx.image.new("images/game-over")
 local optionsScreenImage = gfx.image.new("images/options-screen")
 local snakeBodyDownLeftImage = gfx.image.new("images/snake-body-down-left")
 local snakeBodyDownRightImage = gfx.image.new("images/snake-body-down-right")
@@ -64,14 +70,9 @@ local snakeTailUpImage = gfx.image.new("images/snake-tail-up")
 local titleScreenImage = gfx.image.new("images/title-screen")
 local wallImage = gfx.image.new("images/wall")
 
--- Initialize music
-local stageBgm = snd.fileplayer.new()
-local menuBgm = snd.fileplayer.new()
-
 -- Initialize sound effects
 local foodSound = snd.sampleplayer.new("sound/power-up")
 local clickSound = snd.sampleplayer.new("sound/click")
-local gameOverSound = snd.sampleplayer.new("sound/game-over")
 local gameStartSound = snd.sampleplayer.new("sound/game-start")
 local turnSound = snd.sampleplayer.new("sound/turn")
 
@@ -121,9 +122,6 @@ local titleStart = nil
 -- User preferences
 local optionsMode = nil
 local optionsDifficulty = nil
-
--- Store how many pieces of food are eaten per game
-local foodEatenCount = nil
 
 -- Shared variable for PressStart instances
 local pressStart = nil
@@ -412,7 +410,7 @@ function playdate.update()
 	elseif gameState == "win" then
 		winStateUpdate()
 	elseif gameState == "end" then
-		endStateUpdate()
+		EndState:update()
 	end
 
 	gfx.sprite.update()
@@ -680,7 +678,7 @@ function playStateUpdate()
 		-- It's important to check this before nextCoordinates is added to snakeCoordinates,
 		-- and after the previous tail segment is removed from snakeCoordinates.
 		if isCollidingWithSnake(nextCoordinates) then
-			switchToEndState()
+			EndState:switch()
 			return
 		end
 
@@ -700,48 +698,11 @@ function playStateUpdate()
 
 		-- End the stage if the player has collided with any of the walls
 		if isCollidingWithStage(snakeCoordinates[1]) then
-			switchToEndState()
+			EndState:switch()
 		end
 	end
 
 	justPressedButton = false
-end
-
-function switchToEndState()
-	stageBgm:stop()
-	gameOverSound:play()
-	showGameOverScreen()
-	gameState = "end"
-	print("food eaten: " .. foodEatenCount)
-end
-
-function showGameOverScreen()
-	local gameOverSprite = gfx.sprite.new(gameOverImage)
-	gameOverSprite:moveTo(200, 120)
-	gameOverSprite:setZIndex(1) -- Ensure this is above the snake
-	gameOverSprite:add()
-
-	foodEaten = FoodEaten()
-	foodEaten:setCount(foodEatenCount)
-	foodEaten:addSprite()
-end
-
-function endStateUpdate()
-	if stateSwitchInProgress == false then
-		if playdate.buttonJustPressed(playdate.kButtonB) then
-			gameOverSound:stop()
-			gfx.sprite.removeAll()
-			stateSwitchInProgress = true
-			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToOptionsState)
-		end
-
-		if playdate.buttonJustPressed(playdate.kButtonA) then
-			gameOverSound:stop()
-			gfx.sprite.removeAll()
-			stateSwitchInProgress = true
-			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
-		end
-	end
 end
 
 function switchToNextLevelState()
