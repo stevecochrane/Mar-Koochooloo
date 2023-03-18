@@ -7,6 +7,7 @@ import "CoreLibs/timer"
 
 import "creditsState"
 import "endState"
+import "nextLevelState"
 import "optionsDifficulty"
 import "optionsMode"
 import "pressStart"
@@ -28,6 +29,9 @@ gameState = "title"
 -- Initialize music
 menuBgm = snd.fileplayer.new()
 stageBgm = snd.fileplayer.new()
+
+-- Initialize sound effects
+gameStartSound = snd.sampleplayer.new("sound/game-start")
 
 -- Length of time in milliseconds for switching from state to state
 stateSwitchAnimationDuration = 1800
@@ -76,7 +80,6 @@ local wallImage = gfx.image.new("images/wall")
 -- Initialize sound effects
 local foodSound = snd.sampleplayer.new("sound/power-up")
 local clickSound = snd.sampleplayer.new("sound/click")
-local gameStartSound = snd.sampleplayer.new("sound/game-start")
 local turnSound = snd.sampleplayer.new("sound/turn")
 
 -- TODO: Implement as enum if possible?
@@ -408,7 +411,7 @@ function playdate.update()
 	elseif gameState == "play" then
 		playStateUpdate()
 	elseif gameState == "nextLevel" then
-		nextLevelUpdate()
+		NextLevelState:update()
 	elseif gameState == "win" then
 		WinState:update()
 	elseif gameState == "end" then
@@ -690,10 +693,10 @@ function playStateUpdate()
 		-- End the stage if the player has eaten enough food to meet the goal
 		if foodRemaining == 0 then
 			if currentLevel == lastLevel then
-				switchToWinState()
+				WinState:switch()
 			else
 				currentLevel += 1
-				switchToNextLevelState()
+				NextLevelState:switch()
 			end
 			return
 		end
@@ -705,19 +708,4 @@ function playStateUpdate()
 	end
 
 	justPressedButton = false
-end
-
-function switchToNextLevelState()
-	gameStartSound:play()
-	gameState = "nextLevel"
-end
-
-function nextLevelUpdate()
-	if stateSwitchInProgress == false then
-		if playdate.buttonJustPressed(playdate.kButtonA) then
-			gfx.sprite.removeAll()
-			stateSwitchInProgress = true
-			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
-		end
-	end
 end
