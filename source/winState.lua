@@ -15,7 +15,7 @@ function WinState:update()
 			gfx.sprite.removeAll()
 			currentLevel = 1
 			stateSwitchInProgress = true
-			playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToOptionsState)
+			playdate.timer.performAfterDelay(stateSwitchPauseDuration, OptionsState.switch)
 		end
 	end
 end

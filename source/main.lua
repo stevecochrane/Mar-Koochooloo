@@ -8,9 +8,7 @@ import "CoreLibs/timer"
 import "creditsState"
 import "endState"
 import "nextLevelState"
-import "optionsDifficulty"
-import "optionsMode"
-import "pressStart"
+import "optionsState"
 import "tilemap"
 import "titleCredits"
 import "titleStart"
@@ -31,6 +29,7 @@ menuBgm = snd.fileplayer.new()
 stageBgm = snd.fileplayer.new()
 
 -- Initialize sound effects
+clickSound = snd.sampleplayer.new("sound/click")
 gameStartSound = snd.sampleplayer.new("sound/game-start")
 
 -- Length of time in milliseconds for switching from state to state
@@ -42,9 +41,21 @@ stateSwitchInProgress = false
 
 currentLevel = 1
 
-local systemMenu = playdate.getSystemMenu()
-local systemMenuItemNewGame = nil
-local systemMenuItemOptions = nil
+systemMenu = playdate.getSystemMenu()
+
+-- This is configurable in the options screen. Can be either "speed" or "puzzle".
+mode = "speed"
+
+-- This is what is displayed to the user for their difficulty setting.
+difficultySetting = 1
+-- This is the mapping between the above two values.
+difficultySpeedMap = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
+difficultyPuzzleMap = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+difficultyMin = 1
+difficultyMax = 10
+-- The player will move every time the frameTimer hits this number.
+-- Declaring it here also lets us change it later.
+playerMoveInterval = difficultySpeedMap[difficultySetting]
 
 local screenWidth = playdate.display.getWidth()
 local screenHeight = playdate.display.getHeight()
@@ -59,7 +70,6 @@ local foodSprite = nil
 
 -- Initialize images
 local foodImage = gfx.image.new("images/apple")
-local optionsScreenImage = gfx.image.new("images/options-screen")
 local snakeBodyDownLeftImage = gfx.image.new("images/snake-body-down-left")
 local snakeBodyDownRightImage = gfx.image.new("images/snake-body-down-right")
 local snakeBodyLeftRightImage = gfx.image.new("images/snake-body-left-right")
@@ -79,24 +89,12 @@ local wallImage = gfx.image.new("images/wall")
 
 -- Initialize sound effects
 local foodSound = snd.sampleplayer.new("sound/power-up")
-local clickSound = snd.sampleplayer.new("sound/click")
 local turnSound = snd.sampleplayer.new("sound/turn")
 
 -- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
 local playerDirection = nil
 local playerDirectionBuffer = nil
-
--- This is what is displayed to the user for their difficulty setting.
-local difficultySetting = 1
--- This is the mapping between the above two values.
-local difficultySpeedMap = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
-local difficultyPuzzleMap = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-local difficultyMin = 1
-local difficultyMax = 10
--- The player will move every time the frameTimer hits this number.
--- Declaring it here also lets us change it later.
-local playerMoveInterval = difficultySpeedMap[difficultySetting]
 
 -- We'll check this on every frame to determine if it's time to move.
 local moveTimer = nil
@@ -110,9 +108,6 @@ local snakeSprites = nil
 -- Stores the direction the snake was traveling in for each segment of the snake.
 local snakeDirections = nil
 
--- This is configurable in the options screen. Can be either "speed" or "puzzle".
-local mode = "speed"
-
 -- This may be customizeable later.
 local startingSnakeSegments = 3
 
@@ -124,13 +119,6 @@ local segmentsToGain = 0
 -- Title screen
 local titleCredits = nil
 local titleStart = nil
-
--- User preferences
-local optionsMode = nil
-local optionsDifficulty = nil
-
--- Shared variable for PressStart instances
-local pressStart = nil
 
 local wallSpriteCoordinates = nil
 
@@ -256,7 +244,7 @@ end
 function addPlayStateSystemMenuItems()
 	systemMenu:removeAllMenuItems()
 
-	systemMenuItemNewGame = systemMenu:addMenuItem("New Game", function()
+	systemMenu:addMenuItem("New Game", function()
 		moveTimer:remove()
 		stageBgm:stop()
 		gfx.sprite.removeAll()
@@ -264,12 +252,12 @@ function addPlayStateSystemMenuItems()
 		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
 	end)
 
-	systemMenuItemOptions = systemMenu:addMenuItem("Options", function()
+	systemMenu:addMenuItem("Options", function()
 		moveTimer:remove()
 		stageBgm:stop()
 		gfx.sprite.removeAll()
 		stateSwitchInProgress = true
-		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToOptionsState)
+		playdate.timer.performAfterDelay(stateSwitchPauseDuration, OptionsState.switch)
 	end)
 end
 
@@ -407,7 +395,7 @@ function playdate.update()
 	elseif gameState == "credits" then
 		CreditsState:update()
 	elseif gameState == "options" then
-		optionsStateUpdate()
+		OptionsState:update()
 	elseif gameState == "play" then
 		playStateUpdate()
 	elseif gameState == "nextLevel" then
@@ -444,109 +432,12 @@ function titleStateUpdate()
 			titleStart:blink()
 			stateSwitchInProgress = true
 			playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
-			playdate.timer.performAfterDelay(stateSwitchFullDuration, switchToOptionsState)
+			playdate.timer.performAfterDelay(stateSwitchFullDuration, OptionsState.switch)
 		elseif titleCredits.selected == true then
 			gfx.sprite.removeAll()
 			stateSwitchInProgress = true
 			playdate.timer.performAfterDelay(stateSwitchPauseDuration, CreditsState.switch)
 		end
-	end
-end
-
-function switchToOptionsState()
-	-- Clear player's progress whenever they enter/re-enter the Options screen
-	currentLevel = 1
-
-	stateSwitchInProgress = false
-	menuBgm:setVolume("0.75")
-	menuBgm:play(0)
-
-	local backgroundSprite = gfx.sprite.new(optionsScreenImage)
-	backgroundSprite:setCenter(0, 0)
-	backgroundSprite:moveTo(0, 0)
-	backgroundSprite:add()
-
-	pressStart = PressStart()
-	pressStart:moveTo(0, 176)
-	pressStart:addSprite()
-
-	optionsMode = OptionsMode()
-	optionsMode:setMode(mode)
-	optionsMode:select()
-	optionsMode:addSprite()
-
-	optionsDifficulty = OptionsDifficulty()
-	optionsDifficulty:setDifficulty(difficultySetting)
-	optionsDifficulty:addSprite()
-
-	systemMenu:removeAllMenuItems()
-
-	gameState = "options"
-end
-
-function optionsStateUpdate()
-	if playdate.buttonJustPressed(playdate.kButtonLeft) then
-		if optionsMode.selected == true then
-			clickSound:play()
-
-			-- TODO: Extract this into a function
-			if mode == "speed" then
-				mode = "puzzle"
-			else
-				mode = "speed"
-			end
-
-			optionsMode:setMode(mode)
-
-		elseif optionsDifficulty.selected == true and difficultySetting > difficultyMin then
-			clickSound:play()
-			difficultySetting -= 1
-			playerMoveInterval = difficultySpeedMap[difficultySetting]
-			optionsDifficulty:setDifficulty(difficultySetting)
-
-		end
-	end
-
-	if playdate.buttonJustPressed(playdate.kButtonRight) then
-		if optionsMode.selected == true then
-			clickSound:play()
-
-			-- TODO: Extract this into a function
-			if mode == "speed" then
-				mode = "puzzle"
-			else
-				mode = "speed"
-			end
-
-			optionsMode:setMode(mode)
-
-		elseif optionsDifficulty.selected == true and difficultySetting < difficultyMax then
-			clickSound:play()
-			difficultySetting += 1
-			playerMoveInterval = difficultySpeedMap[difficultySetting]
-			optionsDifficulty:setDifficulty(difficultySetting)
-		end
-	end
-
-	if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonDown) then
-		if optionsMode.selected == true then
-			clickSound:play()
-			optionsMode:deselect()
-			optionsDifficulty:select()
-		elseif optionsDifficulty.selected == true then
-			clickSound:play()
-			optionsMode:select()
-			optionsDifficulty:deselect()
-		end
-	end
-
-	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonA) then
-		pressStart:blink()
-		menuBgm:setVolume("0.0", "0.0", stateSwitchFullDurationSeconds)
-		gameStartSound:play()
-		stateSwitchInProgress = true
-		playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
-		playdate.timer.performAfterDelay(stateSwitchFullDuration, switchToPlayState)
 	end
 end
 
