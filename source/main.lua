@@ -10,8 +10,7 @@ import "endState"
 import "nextLevelState"
 import "optionsState"
 import "tilemap"
-import "titleCredits"
-import "titleStart"
+import "titleState"
 import "winState"
 
 local gfx <const> = playdate.graphics
@@ -84,7 +83,6 @@ local snakeTailDownImage = gfx.image.new("images/snake-tail-down")
 local snakeTailLeftImage = gfx.image.new("images/snake-tail-left")
 local snakeTailRightImage = gfx.image.new("images/snake-tail-right")
 local snakeTailUpImage = gfx.image.new("images/snake-tail-up")
-local titleScreenImage = gfx.image.new("images/title-screen")
 local wallImage = gfx.image.new("images/wall")
 
 -- Initialize sound effects
@@ -115,10 +113,6 @@ local startingSnakeSegments = 3
 local segmentsGainedWhenEating = nil
 local segmentsGainedWhenEatingSpeedDefault = 3
 local segmentsToGain = 0
-
--- Title screen
-local titleCredits = nil
-local titleStart = nil
 
 local wallSpriteCoordinates = nil
 
@@ -366,32 +360,12 @@ function setUpGame()
 	stageBgm:play(0)
 end
 
-function startGame()
-	gameState = "title"
-	stateSwitchInProgress = false
-
-	local titleScreenSprite = gfx.sprite.new(titleScreenImage)
-	titleScreenSprite:moveTo(200, 120)
-	titleScreenSprite:add()
-
-	titleStart = TitleStart()
-	titleStart:select()
-	titleStart:addSprite()
-
-	titleCredits = TitleCredits()
-	titleCredits:addSprite()
-
-	menuBgm:load("music/menu-bgm")
-	menuBgm:setVolume("0.75")
-	menuBgm:play(0)
-end
-
 gfx.setBackgroundColor(gfx.kColorBlack)
-startGame()
+TitleState:switch()
 
 function playdate.update()
 	if gameState == "title" then
-		titleStateUpdate()
+		TitleState:update()
 	elseif gameState == "credits" then
 		CreditsState:update()
 	elseif gameState == "options" then
@@ -411,34 +385,6 @@ function playdate.update()
 	playdate.frameTimer.updateTimers()
 	playdate.timer.updateTimers()
 	-- playdate.drawFPS(0,0)
-end
-
-function titleStateUpdate()
-	if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonDown) then
-		if titleStart.selected == true then
-			clickSound:play()
-			titleStart:deselect()
-			titleCredits:select()
-		elseif titleCredits.selected == true then
-			clickSound:play()
-			titleStart:select()
-			titleCredits:deselect()
-		end
-	end
-
-	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonA) then
-		if titleStart.selected == true then
-			gameStartSound:play()
-			titleStart:blink()
-			stateSwitchInProgress = true
-			playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
-			playdate.timer.performAfterDelay(stateSwitchFullDuration, OptionsState.switch)
-		elseif titleCredits.selected == true then
-			gfx.sprite.removeAll()
-			stateSwitchInProgress = true
-			playdate.timer.performAfterDelay(stateSwitchPauseDuration, CreditsState.switch)
-		end
-	end
 end
 
 function switchToPlayState()
