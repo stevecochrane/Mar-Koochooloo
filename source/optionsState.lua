@@ -1,13 +1,13 @@
 import "optionsDifficulty"
 import "optionsMode"
-import "pressStart"
+import "optionsPressStart"
 
 local gfx <const> = playdate.graphics
 
 local optionsScreenImage = gfx.image.new("images/options-screen")
 local optionsMode = nil
 local optionsDifficulty = nil
-local pressStart = nil
+local optionsPressStart = nil
 
 OptionsState = {}
 
@@ -26,9 +26,9 @@ function OptionsState:switch()
 	backgroundSprite:moveTo(0, 0)
 	backgroundSprite:add()
 
-	pressStart = PressStart()
-	pressStart:moveTo(0, 176)
-	pressStart:addSprite()
+	optionsPressStart = OptionsPressStart()
+	optionsPressStart:moveTo(0, 176)
+	optionsPressStart:addSprite()
 
 	optionsMode = OptionsMode()
 	optionsMode:setMode(mode)
@@ -99,7 +99,7 @@ function OptionsState:update()
 	end
 
 	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonA) then
-		pressStart:blink()
+		optionsPressStart:blink()
 		menuBgm:setVolume("0.0", "0.0", stateSwitchFullDurationSeconds)
 		gameStartSound:play()
 		stateSwitchInProgress = true

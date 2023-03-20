@@ -1,9 +1,9 @@
 local gfx <const> = playdate.graphics
 
-class("PressStart").extends(gfx.sprite)
+class("OptionsPressStart").extends(gfx.sprite)
 
-function PressStart:init()
-	PressStart.super.init(self)
+function OptionsPressStart:init()
+	OptionsPressStart.super.init(self)
 
 	self.blinker = gfx.animation.blinker.new()
 	self.blinker.cycles = 10
@@ -17,11 +17,11 @@ function PressStart:init()
 	self:setSize(400, 24)
 end
 
-function PressStart:blink()
+function OptionsPressStart:blink()
 	self.blinker:start()
 end
 
-function PressStart:update()
+function OptionsPressStart:update()
 	if self.blinker.running then
 		if self.visible and not self.blinker.on then
 			self.visible = false
@@ -33,7 +33,7 @@ function PressStart:update()
 	end
 end
 
-function PressStart:draw()
+function OptionsPressStart:draw()
 	if self.visible then
 		gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
 	else
