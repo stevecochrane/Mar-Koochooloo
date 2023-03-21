@@ -9,6 +9,7 @@ import "creditsState"
 import "endState"
 import "nextLevelState"
 import "optionsState"
+import "systemMenu"
 import "tilemap"
 import "titleState"
 import "winState"
@@ -40,8 +41,6 @@ stateSwitchInProgress = false
 
 currentLevel = 1
 
-systemMenu = playdate.getSystemMenu()
-
 -- This is configurable in the options screen. Can be either "speed" or "puzzle".
 mode = "speed"
 
@@ -55,6 +54,9 @@ difficultyMax = 10
 -- The player will move every time the frameTimer hits this number.
 -- Declaring it here also lets us change it later.
 playerMoveInterval = difficultySpeedMap[difficultySetting]
+
+-- We'll check this on every frame to determine if it's time to move.
+moveTimer = nil
 
 local screenWidth = playdate.display.getWidth()
 local screenHeight = playdate.display.getHeight()
@@ -93,9 +95,6 @@ local turnSound = snd.sampleplayer.new("sound/turn")
 -- Possible values are "up", "right", "down", and "left"
 local playerDirection = nil
 local playerDirectionBuffer = nil
-
--- We'll check this on every frame to determine if it's time to move.
-local moveTimer = nil
 
 -- Stores coordinates (e.g. {x, y}) for each segment of the snake.
 local snakeCoordinates = nil
@@ -235,26 +234,6 @@ function updateSnakeTail()
 	snakeSprites[#snakeSprites]:setImage(updatedImage)
 end
 
-function addPlayStateSystemMenuItems()
-	systemMenu:removeAllMenuItems()
-
-	systemMenu:addMenuItem("New Game", function()
-		moveTimer:remove()
-		stageBgm:stop()
-		gfx.sprite.removeAll()
-		stateSwitchInProgress = true
-		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
-	end)
-
-	systemMenu:addMenuItem("Options", function()
-		moveTimer:remove()
-		stageBgm:stop()
-		gfx.sprite.removeAll()
-		stateSwitchInProgress = true
-		playdate.timer.performAfterDelay(stateSwitchPauseDuration, OptionsState.switch)
-	end)
-end
-
 -- A function to set up our game environment.
 function setUpGame()
 	-- (Re-)initialize snake arrays
@@ -390,7 +369,7 @@ end
 function switchToPlayState()
 	stateSwitchInProgress = false
 	menuBgm:stop()
-	addPlayStateSystemMenuItems()
+	SystemMenu:addItems()
 	setUpGame()
 	gameState = "play"
 end

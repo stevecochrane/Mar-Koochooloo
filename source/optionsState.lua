@@ -39,7 +39,7 @@ function OptionsState:switch()
 	optionsDifficulty:setDifficulty(difficultySetting)
 	optionsDifficulty:addSprite()
 
-	systemMenu:removeAllMenuItems()
+	SystemMenu:removeItems()
 end
 
 function OptionsState:update()
