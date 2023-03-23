@@ -31,7 +31,7 @@ function TitleStart:select()
 
 	self.appleSprite = gfx.sprite.new(appleImage)
 	self.appleSprite:setCenter(0, 0)
-	self.appleSprite:moveTo(self.x, self.y)
+	self.appleSprite:moveTo(self.x, self.y + 1)
 	self.appleSprite:add()
 
 	self:markDirty()
@@ -58,18 +58,17 @@ function TitleStart:update()
 end
 
 function TitleStart:draw()
+	local Roobert11Medium <const> = gfx.font.new('Fonts/Roobert-11-Medium')
+	local Asheville14Light <const> = gfx.font.new('Fonts/Asheville-Sans-14-Light')
+
 	if self.visible then
 		gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
 	else
 		gfx.setImageDrawMode(gfx.kDrawModeWhiteTransparent)
 	end
 
-	local Asheville14Bold <const> = gfx.font.new('Fonts/Asheville-Sans-14-Bold')
-	gfx.setFont(Asheville14Bold);
-
+	gfx.setFont(Roobert11Medium);
 	gfx.drawText("Start", 24, 0)
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
-
-	local Asheville14Light <const> = gfx.font.new('Fonts/Asheville-Sans-14-Light')
 	gfx.setFont(Asheville14Light);
 end
