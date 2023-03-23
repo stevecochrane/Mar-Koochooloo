@@ -1,4 +1,4 @@
-import "foodEaten"
+import "endFoodEaten"
 
 local gfx <const> = playdate.graphics
 local snd <const> = playdate.sound
@@ -20,9 +20,9 @@ function EndState:switch()
 	gameOverSprite:setZIndex(1) -- Ensure this is above the snake
 	gameOverSprite:add()
 
-	foodEaten = FoodEaten()
-	foodEaten:setCount(foodEatenCount)
-	foodEaten:addSprite()
+	endFoodEaten = EndFoodEaten()
+	endFoodEaten:setCount(foodEatenCount)
+	endFoodEaten:addSprite()
 end
 
 function EndState:update()
