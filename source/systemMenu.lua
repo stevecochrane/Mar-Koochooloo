@@ -11,7 +11,7 @@ function SystemMenu:addItems()
 		stageBgm:stop()
 		gfx.sprite.removeAll()
 		stateSwitchInProgress = true
-		playdate.timer.performAfterDelay(stateSwitchPauseDuration, switchToPlayState)
+		playdate.timer.performAfterDelay(stateSwitchPauseDuration, PlayState.switch)
 	end)
 
 	systemMenu:addMenuItem("Options", function()

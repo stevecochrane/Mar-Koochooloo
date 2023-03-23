@@ -104,6 +104,6 @@ function OptionsState:update()
 		gameStartSound:play()
 		stateSwitchInProgress = true
 		playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
-		playdate.timer.performAfterDelay(stateSwitchFullDuration, switchToPlayState)
+		playdate.timer.performAfterDelay(stateSwitchFullDuration, PlayState.switch)
 	end
 end
