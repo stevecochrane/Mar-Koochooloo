@@ -1,5 +1,6 @@
 import "optionsDifficulty"
 import "optionsMode"
+import "optionsMusic"
 import "optionsPressStart"
 
 local gfx <const> = playdate.graphics
@@ -7,6 +8,7 @@ local gfx <const> = playdate.graphics
 local optionsScreenImage = gfx.image.new("images/options-screen")
 local optionsMode = nil
 local optionsDifficulty = nil
+local optionsMusic = nil
 local optionsPressStart = nil
 
 OptionsState = {}
@@ -27,7 +29,7 @@ function OptionsState:switch()
 	backgroundSprite:add()
 
 	optionsPressStart = OptionsPressStart()
-	optionsPressStart:moveTo(0, 176)
+	optionsPressStart:moveTo(0, 192)
 	optionsPressStart:addSprite()
 
 	optionsMode = OptionsMode()
@@ -38,6 +40,10 @@ function OptionsState:switch()
 	optionsDifficulty = OptionsDifficulty()
 	optionsDifficulty:setDifficulty(difficultySetting)
 	optionsDifficulty:addSprite()
+
+	optionsMusic = OptionsMusic()
+	optionsMusic:setMusic(music)
+	optionsMusic:addSprite()
 
 	SystemMenu:removeItems()
 end
@@ -86,15 +92,33 @@ function OptionsState:update()
 		end
 	end
 
-	if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonDown) then
+	if playdate.buttonJustPressed(playdate.kButtonUp) then
+		clickSound:play()
+
 		if optionsMode.selected == true then
-			clickSound:play()
+			optionsMode:deselect()
+			optionsMusic:select()
+		elseif optionsDifficulty.selected == true then
+			optionsDifficulty:deselect()
+			optionsMode:select()
+		else
+			optionsMusic:deselect()
+			optionsDifficulty:select()
+		end
+	end
+
+	if playdate.buttonJustPressed(playdate.kButtonDown) then
+		clickSound:play()
+
+		if optionsMode.selected == true then
 			optionsMode:deselect()
 			optionsDifficulty:select()
 		elseif optionsDifficulty.selected == true then
-			clickSound:play()
-			optionsMode:select()
+			optionsMusic:select()
 			optionsDifficulty:deselect()
+		else
+			optionsMode:select()
+			optionsMusic:deselect()
 		end
 	end
 

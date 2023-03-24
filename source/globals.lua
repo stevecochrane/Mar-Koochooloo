@@ -27,6 +27,9 @@ currentLevel = 1
 -- This is configurable in the options screen. Can be either "speed" or "puzzle".
 mode = "speed"
 
+-- This is also configurable in the options screen. Can be either "one" or "two".
+music = "one"
+
 -- This is what is displayed to the user for their difficulty setting.
 difficultySetting = 1
 -- This is the mapping between the above two values.
