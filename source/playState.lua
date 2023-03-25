@@ -278,7 +278,7 @@ function PlayState:setUpGame()
 	foodSprite:add()
 
 	-- Load main stage background music (this is also needed to start playing from the beginning)
-	stageBgm:load("music/stage-bgm")
+	stageBgm:load("music/one-bgm")
 	stageBgm:setVolume("0.75")
 	-- Play and loop forever
 	stageBgm:play(0)
