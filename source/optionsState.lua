@@ -52,14 +52,11 @@ function OptionsState:update()
 	if playdate.buttonJustPressed(playdate.kButtonLeft) then
 		if optionsMode.selected == true then
 			clickSound:play()
-
-			-- TODO: Extract this into a function
 			if mode == "speed" then
 				mode = "puzzle"
 			else
 				mode = "speed"
 			end
-
 			optionsMode:setMode(mode)
 
 		elseif optionsDifficulty.selected == true and difficultySetting > difficultyMin then
@@ -68,20 +65,25 @@ function OptionsState:update()
 			playerMoveInterval = difficultySpeedMap[difficultySetting]
 			optionsDifficulty:setDifficulty(difficultySetting)
 
+		else
+			clickSound:play()
+			if music == "one" then
+				music = "two"
+			else
+				music = "one"
+			end
+			optionsMusic:setMusic(music)
 		end
 	end
 
 	if playdate.buttonJustPressed(playdate.kButtonRight) then
 		if optionsMode.selected == true then
 			clickSound:play()
-
-			-- TODO: Extract this into a function
 			if mode == "speed" then
 				mode = "puzzle"
 			else
 				mode = "speed"
 			end
-
 			optionsMode:setMode(mode)
 
 		elseif optionsDifficulty.selected == true and difficultySetting < difficultyMax then
@@ -89,6 +91,15 @@ function OptionsState:update()
 			difficultySetting += 1
 			playerMoveInterval = difficultySpeedMap[difficultySetting]
 			optionsDifficulty:setDifficulty(difficultySetting)
+
+		else
+			clickSound:play()
+			if music == "one" then
+				music = "two"
+			else
+				music = "one"
+			end
+			optionsMusic:setMusic(music)
 		end
 	end
 
