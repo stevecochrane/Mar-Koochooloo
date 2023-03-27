@@ -34,5 +34,7 @@ function CreditsText:draw()
 	gfx.setFont(Roobert11Medium)
 	gfx.drawText("Nazgol Bagheri, Darya Cochrane", leftMargin, rowHeight * 10)
 
+	gfx.drawTextAligned("Ⓐ", 380, rowHeight * 10, kTextAlignment.right)
+
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end
