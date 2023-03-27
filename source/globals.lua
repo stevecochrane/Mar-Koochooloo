@@ -1,4 +1,8 @@
+local gfx <const> = playdate.graphics
 local snd <const> = playdate.sound
+
+-- Initialize Roobert 11 Medium which will be the default font
+Roobert11Medium = gfx.font.new('Fonts/Roobert-11-Medium')
 
 -- Store how many pieces of food are eaten per game
 foodEatenCount = nil

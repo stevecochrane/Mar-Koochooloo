@@ -10,7 +10,6 @@ function CreditsText:init()
 end
 
 function CreditsText:draw()
-	local Roobert11Medium <const> = gfx.font.new('Fonts/Roobert-11-Medium')
 	local Roobert10Bold <const> = gfx.font.new('Fonts/Roobert-10-Bold')
 
 	local leftMargin = 20
@@ -18,7 +17,6 @@ function CreditsText:draw()
 
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
 
-	gfx.setFont(Roobert11Medium)
 	gfx.drawText("For Darya, with love", leftMargin, rowHeight * 1)
 
 	gfx.setFont(Roobert10Bold)
@@ -36,7 +34,5 @@ function CreditsText:draw()
 	gfx.setFont(Roobert11Medium)
 	gfx.drawText("Nazgol Bagheri, Darya Cochrane", leftMargin, rowHeight * 10)
 
-	-- Reset to defaults so this doesn't change other areas of the game
-	gfx.setFont(Asheville14Light)
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end

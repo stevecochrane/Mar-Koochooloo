@@ -36,12 +36,7 @@ function TitleCredits:deselect()
 end
 
 function TitleCredits:draw()
-	local Roobert11Medium <const> = gfx.font.new('Fonts/Roobert-11-Medium')
-	local Asheville14Light <const> = gfx.font.new('Fonts/Asheville-Sans-14-Light')
-
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-	gfx.setFont(Roobert11Medium);
 	gfx.drawText("Credits", 24, 0)
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
-	gfx.setFont(Asheville14Light);
 end

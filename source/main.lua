@@ -21,6 +21,9 @@ local gfx <const> = playdate.graphics
 -- Set the background color to black, as the default is white.
 gfx.setBackgroundColor(gfx.kColorBlack)
 
+-- Set the default font to Roobert 11 Medium
+gfx.setFont(Roobert11Medium)
+
 -- Start by initializing the title screen.
 TitleState:switch()
 

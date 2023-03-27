@@ -58,17 +58,12 @@ function TitleStart:update()
 end
 
 function TitleStart:draw()
-	local Roobert11Medium <const> = gfx.font.new('Fonts/Roobert-11-Medium')
-	local Asheville14Light <const> = gfx.font.new('Fonts/Asheville-Sans-14-Light')
-
 	if self.visible then
 		gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
 	else
 		gfx.setImageDrawMode(gfx.kDrawModeWhiteTransparent)
 	end
 
-	gfx.setFont(Roobert11Medium);
 	gfx.drawText("Start", 24, 0)
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
-	gfx.setFont(Asheville14Light);
 end
