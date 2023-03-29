@@ -64,6 +64,8 @@ local foodRemaining = nil
 
 local justPressedButton = false
 
+local directionHeldTimer = nil
+
 PlayState = {}
 
 function PlayState:isCollidingWithSnake(coordinates)
@@ -179,6 +181,10 @@ function PlayState:updateSnakeTail()
 	snakeSprites[#snakeSprites]:setImage(updatedImage)
 end
 
+function PlayState:buttonIsHeld()
+	print('button held')
+end
+
 -- A function to set up our game environment.
 function PlayState:setUpGame()
 	-- (Re-)initialize snake arrays
@@ -190,7 +196,7 @@ function PlayState:setUpGame()
 	playerDirection = "right"
 	playerDirectionBuffer = playerDirection
 
-	-- (Re-)initialize move timer
+	-- Reinitialize move timer
 	moveTimer = playdate.frameTimer.new(playerMoveInterval)
 	moveTimer.repeats = true
 
@@ -297,30 +303,51 @@ function PlayState:switch()
 	PlayState:setUpGame()
 end
 
+-- justPressed: reset the frameTimer to 0 along with the stuff you’re already doing
+-- When the timer reaches a certain value, turn on an auto-move variable that gets the snake moving on an interval
+-- justReleased: set the timer to 0 and turn off the auto-move variable
 function PlayState:update()
 	if playdate.buttonJustPressed(playdate.kButtonUp) then
 		if playerDirection ~= "down" then
 			clickSound:play()
 			playerDirectionBuffer = "up"
 			justPressedButton = true
+			if mode == "puzzle" then
+				directionHeldTimer = playdate.frameTimer.new(30, PlayState.buttonIsHeld)
+			end
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonRight) then
 		if playerDirection ~= "left" then
 			clickSound:play()
 			playerDirectionBuffer = "right"
 			justPressedButton = true
+			if mode == "puzzle" then
+				directionHeldTimer = playdate.frameTimer.new(30, PlayState.buttonIsHeld)
+			end
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonDown) then
 		if playerDirection ~= "up" then
 			clickSound:play()
 			playerDirectionBuffer = "down"
 			justPressedButton = true
+			if mode == "puzzle" then
+				directionHeldTimer = playdate.frameTimer.new(30, PlayState.buttonIsHeld)
+			end
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
 		if playerDirection ~= "right" then
 			clickSound:play()
 			playerDirectionBuffer = "left"
 			justPressedButton = true
+			if mode == "puzzle" then
+				directionHeldTimer = playdate.frameTimer.new(30, PlayState.buttonIsHeld)
+			end
+		end
+	end
+
+	if mode == "puzzle" then
+		if playdate.buttonJustReleased(playdate.kButtonUp) or playdate.buttonJustReleased(playdate.kButtonDown) or playdate.buttonJustReleased(playdate.kButtonLeft) or playdate.buttonJustReleased(playdate.kButtonRight) then
+			directionHeldTimer:pause()
 		end
 	end
 
