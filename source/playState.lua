@@ -65,6 +65,7 @@ local foodRemaining = nil
 local justPressedButton = false
 
 local directionHeldTimer = nil
+local directionHeld = nil
 
 PlayState = {}
 
@@ -181,8 +182,20 @@ function PlayState:updateSnakeTail()
 	snakeSprites[#snakeSprites]:setImage(updatedImage)
 end
 
-function PlayState:buttonIsHeld()
-	print('button held')
+function PlayState:upButtonIsHeld()
+	print('button held: up')
+end
+
+function PlayState:downButtonIsHeld()
+	print('button held: down')
+end
+
+function PlayState:leftButtonIsHeld()
+	print('button held: left')
+end
+
+function PlayState:rightButtonIsHeld()
+	print('button held: right')
 end
 
 -- A function to set up our game environment.
@@ -313,7 +326,7 @@ function PlayState:update()
 			playerDirectionBuffer = "up"
 			justPressedButton = true
 			if mode == "puzzle" then
-				directionHeldTimer = playdate.frameTimer.new(30, PlayState.buttonIsHeld)
+				directionHeldTimer = playdate.frameTimer.new(30, PlayState.upButtonIsHeld)
 			end
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonRight) then
@@ -322,7 +335,7 @@ function PlayState:update()
 			playerDirectionBuffer = "right"
 			justPressedButton = true
 			if mode == "puzzle" then
-				directionHeldTimer = playdate.frameTimer.new(30, PlayState.buttonIsHeld)
+				directionHeldTimer = playdate.frameTimer.new(30, PlayState.rightButtonIsHeld)
 			end
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonDown) then
@@ -331,7 +344,7 @@ function PlayState:update()
 			playerDirectionBuffer = "down"
 			justPressedButton = true
 			if mode == "puzzle" then
-				directionHeldTimer = playdate.frameTimer.new(30, PlayState.buttonIsHeld)
+				directionHeldTimer = playdate.frameTimer.new(30, PlayState.downButtonIsHeld)
 			end
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
@@ -340,7 +353,7 @@ function PlayState:update()
 			playerDirectionBuffer = "left"
 			justPressedButton = true
 			if mode == "puzzle" then
-				directionHeldTimer = playdate.frameTimer.new(30, PlayState.buttonIsHeld)
+				directionHeldTimer = playdate.frameTimer.new(30, PlayState.leftButtonIsHeld)
 			end
 		end
 	end
