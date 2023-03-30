@@ -184,18 +184,22 @@ end
 
 function PlayState:upButtonIsHeld()
 	print('button held: up')
+	directionHeld = "up"
 end
 
 function PlayState:downButtonIsHeld()
 	print('button held: down')
+	directionHeld = "down"
 end
 
 function PlayState:leftButtonIsHeld()
 	print('button held: left')
+	directionHeld = "left"
 end
 
 function PlayState:rightButtonIsHeld()
 	print('button held: right')
+	directionHeld = "right"
 end
 
 -- A function to set up our game environment.
@@ -210,7 +214,11 @@ function PlayState:setUpGame()
 	playerDirectionBuffer = playerDirection
 
 	-- Reinitialize move timer
-	moveTimer = playdate.frameTimer.new(playerMoveInterval)
+	if mode == "speed" then
+		moveTimer = playdate.frameTimer.new(playerMoveInterval)
+	else
+		moveTimer = playdate.frameTimer.new(puzzlePlayerMoveInterval)
+	end
 	moveTimer.repeats = true
 
 	-- (Re-)initialize other variables
@@ -361,10 +369,11 @@ function PlayState:update()
 	if mode == "puzzle" then
 		if playdate.buttonJustReleased(playdate.kButtonUp) or playdate.buttonJustReleased(playdate.kButtonDown) or playdate.buttonJustReleased(playdate.kButtonLeft) or playdate.buttonJustReleased(playdate.kButtonRight) then
 			directionHeldTimer:pause()
+			directionHeld = nil
 		end
 	end
 
-	if ((mode == "speed" and moveTimer.frame == playerMoveInterval) or (mode == "puzzle" and justPressedButton == true)) then
+	if ((mode == "speed" and moveTimer.frame == playerMoveInterval) or (mode == "puzzle" and justPressedButton == true) or (mode == "puzzle" and moveTimer.frame == puzzlePlayerMoveInterval and directionHeld)) then
 		-- Initialize coordinates for next snake segment at position of current head
 		local nextCoordinates = {snakeCoordinates[1][1], snakeCoordinates[1][2]}
 		local nextSprite = nil
