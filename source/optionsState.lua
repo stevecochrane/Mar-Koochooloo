@@ -1,11 +1,12 @@
 import "optionsDifficulty"
+import "optionsHeading"
 import "optionsMode"
 import "optionsMusic"
 import "optionsPressStart"
 
 local gfx <const> = playdate.graphics
 
-local optionsScreenImage = gfx.image.new("images/options-screen")
+local optionsHeading = nil
 local optionsMode = nil
 local optionsDifficulty = nil
 local optionsMusic = nil
@@ -23,14 +24,9 @@ function OptionsState:switch()
 	menuBgm:setVolume("0.75")
 	menuBgm:play(0)
 
-	local backgroundSprite = gfx.sprite.new(optionsScreenImage)
-	backgroundSprite:setCenter(0, 0)
-	backgroundSprite:moveTo(0, 0)
-	backgroundSprite:add()
-
-	optionsPressStart = OptionsPressStart()
-	optionsPressStart:moveTo(0, 192)
-	optionsPressStart:addSprite()
+	optionsHeading = OptionsHeading()
+	optionsHeading:moveTo(0, 0)
+	optionsHeading:addSprite()
 
 	optionsMode = OptionsMode()
 	optionsMode:setMode(mode)
@@ -44,6 +40,10 @@ function OptionsState:switch()
 	optionsMusic = OptionsMusic()
 	optionsMusic:setMusic(music)
 	optionsMusic:addSprite()
+
+	optionsPressStart = OptionsPressStart()
+	optionsPressStart:moveTo(0, 192)
+	optionsPressStart:addSprite()
 
 	SystemMenu:removeItems()
 end

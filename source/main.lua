@@ -18,8 +18,9 @@ import "winState"
 
 local gfx <const> = playdate.graphics
 
--- Set the background color to black, as the default is white.
+-- Set the background color to black and draw color to white.
 gfx.setBackgroundColor(gfx.kColorBlack)
+gfx.setColor(gfx.kColorWhite)
 
 -- Set the default font to Roobert 11 Medium
 gfx.setFont(Roobert11Medium)
