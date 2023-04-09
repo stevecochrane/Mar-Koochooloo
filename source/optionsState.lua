@@ -65,7 +65,7 @@ function OptionsState:update()
 			playerMoveInterval = difficultySpeedMap[difficultySetting]
 			optionsDifficulty:setDifficulty(difficultySetting)
 
-		else
+		elseif optionsMusic.selected == true then
 			clickSound:play()
 			if music == "one" then
 				music = "two"
@@ -92,7 +92,7 @@ function OptionsState:update()
 			playerMoveInterval = difficultySpeedMap[difficultySetting]
 			optionsDifficulty:setDifficulty(difficultySetting)
 
-		else
+		elseif optionsMusic.selected == true then
 			clickSound:play()
 			if music == "one" then
 				music = "two"
