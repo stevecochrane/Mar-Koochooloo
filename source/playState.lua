@@ -58,7 +58,7 @@ local segmentsToGain = 0
 
 local wallSpriteCoordinates = nil
 
-local lastLevel = 8
+local lastLevel = 7
 local foodGoal = 10
 local foodRemaining = nil
 
