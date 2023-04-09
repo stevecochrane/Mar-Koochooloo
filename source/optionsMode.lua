@@ -27,7 +27,7 @@ function OptionsMode:init()
 
 	self.radioPuzzleSprite = gfx.sprite.new(radioNotSelectedImage)
 	self.radioPuzzleSprite:setCenter(0, 0)
-	self.radioPuzzleSprite:moveTo(self.x + 205, self.y)
+	self.radioPuzzleSprite:moveTo(self.x + 221, self.y)
 	self.radioPuzzleSprite:add()
 end
 
@@ -81,7 +81,7 @@ function OptionsMode:draw()
 
 	gfx.drawText("Mode", 24, 0)
 	gfx.drawText("Speed", 140, 0)
-	gfx.drawText("Puzzle", 223, 0)
+	gfx.drawText("Puzzle", 239, 0)
 
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end

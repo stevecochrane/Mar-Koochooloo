@@ -27,7 +27,7 @@ function OptionsMusic:init()
 
 	self.radioTwoSprite = gfx.sprite.new(radioNotSelectedImage)
 	self.radioTwoSprite:setCenter(0, 0)
-	self.radioTwoSprite:moveTo(self.x + 205, self.y)
+	self.radioTwoSprite:moveTo(self.x + 173, self.y)
 	self.radioTwoSprite:add()
 end
 
@@ -81,7 +81,7 @@ function OptionsMusic:draw()
 
 	gfx.drawText("Music", 24, 0)
 	gfx.drawText("1", 140, 0)
-	gfx.drawText("2", 223, 0)
+	gfx.drawText("2", 191, 0)
 
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end
