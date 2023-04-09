@@ -17,8 +17,8 @@ function OptionsMode:init()
 
 	self:setZIndex(1)
 	self:setCenter(0, 0)
-	self:setSize(272, 20)
-	self:moveTo(72, 80)
+	self:setSize(304, 20)
+	self:moveTo(48, 80)
 
 	self.radioSpeedSprite = gfx.sprite.new(radioSelectedImage)
 	self.radioSpeedSprite:setCenter(0, 0)
