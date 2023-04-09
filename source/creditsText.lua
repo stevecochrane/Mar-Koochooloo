@@ -27,12 +27,12 @@ function CreditsText:draw()
 	gfx.setFont(Roobert10Bold)
 	gfx.drawText("Music, Sound Effects", margin, margin + rowHeight * 5)
 	gfx.setFont(Roobert11Medium)
-	gfx.drawText("Nik Son", margin, margin + rowHeight * 6)
+	gfx.drawText("Nik", margin, margin + rowHeight * 6)
 
 	gfx.setFont(Roobert10Bold)
 	gfx.drawText("Playtesting, Feedback", margin, margin + rowHeight * 8)
 	gfx.setFont(Roobert11Medium)
-	gfx.drawText("Nazgol Bagheri, Darya Cochrane", margin, margin + rowHeight * 9)
+	gfx.drawText("Darya, Darya's Maman", margin, margin + rowHeight * 9)
 
 	gfx.drawTextAligned("Ⓐ", 390, margin + rowHeight * 10, kTextAlignment.right)
 
