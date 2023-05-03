@@ -1,8 +1,10 @@
 local gfx <const> = playdate.graphics
 
 local appleImage = gfx.image.new("images/apple")
-local radioNotSelectedImage = gfx.image.new("images/radio-not-selected")
-local radioSelectedImage = gfx.image.new("images/radio-selected")
+local music1Image = gfx.image.new("images/options-music-1")
+local music1SelectedImage = gfx.image.new("images/options-music-1-selected")
+local musicTwoImage = gfx.image.new("images/options-music-2")
+local musicTwoSelectedImage = gfx.image.new("images/options-music-2-selected")
 
 class("OptionsMusic").extends(gfx.sprite)
 
@@ -11,8 +13,8 @@ function OptionsMusic:init()
 
 	self.appleSprite = nil
 	self.music = "one"
-	self.radioOneSprite = nil
-	self.radioTwoSprite = nil
+	self.music1Sprite = nil
+	self.musicTwoSprite = nil
 	self.selected = false
 
 	self:setZIndex(1)
@@ -20,15 +22,15 @@ function OptionsMusic:init()
 	self:setSize(304, 20)
 	self:moveTo(48, 144)
 
-	self.radioOneSprite = gfx.sprite.new(radioSelectedImage)
-	self.radioOneSprite:setCenter(0, 0)
-	self.radioOneSprite:moveTo(self.x + 122, self.y)
-	self.radioOneSprite:add()
+	self.music1Sprite = gfx.sprite.new(music1SelectedImage)
+	self.music1Sprite:setCenter(0, 0)
+	self.music1Sprite:moveTo(self.x + 128, self.y)
+	self.music1Sprite:add()
 
-	self.radioTwoSprite = gfx.sprite.new(radioNotSelectedImage)
-	self.radioTwoSprite:setCenter(0, 0)
-	self.radioTwoSprite:moveTo(self.x + 173, self.y)
-	self.radioTwoSprite:add()
+	self.musicTwoSprite = gfx.sprite.new(musicTwoImage)
+	self.musicTwoSprite:setCenter(0, 0)
+	self.musicTwoSprite:moveTo(self.x + 170, self.y)
+	self.musicTwoSprite:add()
 end
 
 function OptionsMusic:setMusic(newMusic)
@@ -47,11 +49,11 @@ end
 
 function OptionsMusic:updateDisplay()
 	if self.music == "one" then
-		self.radioOneSprite:setImage(radioSelectedImage)
-		self.radioTwoSprite:setImage(radioNotSelectedImage)
+		self.music1Sprite:setImage(music1SelectedImage)
+		self.musicTwoSprite:setImage(musicTwoImage)
 	else
-		self.radioOneSprite:setImage(radioNotSelectedImage)
-		self.radioTwoSprite:setImage(radioSelectedImage)
+		self.music1Sprite:setImage(music1Image)
+		self.musicTwoSprite:setImage(musicTwoSelectedImage)
 	end
 
 	self:markDirty()
@@ -78,10 +80,6 @@ end
 
 function OptionsMusic:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-
 	gfx.drawText("Music", 24, 0)
-	gfx.drawText("1", 140, 0)
-	gfx.drawText("2", 191, 0)
-
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end
