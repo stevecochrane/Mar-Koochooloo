@@ -52,10 +52,10 @@ function OptionsState:update()
 	if playdate.buttonJustPressed(playdate.kButtonLeft) then
 		if optionsControl.selected == true then
 			clickSound:play()
-			if control == "speed" then
-				control = "puzzle"
+			if control == "classic" then
+				control = "manual"
 			else
-				control = "speed"
+				control = "classic"
 			end
 			optionsControl:setControl(control)
 
@@ -79,10 +79,10 @@ function OptionsState:update()
 	if playdate.buttonJustPressed(playdate.kButtonRight) then
 		if optionsControl.selected == true then
 			clickSound:play()
-			if control == "speed" then
-				control = "puzzle"
+			if control == "classic" then
+				control = "manual"
 			else
-				control = "speed"
+				control = "classic"
 			end
 			optionsControl:setControl(control)
 

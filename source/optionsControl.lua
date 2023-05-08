@@ -13,7 +13,7 @@ function OptionsControl:init()
 
 	self.appleSprite = nil
 	self.classicSprite = nil
-	self.control = "speed"
+	self.control = "classic"
 	self.manualSprite = nil
 	self.selected = false
 
@@ -39,16 +39,16 @@ function OptionsControl:setControl(newControl)
 end
 
 function OptionsControl:toggle()
-	if self.control == "speed" then
-		self.control = "puzzle"
+	if self.control == "classic" then
+		self.control = "manual"
 	else
-		self.control = "speed"
+		self.control = "classic"
 	end
 	self:updateDisplay()
 end
 
 function OptionsControl:updateDisplay()
-	if self.control == "speed" then
+	if self.control == "classic" then
 		self.classicSprite:setImage(classicSelectedImage)
 		self.manualSprite:setImage(manualImage)
 	else

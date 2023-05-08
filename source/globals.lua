@@ -28,8 +28,8 @@ stateSwitchInProgress = false
 
 currentLevel = 1
 
--- This is configurable in the options screen. Can be either "speed" or "puzzle".
-control = "speed"
+-- This is configurable in the options screen. Can be either "classic" or "manual".
+control = "classic"
 
 -- This is also configurable in the options screen. Can be either "one" or "two".
 music = "one"
