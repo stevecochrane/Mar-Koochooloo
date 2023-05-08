@@ -1,8 +1,10 @@
 local gfx <const> = playdate.graphics
 
 local appleImage = gfx.image.new("images/apple")
-local radioNotSelectedImage = gfx.image.new("images/radio-not-selected")
-local radioSelectedImage = gfx.image.new("images/radio-selected")
+local classicImage = gfx.image.new("images/options-classic")
+local classicSelectedImage = gfx.image.new("images/options-classic-selected")
+local manualImage = gfx.image.new("images/options-manual")
+local manualSelectedImage = gfx.image.new("images/options-manual-selected")
 
 class("OptionsMode").extends(gfx.sprite)
 
@@ -11,24 +13,24 @@ function OptionsMode:init()
 
 	self.appleSprite = nil
 	self.mode = "speed"
-	self.radioSpeedSprite = nil
-	self.radioPuzzleSprite = nil
+	self.classicSprite = nil
+	self.manualSprite = nil
 	self.selected = false
 
 	self:setZIndex(1)
 	self:setCenter(0, 0)
-	self:setSize(304, 20)
+	self:setSize(304, 25)
 	self:moveTo(48, 80)
 
-	self.radioSpeedSprite = gfx.sprite.new(radioSelectedImage)
-	self.radioSpeedSprite:setCenter(0, 0)
-	self.radioSpeedSprite:moveTo(self.x + 122, self.y)
-	self.radioSpeedSprite:add()
+	self.classicSprite = gfx.sprite.new(classicSelectedImage)
+	self.classicSprite:setCenter(0, 0)
+	self.classicSprite:moveTo(self.x + 122, self.y)
+	self.classicSprite:add()
 
-	self.radioPuzzleSprite = gfx.sprite.new(radioNotSelectedImage)
-	self.radioPuzzleSprite:setCenter(0, 0)
-	self.radioPuzzleSprite:moveTo(self.x + 221, self.y)
-	self.radioPuzzleSprite:add()
+	self.manualSprite = gfx.sprite.new(manualSelectedImage)
+	self.manualSprite:setCenter(0, 0)
+	self.manualSprite:moveTo(self.x + 207, self.y)
+	self.manualSprite:add()
 end
 
 function OptionsMode:setMode(newMode)
@@ -47,11 +49,11 @@ end
 
 function OptionsMode:updateDisplay()
 	if self.mode == "speed" then
-		self.radioSpeedSprite:setImage(radioSelectedImage)
-		self.radioPuzzleSprite:setImage(radioNotSelectedImage)
+		self.classicSprite:setImage(classicSelectedImage)
+		self.manualSprite:setImage(manualImage)
 	else
-		self.radioSpeedSprite:setImage(radioNotSelectedImage)
-		self.radioPuzzleSprite:setImage(radioSelectedImage)
+		self.classicSprite:setImage(classicImage)
+		self.manualSprite:setImage(manualSelectedImage)
 	end
 
 	self:markDirty()
@@ -62,7 +64,7 @@ function OptionsMode:select()
 
 	self.appleSprite = gfx.sprite.new(appleImage)
 	self.appleSprite:setCenter(0, 0)
-	self.appleSprite:moveTo(self.x, self.y)
+	self.appleSprite:moveTo(self.x, self.y + 4)
 	self.appleSprite:add()
 
 	self:markDirty()
@@ -70,18 +72,12 @@ end
 
 function OptionsMode:deselect()
 	self.selected = false
-
 	self.appleSprite:remove()
-
 	self:markDirty()
 end
 
 function OptionsMode:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-
-	gfx.drawText("Mode", 24, 0)
-	gfx.drawText("Speed", 140, 0)
-	gfx.drawText("Puzzle", 239, 0)
-
+	gfx.drawText("Controls", 24, 3)
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end

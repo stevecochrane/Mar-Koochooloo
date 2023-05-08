@@ -72,9 +72,7 @@ end
 
 function OptionsMusic:deselect()
 	self.selected = false
-
 	self.appleSprite:remove()
-
 	self:markDirty()
 end
 
