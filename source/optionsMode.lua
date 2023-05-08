@@ -78,6 +78,6 @@ end
 
 function OptionsMode:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-	gfx.drawText("Controls", 24, 3)
+	gfx.drawText("Control", 24, 3)
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end
