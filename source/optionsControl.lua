@@ -6,14 +6,14 @@ local classicSelectedImage = gfx.image.new("images/options-classic-selected")
 local manualImage = gfx.image.new("images/options-manual")
 local manualSelectedImage = gfx.image.new("images/options-manual-selected")
 
-class("OptionsMode").extends(gfx.sprite)
+class("OptionsControl").extends(gfx.sprite)
 
-function OptionsMode:init()
-	OptionsMode.super.init(self)
+function OptionsControl:init()
+	OptionsControl.super.init(self)
 
 	self.appleSprite = nil
-	self.mode = "speed"
 	self.classicSprite = nil
+	self.control = "speed"
 	self.manualSprite = nil
 	self.selected = false
 
@@ -33,22 +33,22 @@ function OptionsMode:init()
 	self.manualSprite:add()
 end
 
-function OptionsMode:setMode(newMode)
-	self.mode = newMode
+function OptionsControl:setControl(newControl)
+	self.control = newControl
 	self:updateDisplay()
 end
 
-function OptionsMode:toggle()
-	if self.mode == "speed" then
-		self.mode = "puzzle"
+function OptionsControl:toggle()
+	if self.control == "speed" then
+		self.control = "puzzle"
 	else
-		self.mode = "speed"
+		self.control = "speed"
 	end
 	self:updateDisplay()
 end
 
-function OptionsMode:updateDisplay()
-	if self.mode == "speed" then
+function OptionsControl:updateDisplay()
+	if self.control == "speed" then
 		self.classicSprite:setImage(classicSelectedImage)
 		self.manualSprite:setImage(manualImage)
 	else
@@ -59,7 +59,7 @@ function OptionsMode:updateDisplay()
 	self:markDirty()
 end
 
-function OptionsMode:select()
+function OptionsControl:select()
 	self.selected = true
 
 	self.appleSprite = gfx.sprite.new(appleImage)
@@ -70,13 +70,13 @@ function OptionsMode:select()
 	self:markDirty()
 end
 
-function OptionsMode:deselect()
+function OptionsControl:deselect()
 	self.selected = false
 	self.appleSprite:remove()
 	self:markDirty()
 end
 
-function OptionsMode:draw()
+function OptionsControl:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
 	gfx.drawText("Control", 24, 3)
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)

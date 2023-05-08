@@ -1,13 +1,13 @@
+import "optionsControl"
 import "optionsDifficulty"
 import "optionsHeading"
-import "optionsMode"
 import "optionsMusic"
 import "optionsPressStart"
 
 local gfx <const> = playdate.graphics
 
 local optionsHeading = nil
-local optionsMode = nil
+local optionsControl = nil
 local optionsDifficulty = nil
 local optionsMusic = nil
 local optionsPressStart = nil
@@ -28,10 +28,10 @@ function OptionsState:switch()
 	optionsHeading:moveTo(0, 0)
 	optionsHeading:addSprite()
 
-	optionsMode = OptionsMode()
-	optionsMode:setMode(mode)
-	optionsMode:select()
-	optionsMode:addSprite()
+	optionsControl = OptionsControl()
+	optionsControl:setControl(control)
+	optionsControl:select()
+	optionsControl:addSprite()
 
 	optionsDifficulty = OptionsDifficulty()
 	optionsDifficulty:setDifficulty(difficultySetting)
@@ -50,14 +50,14 @@ end
 
 function OptionsState:update()
 	if playdate.buttonJustPressed(playdate.kButtonLeft) then
-		if optionsMode.selected == true then
+		if optionsControl.selected == true then
 			clickSound:play()
-			if mode == "speed" then
-				mode = "puzzle"
+			if control == "speed" then
+				control = "puzzle"
 			else
-				mode = "speed"
+				control = "speed"
 			end
-			optionsMode:setMode(mode)
+			optionsControl:setControl(control)
 
 		elseif optionsDifficulty.selected == true and difficultySetting > difficultyMin then
 			clickSound:play()
@@ -77,14 +77,14 @@ function OptionsState:update()
 	end
 
 	if playdate.buttonJustPressed(playdate.kButtonRight) then
-		if optionsMode.selected == true then
+		if optionsControl.selected == true then
 			clickSound:play()
-			if mode == "speed" then
-				mode = "puzzle"
+			if control == "speed" then
+				control = "puzzle"
 			else
-				mode = "speed"
+				control = "speed"
 			end
-			optionsMode:setMode(mode)
+			optionsControl:setControl(control)
 
 		elseif optionsDifficulty.selected == true and difficultySetting < difficultyMax then
 			clickSound:play()
@@ -106,12 +106,12 @@ function OptionsState:update()
 	if playdate.buttonJustPressed(playdate.kButtonUp) then
 		clickSound:play()
 
-		if optionsMode.selected == true then
-			optionsMode:deselect()
+		if optionsControl.selected == true then
+			optionsControl:deselect()
 			optionsMusic:select()
 		elseif optionsDifficulty.selected == true then
 			optionsDifficulty:deselect()
-			optionsMode:select()
+			optionsControl:select()
 		else
 			optionsMusic:deselect()
 			optionsDifficulty:select()
@@ -121,14 +121,14 @@ function OptionsState:update()
 	if playdate.buttonJustPressed(playdate.kButtonDown) then
 		clickSound:play()
 
-		if optionsMode.selected == true then
-			optionsMode:deselect()
+		if optionsControl.selected == true then
+			optionsControl:deselect()
 			optionsDifficulty:select()
 		elseif optionsDifficulty.selected == true then
 			optionsMusic:select()
 			optionsDifficulty:deselect()
 		else
-			optionsMode:select()
+			optionsControl:select()
 			optionsMusic:deselect()
 		end
 	end

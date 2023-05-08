@@ -214,7 +214,7 @@ function PlayState:setUpGame()
 	playerDirectionBuffer = playerDirection
 
 	-- Reinitialize move timer
-	if mode == "speed" then
+	if control == "speed" then
 		moveTimer = playdate.frameTimer.new(playerMoveInterval)
 	else
 		moveTimer = playdate.frameTimer.new(puzzlePlayerMoveInterval)
@@ -227,7 +227,7 @@ function PlayState:setUpGame()
 	wallSpriteCoordinates = {}
 	foodRemaining = foodGoal
 
-	if mode == "speed" then
+	if control == "speed" then
 		segmentsGainedWhenEating = segmentsGainedWhenEatingSpeedDefault
 	else
 		segmentsGainedWhenEating = difficultyPuzzleMap[difficultySetting]
@@ -333,7 +333,7 @@ function PlayState:update()
 			clickSound:play()
 			playerDirectionBuffer = "up"
 			justPressedButton = true
-			if mode == "puzzle" then
+			if control == "puzzle" then
 				directionHeldTimer = playdate.frameTimer.new(30, PlayState.upButtonIsHeld)
 			end
 		end
@@ -342,7 +342,7 @@ function PlayState:update()
 			clickSound:play()
 			playerDirectionBuffer = "right"
 			justPressedButton = true
-			if mode == "puzzle" then
+			if control == "puzzle" then
 				directionHeldTimer = playdate.frameTimer.new(30, PlayState.rightButtonIsHeld)
 			end
 		end
@@ -351,7 +351,7 @@ function PlayState:update()
 			clickSound:play()
 			playerDirectionBuffer = "down"
 			justPressedButton = true
-			if mode == "puzzle" then
+			if control == "puzzle" then
 				directionHeldTimer = playdate.frameTimer.new(30, PlayState.downButtonIsHeld)
 			end
 		end
@@ -360,20 +360,20 @@ function PlayState:update()
 			clickSound:play()
 			playerDirectionBuffer = "left"
 			justPressedButton = true
-			if mode == "puzzle" then
+			if control == "puzzle" then
 				directionHeldTimer = playdate.frameTimer.new(30, PlayState.leftButtonIsHeld)
 			end
 		end
 	end
 
-	if mode == "puzzle" then
+	if control == "puzzle" then
 		if playdate.buttonJustReleased(playdate.kButtonUp) or playdate.buttonJustReleased(playdate.kButtonDown) or playdate.buttonJustReleased(playdate.kButtonLeft) or playdate.buttonJustReleased(playdate.kButtonRight) then
 			directionHeldTimer:pause()
 			directionHeld = nil
 		end
 	end
 
-	if ((mode == "speed" and moveTimer.frame == playerMoveInterval) or (mode == "puzzle" and justPressedButton == true) or (mode == "puzzle" and moveTimer.frame == puzzlePlayerMoveInterval and directionHeld)) then
+	if ((control == "speed" and moveTimer.frame == playerMoveInterval) or (control == "puzzle" and justPressedButton == true) or (control == "puzzle" and moveTimer.frame == puzzlePlayerMoveInterval and directionHeld)) then
 		-- Initialize coordinates for next snake segment at position of current head
 		local nextCoordinates = {snakeCoordinates[1][1], snakeCoordinates[1][2]}
 		local nextSprite = nil

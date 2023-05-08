@@ -29,7 +29,7 @@ stateSwitchInProgress = false
 currentLevel = 1
 
 -- This is configurable in the options screen. Can be either "speed" or "puzzle".
-mode = "speed"
+control = "speed"
 
 -- This is also configurable in the options screen. Can be either "one" or "two".
 music = "one"
