@@ -60,7 +60,7 @@ function OptionsDifficulty:draw()
 	gfx.drawText("Difficulty", 24, 0)
 
 	-- Draw difficulty setting number as string
-	gfx.drawTextAligned(tostring(self.difficulty), 153, 0, kTextAlignment.center)
+	gfx.drawTextAligned(tostring(self.difficulty), 152, 0, kTextAlignment.center)
 
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end
