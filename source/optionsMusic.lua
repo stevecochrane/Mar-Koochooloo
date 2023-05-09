@@ -27,17 +27,17 @@ function OptionsMusic:init()
 
 	self.music1Sprite = gfx.sprite.new(music1SelectedImage)
 	self.music1Sprite:setCenter(0, 0)
-	self.music1Sprite:moveTo(self.x + 128, self.y)
+	self.music1Sprite:moveTo(self.x + 128, self.y - 3)
 	self.music1Sprite:add()
 
 	self.music2Sprite = gfx.sprite.new(music2Image)
 	self.music2Sprite:setCenter(0, 0)
-	self.music2Sprite:moveTo(self.x + 165, self.y)
+	self.music2Sprite:moveTo(self.x + 165, self.y - 3)
 	self.music2Sprite:add()
 
 	self.music3Sprite = gfx.sprite.new(music3Image)
 	self.music3Sprite:setCenter(0, 0)
-	self.music3Sprite:moveTo(self.x + 202, self.y)
+	self.music3Sprite:moveTo(self.x + 202, self.y - 3)
 	self.music3Sprite:add()
 end
 
