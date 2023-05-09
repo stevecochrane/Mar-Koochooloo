@@ -46,15 +46,6 @@ function OptionsMusic:setMusic(newMusic)
 	self:updateDisplay()
 end
 
-function OptionsMusic:toggle()
-	if self.music == 1 then
-		self.music = 2
-	else
-		self.music = 1
-	end
-	self:updateDisplay()
-end
-
 function OptionsMusic:updateDisplay()
 	if self.music == 1 then
 		self.music1Sprite:setImage(music1SelectedImage)

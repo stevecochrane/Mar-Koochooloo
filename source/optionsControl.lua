@@ -38,15 +38,6 @@ function OptionsControl:setControl(newControl)
 	self:updateDisplay()
 end
 
-function OptionsControl:toggle()
-	if self.control == "classic" then
-		self.control = "manual"
-	else
-		self.control = "classic"
-	end
-	self:updateDisplay()
-end
-
 function OptionsControl:updateDisplay()
 	if self.control == "classic" then
 		self.classicSprite:setImage(classicSelectedImage)
