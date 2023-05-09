@@ -68,9 +68,11 @@ function OptionsState:update()
 		elseif optionsMusic.selected == true then
 			clickSound:play()
 			if music == 1 then
-				music = 2
-			else
+				music = 3
+			elseif music == 2 then
 				music = 1
+			else
+				music = 2
 			end
 			optionsMusic:setMusic(music)
 		end
@@ -96,6 +98,8 @@ function OptionsState:update()
 			clickSound:play()
 			if music == 1 then
 				music = 2
+			elseif music == 2 then
+				music = 3
 			else
 				music = 1
 			end
