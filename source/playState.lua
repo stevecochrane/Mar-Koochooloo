@@ -305,7 +305,7 @@ function PlayState:setUpGame()
 	foodSprite:add()
 
 	-- Load main stage background music (this is also needed to start playing from the beginning)
-	if music == "one" then
+	if music == 1 then
 		stageBgm:load("music/one-bgm")
 	else
 		stageBgm:load("music/two-bgm")

@@ -3,8 +3,8 @@ local gfx <const> = playdate.graphics
 local appleImage = gfx.image.new("images/apple")
 local music1Image = gfx.image.new("images/options-music-1")
 local music1SelectedImage = gfx.image.new("images/options-music-1-selected")
-local musicTwoImage = gfx.image.new("images/options-music-2")
-local musicTwoSelectedImage = gfx.image.new("images/options-music-2-selected")
+local music2Image = gfx.image.new("images/options-music-2")
+local music2SelectedImage = gfx.image.new("images/options-music-2-selected")
 
 class("OptionsMusic").extends(gfx.sprite)
 
@@ -12,9 +12,9 @@ function OptionsMusic:init()
 	OptionsMusic.super.init(self)
 
 	self.appleSprite = nil
-	self.music = "one"
+	self.music = 1
 	self.music1Sprite = nil
-	self.musicTwoSprite = nil
+	self.music2Sprite = nil
 	self.selected = false
 
 	self:setZIndex(1)
@@ -27,10 +27,10 @@ function OptionsMusic:init()
 	self.music1Sprite:moveTo(self.x + 128, self.y)
 	self.music1Sprite:add()
 
-	self.musicTwoSprite = gfx.sprite.new(musicTwoImage)
-	self.musicTwoSprite:setCenter(0, 0)
-	self.musicTwoSprite:moveTo(self.x + 170, self.y)
-	self.musicTwoSprite:add()
+	self.music2Sprite = gfx.sprite.new(music2Image)
+	self.music2Sprite:setCenter(0, 0)
+	self.music2Sprite:moveTo(self.x + 170, self.y)
+	self.music2Sprite:add()
 end
 
 function OptionsMusic:setMusic(newMusic)
@@ -39,21 +39,21 @@ function OptionsMusic:setMusic(newMusic)
 end
 
 function OptionsMusic:toggle()
-	if self.music == "one" then
-		self.music = "two"
+	if self.music == 1 then
+		self.music = 2
 	else
-		self.music = "one"
+		self.music = 1
 	end
 	self:updateDisplay()
 end
 
 function OptionsMusic:updateDisplay()
-	if self.music == "one" then
+	if self.music == 1 then
 		self.music1Sprite:setImage(music1SelectedImage)
-		self.musicTwoSprite:setImage(musicTwoImage)
+		self.music2Sprite:setImage(music2Image)
 	else
 		self.music1Sprite:setImage(music1Image)
-		self.musicTwoSprite:setImage(musicTwoSelectedImage)
+		self.music2Sprite:setImage(music2SelectedImage)
 	end
 
 	self:markDirty()

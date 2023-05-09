@@ -31,8 +31,8 @@ currentLevel = 1
 -- This is configurable in the options screen. Can be either "classic" or "manual".
 control = "classic"
 
--- This is also configurable in the options screen. Can be either "one" or "two".
-music = "one"
+-- This is also configurable in the options screen. Can be either 1, 2, or 3.
+music = 1
 
 -- This is what is displayed to the user for their difficulty setting.
 difficultySetting = 1
