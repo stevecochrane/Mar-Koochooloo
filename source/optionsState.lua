@@ -42,7 +42,7 @@ function OptionsState:switch()
 	optionsMusic:addSprite()
 
 	optionsPressStart = OptionsPressStart()
-	optionsPressStart:moveTo(0, 192)
+	optionsPressStart:moveTo(0, 195)
 	optionsPressStart:addSprite()
 
 	SystemMenu:removeItems()

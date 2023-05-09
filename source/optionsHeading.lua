@@ -11,9 +11,9 @@ end
 
 function OptionsHeading:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-	gfx.drawTextAligned("Options", 200, 32, kTextAlignment.center)
+	gfx.drawTextAligned("Options", 200, 27, kTextAlignment.center)
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 
 	gfx.setLineWidth(1)
-	gfx.drawLine(32, 63, 400 - 32, 63)
+	gfx.drawLine(32, 55, 400 - 32, 55)
 end

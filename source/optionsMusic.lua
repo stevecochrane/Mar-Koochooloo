@@ -19,8 +19,8 @@ function OptionsMusic:init()
 
 	self:setZIndex(1)
 	self:setCenter(0, 0)
-	self:setSize(304, 20)
-	self:moveTo(48, 144)
+	self:setSize(304, 25)
+	self:moveTo(48, 147)
 
 	self.music1Sprite = gfx.sprite.new(music1SelectedImage)
 	self.music1Sprite:setCenter(0, 0)

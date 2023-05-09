@@ -16,16 +16,16 @@ function OptionsDifficulty:init()
 	self:setZIndex(1)
 	self:setCenter(0, 0)
 	self:setSize(304, 20)
-	self:moveTo(48, 112)
+	self:moveTo(48, 111)
 
 	self.arrowLeftSprite = gfx.sprite.new(arrowLeftImage)
 	self.arrowLeftSprite:setCenter(0, 0)
-	self.arrowLeftSprite:moveTo(self.x + 121, self.y + 2)
+	self.arrowLeftSprite:moveTo(self.x + 127, self.y + 2)
 	self.arrowLeftSprite:add()
 
 	self.arrowRightSprite = gfx.sprite.new(arrowRightImage)
 	self.arrowRightSprite:setCenter(0, 0)
-	self.arrowRightSprite:moveTo(self.x + 163, self.y + 2)
+	self.arrowRightSprite:moveTo(self.x + 170, self.y + 2)
 	self.arrowRightSprite:add()
 end
 
@@ -60,7 +60,7 @@ function OptionsDifficulty:draw()
 	gfx.drawText("Difficulty", 24, 0)
 
 	-- Draw difficulty setting number as string
-	gfx.drawTextAligned(tostring(self.difficulty), 145, 0, kTextAlignment.center)
+	gfx.drawTextAligned(tostring(self.difficulty), 153, 0, kTextAlignment.center)
 
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end

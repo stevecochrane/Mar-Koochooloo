@@ -20,16 +20,16 @@ function OptionsControl:init()
 	self:setZIndex(1)
 	self:setCenter(0, 0)
 	self:setSize(304, 25)
-	self:moveTo(48, 80)
+	self:moveTo(48, 72)
 
 	self.classicSprite = gfx.sprite.new(classicSelectedImage)
 	self.classicSprite:setCenter(0, 0)
-	self.classicSprite:moveTo(self.x + 122, self.y)
+	self.classicSprite:moveTo(self.x + 128, self.y)
 	self.classicSprite:add()
 
 	self.manualSprite = gfx.sprite.new(manualSelectedImage)
 	self.manualSprite:setCenter(0, 0)
-	self.manualSprite:moveTo(self.x + 207, self.y)
+	self.manualSprite:moveTo(self.x + 213, self.y)
 	self.manualSprite:add()
 end
 
