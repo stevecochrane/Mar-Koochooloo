@@ -306,11 +306,11 @@ function PlayState:setUpGame()
 
 	-- Load main stage background music (this is also needed to start playing from the beginning)
 	if music == 1 then
-		stageBgm:load("music/one-bgm")
+		stageBgm:load("music/bgm1")
 	elseif music == 2 then
-		stageBgm:load("music/two-bgm")
+		stageBgm:load("music/bgm2")
 	else
-		stageBgm:load("music/three-bgm")
+		stageBgm:load("music/bgm3")
 	end
 	stageBgm:setVolume("0.75")
 	-- Play and loop forever
