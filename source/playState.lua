@@ -226,6 +226,8 @@ function PlayState:setUpGame()
 	segmentsToGain = 0
 	wallSpriteCoordinates = {}
 	foodRemaining = foodGoal
+	directionHeld = nil
+	directionHeldTimer = nil
 
 	if control == "classic" then
 		segmentsGainedWhenEating = segmentsGainedWhenEatingSpeedDefault
