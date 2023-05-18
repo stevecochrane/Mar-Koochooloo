@@ -419,12 +419,12 @@ function PlayState:update()
 		-- Allow wrapping to the other side of the screen
 		if nextCoordinates[2] < 0 then
 			nextCoordinates[2] += screenHeight
-		elseif nextCoordinates[2] > screenHeight then
+		elseif nextCoordinates[2] >= screenHeight then
 			nextCoordinates[2] -= screenHeight
 		end
 		if nextCoordinates[1] < 0 then
 			nextCoordinates[1] += screenWidth
-		elseif nextCoordinates[1] > screenWidth then
+		elseif nextCoordinates[1] >= screenWidth then
 			nextCoordinates[1] -= screenWidth
 		end
 
