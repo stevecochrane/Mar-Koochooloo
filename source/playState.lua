@@ -59,7 +59,6 @@ local segmentsToGain = 0
 local wallSpriteCoordinates = nil
 
 local lastLevel = 7
-local foodRemaining = nil
 
 local justPressedButton = false
 
@@ -224,7 +223,6 @@ function PlayState:setUpGame()
 	foodEatenCount = 0
 	segmentsToGain = 0
 	wallSpriteCoordinates = {}
-	foodRemaining = foodGoal
 	directionHeld = nil
 	directionHeldTimer = nil
 
@@ -442,10 +440,7 @@ function PlayState:update()
 
 		-- Check if player has eaten the food
 		if nextCoordinates[1] == foodSprite.x and nextCoordinates[2] == foodSprite.y then
-			foodRemaining -= 1
-			print("foodRemaining " .. foodRemaining)
-
-			if foodRemaining == 0 then
+			if foodEatenCount == foodGoal then
 				foodSprite:remove()
 			else
 				foodSound:play()
@@ -482,7 +477,7 @@ function PlayState:update()
 		table.insert(snakeCoordinates, 1, nextCoordinates)
 
 		-- End the stage if the player has eaten enough food to meet the goal
-		if foodRemaining == 0 then
+		if foodEatenCount == foodGoal then
 			if currentLevel == lastLevel then
 				WinState:switch()
 			else
