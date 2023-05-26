@@ -7,6 +7,9 @@ Roobert11Medium = gfx.font.new('Fonts/Roobert-11-Medium')
 -- Store how many pieces of food are eaten per game
 foodEatenCount = nil
 
+-- Number of food needed to clear a level
+foodGoal = 9
+
 -- TODO: Implement as enum if possible?
 -- Possible values are "title", "options", "play", "end"
 gameState = "title"
