@@ -13,7 +13,15 @@ local playerSprite = nil
 local foodSprite = nil
 
 -- Initialize images
-local foodImage = gfx.image.new("images/apple")
+local food1Image = gfx.image.new("images/food-1")
+local food2Image = gfx.image.new("images/food-2")
+local food3Image = gfx.image.new("images/food-3")
+local food4Image = gfx.image.new("images/food-4")
+local food5Image = gfx.image.new("images/food-5")
+local food6Image = gfx.image.new("images/food-6")
+local food7Image = gfx.image.new("images/food-7")
+local food8Image = gfx.image.new("images/food-8")
+local food9Image = gfx.image.new("images/food-9")
 local snakeBodyDownLeftImage = gfx.image.new("images/snake-body-down-left")
 local snakeBodyDownRightImage = gfx.image.new("images/snake-body-down-right")
 local snakeBodyLeftRightImage = gfx.image.new("images/snake-body-left-right")
@@ -116,6 +124,25 @@ function PlayState:repositionFood()
 
 	-- We have our new food position, move food sprite there
 	foodSprite:moveTo(newX, newY)
+
+	-- Update food image
+	if foodEatenCount == 1 then
+		foodSprite:setImage(food2Image)
+	elseif foodEatenCount == 2 then
+		foodSprite:setImage(food3Image)
+	elseif foodEatenCount == 3 then
+		foodSprite:setImage(food4Image)
+	elseif foodEatenCount == 4 then
+		foodSprite:setImage(food5Image)
+	elseif foodEatenCount == 5 then
+		foodSprite:setImage(food6Image)
+	elseif foodEatenCount == 6 then
+		foodSprite:setImage(food7Image)
+	elseif foodEatenCount == 7 then
+		foodSprite:setImage(food8Image)
+	elseif foodEatenCount == 8 then
+		foodSprite:setImage(food9Image)
+	end
 end
 
 function PlayState:updateSnakeHead()
@@ -298,7 +325,7 @@ function PlayState:setUpGame()
 
 	-- Add food sprite. Note this needs to happen after walls are added! If food is added first,
 	-- then a wall might be added on top of the food, making the game unwinnable.
-	foodSprite = gfx.sprite.new(foodImage)
+	foodSprite = gfx.sprite.new(food1Image)
 	foodSprite:setCenter(0, 0)
 	PlayState:repositionFood()
 	foodSprite:add()
@@ -440,15 +467,15 @@ function PlayState:update()
 
 		-- Check if player has eaten the food
 		if nextCoordinates[1] == foodSprite.x and nextCoordinates[2] == foodSprite.y then
+			segmentsToGain = segmentsGainedWhenEating
+			foodEatenCount += 1
+
 			if foodEatenCount == foodGoal then
 				foodSprite:remove()
 			else
 				foodSound:play()
 				PlayState:repositionFood()
 			end
-
-			segmentsToGain = segmentsGainedWhenEating
-			foodEatenCount += 1
 		end
 
 		if segmentsToGain == 0 then
