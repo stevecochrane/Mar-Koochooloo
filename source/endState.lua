@@ -17,10 +17,6 @@ function EndState:switch()
 	gameOverSprite:moveTo(200, 120)
 	gameOverSprite:setZIndex(1) -- Ensure this is above the snake
 	gameOverSprite:add()
-
-	endFoodEaten = EndFoodEaten()
-	endFoodEaten:setCount(foodEatenCount)
-	endFoodEaten:addSprite()
 end
 
 function EndState:update()
