@@ -1,5 +1,3 @@
-import "endFoodEaten"
-
 local gfx <const> = playdate.graphics
 local snd <const> = playdate.sound
 
