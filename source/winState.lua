@@ -7,6 +7,12 @@ function WinState:switch()
 	gameState = "win"
 
 	stageBgm:stop()
+
+	local winStateTextImage = gfx.image.new("images/win-state-text")
+	local winStateTextSprite = gfx.sprite.new(winStateTextImage)
+	winStateTextSprite:moveTo(200, 120)
+	winStateTextSprite:setZIndex(1) -- Ensure this is above the snake
+	winStateTextSprite:add()
 end
 
 function WinState:update()
