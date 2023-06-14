@@ -118,7 +118,11 @@ function OptionsState:update()
 			optionsControl:select()
 		else
 			optionsMusic:deselect()
-			optionsDifficulty:select()
+			if control == "classic" then
+				optionsDifficulty:select()
+			else
+				optionsControl:select()
+			end
 		end
 	end
 
@@ -127,7 +131,11 @@ function OptionsState:update()
 
 		if optionsControl.selected == true then
 			optionsControl:deselect()
-			optionsDifficulty:select()
+			if control == "classic" then
+				optionsDifficulty:select()
+			else
+				optionsMusic:select()
+			end
 		elseif optionsDifficulty.selected == true then
 			optionsMusic:select()
 			optionsDifficulty:deselect()
