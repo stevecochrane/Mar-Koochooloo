@@ -40,12 +40,12 @@ music = 1
 -- This is what is displayed to the user for their difficulty setting.
 difficultySetting = 1
 -- This is the mapping between the above two values.
-difficultySpeedMap = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
+difficultyMap = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
 difficultyMin = 1
 difficultyMax = 10
 -- The player will move every time the frameTimer hits this number.
 -- Declaring it here also lets us change it later.
-playerMoveInterval = difficultySpeedMap[difficultySetting]
+playerMoveInterval = difficultyMap[difficultySetting]
 puzzlePlayerMoveInterval = 5
 
 -- We'll check this on every frame to determine if it's time to move.
