@@ -14,6 +14,15 @@ local optionsPressStart = nil
 
 OptionsState = {}
 
+function OptionsState:enableManualControl()
+	-- TODO: Add OptionsDifficulty method that hides everything including arrows
+	optionsDifficulty:setVisible(false)
+end
+
+function OptionsState:enableClassicControl()
+	optionsDifficulty:setVisible(true)
+end
+
 function OptionsState:switch()
 	stateSwitchInProgress = false
 	gameState = "options"
@@ -54,8 +63,10 @@ function OptionsState:update()
 			clickSound:play()
 			if control == "classic" then
 				control = "manual"
+				OptionsState:enableManualControl()
 			else
 				control = "classic"
+				OptionsState:enableClassicControl()
 			end
 			optionsControl:setControl(control)
 
@@ -83,8 +94,10 @@ function OptionsState:update()
 			clickSound:play()
 			if control == "classic" then
 				control = "manual"
+				OptionsState:enableManualControl()
 			else
 				control = "classic"
+				OptionsState:enableClassicControl()
 			end
 			optionsControl:setControl(control)
 

@@ -53,6 +53,16 @@ function OptionsDifficulty:deselect()
 	self:markDirty()
 end
 
+function OptionsDifficulty:hide()
+	self.visible = false
+	self:markDirty()
+end
+
+function OptionsDifficulty:show()
+	self.visible = true
+	self:markDirty()
+end
+
 function OptionsDifficulty:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
 
