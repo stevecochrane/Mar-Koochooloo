@@ -41,7 +41,6 @@ music = 1
 difficultySetting = 1
 -- This is the mapping between the above two values.
 difficultySpeedMap = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
-difficultyPuzzleMap = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 difficultyMin = 1
 difficultyMax = 10
 -- The player will move every time the frameTimer hits this number.

@@ -61,7 +61,7 @@ local startingSnakeSegments = 3
 
 -- This is internally configurable for testing.
 local segmentsGainedWhenEating = nil
-local segmentsGainedWhenEatingSpeedDefault = 3
+local segmentsGainedWhenEatingDefault = 3
 local segmentsToGain = 0
 
 local wallSpriteCoordinates = nil
@@ -253,11 +253,7 @@ function PlayState:setUpGame()
 	directionHeld = nil
 	directionHeldTimer = nil
 
-	if control == "classic" then
-		segmentsGainedWhenEating = segmentsGainedWhenEatingSpeedDefault
-	else
-		segmentsGainedWhenEating = difficultyPuzzleMap[difficultySetting]
-	end
+	segmentsGainedWhenEating = segmentsGainedWhenEatingDefault
 
 	local levelData = Tilemap:loadLevelJsonData("tilemaps/level-" .. currentLevel .. ".json")
 	local wallLocations = Tilemap:getWallLocations(levelData)
