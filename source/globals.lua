@@ -46,7 +46,7 @@ difficultyMax = 10
 -- The player will move every time the frameTimer hits this number.
 -- Declaring it here also lets us change it later.
 playerMoveInterval = difficultyMap[difficultySetting]
-puzzlePlayerMoveInterval = 5
+manualPlayerMoveInterval = 5
 
 -- We'll check this on every frame to determine if it's time to move.
 moveTimer = nil

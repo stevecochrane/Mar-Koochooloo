@@ -242,7 +242,7 @@ function PlayState:setUpGame()
 	if control == "classic" then
 		moveTimer = playdate.frameTimer.new(playerMoveInterval)
 	else
-		moveTimer = playdate.frameTimer.new(puzzlePlayerMoveInterval)
+		moveTimer = playdate.frameTimer.new(manualPlayerMoveInterval)
 	end
 	moveTimer.repeats = true
 
@@ -397,7 +397,7 @@ function PlayState:update()
 		end
 	end
 
-	if ((control == "classic" and moveTimer.frame == playerMoveInterval) or (control == "manual" and justPressedButton == true) or (control == "manual" and moveTimer.frame == puzzlePlayerMoveInterval and directionHeld)) then
+	if ((control == "classic" and moveTimer.frame == playerMoveInterval) or (control == "manual" and justPressedButton == true) or (control == "manual" and moveTimer.frame == manualPlayerMoveInterval and directionHeld)) then
 		-- Initialize coordinates for next snake segment at position of current head
 		local nextCoordinates = {snakeCoordinates[1][1], snakeCoordinates[1][2]}
 		local nextSprite = nil
