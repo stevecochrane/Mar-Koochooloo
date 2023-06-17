@@ -54,12 +54,16 @@ function OptionsDifficulty:deselect()
 end
 
 function OptionsDifficulty:hide()
-	self.visible = false
+	self:setVisible(false)
+	self.arrowLeftSprite:setVisible(false)
+	self.arrowRightSprite:setVisible(false)
 	self:markDirty()
 end
 
 function OptionsDifficulty:show()
-	self.visible = true
+	self:setVisible(true)
+	self.arrowLeftSprite:setVisible(true)
+	self.arrowRightSprite:setVisible(true)
 	self:markDirty()
 end
 

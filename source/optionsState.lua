@@ -15,12 +15,11 @@ local optionsPressStart = nil
 OptionsState = {}
 
 function OptionsState:enableManualControl()
-	-- TODO: Add OptionsDifficulty method that hides everything including arrows
-	optionsDifficulty:setVisible(false)
+	optionsDifficulty:hide()
 end
 
 function OptionsState:enableClassicControl()
-	optionsDifficulty:setVisible(true)
+	optionsDifficulty:show()
 end
 
 function OptionsState:switch()
