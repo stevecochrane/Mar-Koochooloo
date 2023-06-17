@@ -8,6 +8,11 @@ local music2SelectedImage = gfx.image.new("images/options-music-2-selected")
 local music3Image = gfx.image.new("images/options-music-3")
 local music3SelectedImage = gfx.image.new("images/options-music-3-selected")
 
+local music1XOffset = 128
+local music2XOffset = 165
+local music3XOffset = 202
+local musicYOffset = 3
+
 class("OptionsMusic").extends(gfx.sprite)
 
 function OptionsMusic:init()
@@ -27,17 +32,17 @@ function OptionsMusic:init()
 
 	self.music1Sprite = gfx.sprite.new(music1SelectedImage)
 	self.music1Sprite:setCenter(0, 0)
-	self.music1Sprite:moveTo(self.x + 128, self.y - 3)
+	self.music1Sprite:moveTo(self.x + music1XOffset, self.y - musicYOffset)
 	self.music1Sprite:add()
 
 	self.music2Sprite = gfx.sprite.new(music2Image)
 	self.music2Sprite:setCenter(0, 0)
-	self.music2Sprite:moveTo(self.x + 165, self.y - 3)
+	self.music2Sprite:moveTo(self.x + music2XOffset, self.y - musicYOffset)
 	self.music2Sprite:add()
 
 	self.music3Sprite = gfx.sprite.new(music3Image)
 	self.music3Sprite:setCenter(0, 0)
-	self.music3Sprite:moveTo(self.x + 202, self.y - 3)
+	self.music3Sprite:moveTo(self.x + music3XOffset, self.y - musicYOffset)
 	self.music3Sprite:add()
 end
 
@@ -78,6 +83,22 @@ end
 function OptionsMusic:deselect()
 	self.selected = false
 	self.appleSprite:remove()
+	self:markDirty()
+end
+
+function OptionsMusic:moveToSecondRow()
+	self:moveTo(48, 111)
+	self.music1Sprite:moveTo(self.x + music1XOffset, self.y - musicYOffset)
+	self.music2Sprite:moveTo(self.x + music2XOffset, self.y - musicYOffset)
+	self.music3Sprite:moveTo(self.x + music3XOffset, self.y - musicYOffset)
+	self:markDirty()
+end
+
+function OptionsMusic:moveToThirdRow()
+	self:moveTo(48, 147)
+	self.music1Sprite:moveTo(self.x + music1XOffset, self.y - musicYOffset)
+	self.music2Sprite:moveTo(self.x + music2XOffset, self.y - musicYOffset)
+	self.music3Sprite:moveTo(self.x + music3XOffset, self.y - musicYOffset)
 	self:markDirty()
 end
 

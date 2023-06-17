@@ -16,10 +16,12 @@ OptionsState = {}
 
 function OptionsState:enableManualControl()
 	optionsDifficulty:hide()
+	optionsMusic:moveToSecondRow()
 end
 
 function OptionsState:enableClassicControl()
 	optionsDifficulty:show()
+	optionsMusic:moveToThirdRow()
 end
 
 function OptionsState:switch()
