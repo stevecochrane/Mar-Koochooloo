@@ -167,4 +167,10 @@ function OptionsState:update()
 		playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
 		playdate.timer.performAfterDelay(stateSwitchFullDuration, PlayState.switch)
 	end
+
+	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonB) then
+		gfx.sprite.removeAll()
+		stateSwitchInProgress = true
+		playdate.timer.performAfterDelay(stateSwitchPauseDuration, TitleState.switch)
+	end
 end
