@@ -404,36 +404,14 @@ function PlayState:update()
 		local nextSpriteImage = nil
 		local tailSprite = nil
 
-		-- TODO: Implement as switch statement, if possible?
-		-- TODO: Reduce repetition for turnSound:play() logic
 		if playerDirectionBuffer == "up" then
-			if playerDirection ~= "up" then
-				turnSound:play()
-			end
 			nextCoordinates[2] -= tileSize
-			playerDirection = "up"
-			nextSpriteImage = snakeHeadUpImage
 		elseif playerDirectionBuffer == "right" then
-			if playerDirection ~= "right" then
-				turnSound:play()
-			end
 			nextCoordinates[1] += tileSize
-			playerDirection = "right"
-			nextSpriteImage = snakeHeadRightImage
 		elseif playerDirectionBuffer == "down" then
-			if playerDirection ~= "down" then
-				turnSound:play()
-			end
 			nextCoordinates[2] += tileSize
-			playerDirection = "down"
-			nextSpriteImage = snakeHeadDownImage
 		elseif playerDirectionBuffer == "left" then
-			if playerDirection ~= "left" then
-				turnSound:play()
-			end
 			nextCoordinates[1] -= tileSize
-			playerDirection = "left"
-			nextSpriteImage = snakeHeadLeftImage
 		end
 
 		-- Allow wrapping to the other side of the screen
@@ -448,71 +426,92 @@ function PlayState:update()
 			nextCoordinates[1] -= screenWidth
 		end
 
-		-- Position new head sprite and add to sprites array
-		nextSprite = gfx.sprite.new(nextSpriteImage)
-		nextSprite:setCenter(0, 0)
-		nextSprite:moveTo(nextCoordinates[1], nextCoordinates[2])
-		nextSprite:add()
-		table.insert(snakeSprites, 1, nextSprite)
+		if not (control == "manual" and (PlayState:isCollidingWithSnake(nextCoordinates) or PlayState:isCollidingWithStage(nextCoordinates))) then
 
-		-- Store the new direction
-		table.insert(snakeDirections, 1, playerDirection)
+			if playerDirectionBuffer ~= playerDirection then
+				turnSound:play()
+			end
 
-		-- Update the second sprite from a head image to a body image
-		PlayState:updateSnakeHead()
+			if playerDirectionBuffer == "up" then
+				playerDirection = "up"
+				nextSpriteImage = snakeHeadUpImage
+			elseif playerDirectionBuffer == "right" then
+				playerDirection = "right"
+				nextSpriteImage = snakeHeadRightImage
+			elseif playerDirectionBuffer == "down" then
+				playerDirection = "down"
+				nextSpriteImage = snakeHeadDownImage
+			elseif playerDirectionBuffer == "left" then
+				playerDirection = "left"
+				nextSpriteImage = snakeHeadLeftImage
+			end
 
-		-- Check if player has eaten the food
-		if nextCoordinates[1] == foodSprite.x and nextCoordinates[2] == foodSprite.y then
-			segmentsToGain = segmentsGainedWhenEating
-			foodEatenCount += 1
+			-- Position new head sprite and add to sprites array
+			nextSprite = gfx.sprite.new(nextSpriteImage)
+			nextSprite:setCenter(0, 0)
+			nextSprite:moveTo(nextCoordinates[1], nextCoordinates[2])
+			nextSprite:add()
+			table.insert(snakeSprites, 1, nextSprite)
 
+			-- Store the new direction
+			table.insert(snakeDirections, 1, playerDirection)
+
+			-- Update the second sprite from a head image to a body image
+			PlayState:updateSnakeHead()
+
+			-- Check if player has eaten the food
+			if nextCoordinates[1] == foodSprite.x and nextCoordinates[2] == foodSprite.y then
+				segmentsToGain = segmentsGainedWhenEating
+				foodEatenCount += 1
+
+				if foodEatenCount == foodGoal then
+					foodSprite:remove()
+				else
+					foodSound:play()
+					PlayState:repositionFood()
+				end
+			end
+
+			if segmentsToGain == 0 then
+				-- If the snake is not growing on this interval, we remove the last segment from the snake.
+				table.remove(snakeCoordinates)
+				table.remove(snakeDirections)
+				-- Remove the current tail sprite from the array and from the display list
+				tailSprite = table.remove(snakeSprites)
+				tailSprite:remove()
+				-- Update the new tail sprite from a body image to a tail image
+				PlayState:updateSnakeTail()
+			else
+				-- Otherwise don't remove the last segment, and decrement the counter.
+				segmentsToGain -= 1
+			end
+
+			-- End the game if the player has collided with their tail.
+			-- It's important to check this before nextCoordinates is added to snakeCoordinates,
+			-- and after the previous tail segment is removed from snakeCoordinates.
+			if PlayState:isCollidingWithSnake(nextCoordinates) then
+				EndState:switch()
+				return
+			end
+
+			-- Add the new head coordinates
+			table.insert(snakeCoordinates, 1, nextCoordinates)
+
+			-- End the stage if the player has eaten enough food to meet the goal
 			if foodEatenCount == foodGoal then
-				foodSprite:remove()
-			else
-				foodSound:play()
-				PlayState:repositionFood()
+				if currentLevel == lastLevel then
+					WinState:switch()
+				else
+					currentLevel += 1
+					NextLevelState:switch()
+				end
+				return
 			end
-		end
 
-		if segmentsToGain == 0 then
-			-- If the snake is not growing on this interval, we remove the last segment from the snake.
-			table.remove(snakeCoordinates)
-			table.remove(snakeDirections)
-			-- Remove the current tail sprite from the array and from the display list
-			tailSprite = table.remove(snakeSprites)
-			tailSprite:remove()
-			-- Update the new tail sprite from a body image to a tail image
-			PlayState:updateSnakeTail()
-		else
-			-- Otherwise don't remove the last segment, and decrement the counter.
-			segmentsToGain -= 1
-		end
-
-		-- End the game if the player has collided with their tail.
-		-- It's important to check this before nextCoordinates is added to snakeCoordinates,
-		-- and after the previous tail segment is removed from snakeCoordinates.
-		if PlayState:isCollidingWithSnake(nextCoordinates) then
-			EndState:switch()
-			return
-		end
-
-		-- Add the new head coordinates
-		table.insert(snakeCoordinates, 1, nextCoordinates)
-
-		-- End the stage if the player has eaten enough food to meet the goal
-		if foodEatenCount == foodGoal then
-			if currentLevel == lastLevel then
-				WinState:switch()
-			else
-				currentLevel += 1
-				NextLevelState:switch()
+			-- End the stage if the player has collided with any of the walls
+			if PlayState:isCollidingWithStage(snakeCoordinates[1]) then
+				EndState:switch()
 			end
-			return
-		end
-
-		-- End the stage if the player has collided with any of the walls
-		if PlayState:isCollidingWithStage(snakeCoordinates[1]) then
-			EndState:switch()
 		end
 	end
 
