@@ -502,7 +502,6 @@ function PlayState:update()
 				if currentLevel == lastLevel then
 					WinState:switch()
 				else
-					currentLevel += 1
 					NextLevelState:switch()
 				end
 				return
