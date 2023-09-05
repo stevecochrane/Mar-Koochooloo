@@ -133,6 +133,7 @@ function Tilemap:loadLevelJsonData(levelJsonFilePath)
 	return jsonTable
 end
 
+-- TODO: getWallLocations and getNoFoodZoneLocations are very similar. Combine into one function?
 function Tilemap:getWallLocations(levelData)
 	local wallLocations = {}
 
@@ -167,7 +168,33 @@ end
 function Tilemap:getNoFoodZoneLocations(levelData)
 	local noFoodZoneLocations = {}
 
-	local
+	local noFoodZonesLayer = getNoFoodZonesLayer(levelData)
+	local noFoodZonesTileset = getNoFoodZonesTileset(levelData)
+
+	if noFoodZonesLayer == nil or noFoodZonesTileset == nil then
+		return nil
+	end
+
+	local noFoodZonesData = noFoodZonesLayer.data
+	local rows = noFoodZonesLayer.height
+	local columns = noFoodZonesLayer.width
+
+	local tileHeight = noFoodZonesTileset.tileheight
+	local tileWidth = noFoodZonesTileset.tilewidth
+
+	-- TODO: Iterate from 0 rather than from 1?
+	for row = 1, rows do
+		for column = 1, columns do
+			local index = column + ((row - 1) * columns)
+			if noFoodZonesData[index] == 3 then
+				local noFoodZoneLocation = {(column - 1) * tileWidth, (row - 1) * tileHeight}
+				table.insert(noFoodZoneLocations, 1, noFoodZoneLocation)
+			end
+		end
+	end
+
+	return noFoodZoneLocations
+end
 
 function Tilemap:getSnakeSpawnLocation(levelData)
 	local snakeLayer = getSnakeLayer(levelData)
