@@ -66,7 +66,7 @@ local segmentsToGain = 0
 
 local wallSpriteCoordinates = nil
 
-local lastLevel = 7
+local lastLevel = 8
 
 local justPressedButton = false
 
