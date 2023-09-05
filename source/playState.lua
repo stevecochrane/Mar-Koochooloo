@@ -65,6 +65,7 @@ local segmentsGainedWhenEatingDefault = 3
 local segmentsToGain = 0
 
 local wallSpriteCoordinates = nil
+local noFoodZoneLocations = nil
 
 local lastLevel = 8
 
@@ -101,11 +102,27 @@ function PlayState:isCollidingWithStage(coordinates)
 	return collided
 end
 
+function PlayState:isCollidingWithNoFoodZone(coordinates)
+	local collided = false
+
+	if noFoodZoneLocations then
+		for i = 1, #noFoodZoneLocations do
+			if noFoodZoneLocations[i][1] == coordinates[1] and noFoodZoneLocations[i][2] == coordinates[2] then
+				collided = true
+				break
+			end
+		end
+	end
+
+	return collided
+end
+
 function PlayState:repositionFood()
 	local newX = nil
 	local newY = nil
 	local hasCollidedWithSnake = nil
 	local hasCollidedWithStage = nil
+	local hasCollidedWithNoFoodZone = nil
 
 	repeat
 		newX = math.random(0, screenWidth - 1)
@@ -115,12 +132,13 @@ function PlayState:repositionFood()
 		newX = newX - (newX % tileSize)
 		newY = newY - (newY % tileSize)
 
-		-- Check if new food position collides with any part of snake or stage
+		-- Check if new food position collides with any part of snake, stage or noFoodZone
 		hasCollidedWithSnake = PlayState:isCollidingWithSnake({newX, newY})
 		hasCollidedWithStage = PlayState:isCollidingWithStage({newX, newY})
+		hasCollidedWithNoFoodZone = PlayState:isCollidingWithNoFoodZone({newX, newY})
 
 	-- Repeat the above until the food is not on the same tile as the player
-	until hasCollidedWithSnake == false and hasCollidedWithStage == false
+	until not hasCollidedWithSnake and not hasCollidedWithStage and not hasCollidedWithNoFoodZone
 
 	-- We have our new food position, move food sprite there
 	foodSprite:moveTo(newX, newY)
@@ -250,6 +268,7 @@ function PlayState:setUpGame()
 	foodEatenCount = 0
 	segmentsToGain = 0
 	wallSpriteCoordinates = {}
+	noFoodZoneLocations = {}
 	directionHeld = nil
 	directionHeldTimer = nil
 
@@ -270,6 +289,8 @@ function PlayState:setUpGame()
 		wallSprite:add()
 		table.insert(wallSpriteCoordinates, {wallSpriteX, wallSpriteY})
 	end
+
+	noFoodZoneLocations = Tilemap:getNoFoodZoneLocations(levelData)
 
 	for i = 1, startingSnakeSegments do
 		-- Add the point to snakeCoordinates
