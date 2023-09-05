@@ -1,6 +1,6 @@
 Tilemap = {}
 
--- TODO: getWallsLayer and getSnakeLayer are very similar. Combine into one function?
+-- TODO: getWallsLayer, getNoFoodZonesLayer and getSnakeLayer are very similar. Combine into one function?
 local function getWallsLayer(levelData)
 	local layers = levelData.layers
 	local wallsLayer = nil
@@ -17,6 +17,24 @@ local function getWallsLayer(levelData)
 	end
 
 	return wallsLayer
+end
+
+local function getNoFoodZonesLayer(levelData)
+	local layers = levelData.layers
+	local noFoodZonesLayer = nil
+
+	for i = 1, #layers do
+		if layers[i].name == "noFoodZones" then
+			noFoodZonesLayer = layers[i]
+		end
+	end
+
+	if not noFoodZonesLayer then
+		print("ERROR LOCATING NO FOOD ZONES LAYER IN LEVEL DATA")
+		return nil
+	end
+
+	return noFoodZonesLayer
 end
 
 local function getSnakeLayer(levelData)
@@ -53,6 +71,7 @@ local function getSnakeSpawnObject(snakeLayer)
 	return spawnObject
 end
 
+-- TODO: getWallsTileset and getNoFoodZonesTileset are very similar. Combine into one function?
 local function getWallsTileset(levelData)
 	local tilesets = levelData.tilesets
 	local wallsTileset = nil
