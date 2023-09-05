@@ -71,6 +71,24 @@ local function getWallsTileset(levelData)
 	return wallsTileset
 end
 
+local function getNoFoodZonesTileset(levelData)
+	local tilesets = levelData.tilesets
+	local noFoodZonesTileset = nil
+
+	for i = 1, #tilesets do
+		if tilesets[i].name == "noFoodZones" then
+			noFoodZonesTileset = tilesets[i]
+		end
+	end
+
+	if not noFoodZonesTileset then
+		print("ERROR LOCATING NO FOOD ZONES TILESET IN LEVEL DATA")
+		return nil
+	end
+
+	return noFoodZonesTileset
+end
+
 function Tilemap:loadLevelJsonData(levelJsonFilePath)
 	local levelData = nil
 	local file = playdate.file.open(levelJsonFilePath)
@@ -126,6 +144,11 @@ function Tilemap:getWallLocations(levelData)
 
 	return wallLocations
 end
+
+function Tilemap:getNoFoodZoneLocations(levelData)
+	local noFoodZoneLocations = {}
+
+	local
 
 function Tilemap:getSnakeSpawnLocation(levelData)
 	local snakeLayer = getSnakeLayer(levelData)
