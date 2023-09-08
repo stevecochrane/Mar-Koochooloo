@@ -55,6 +55,12 @@ function OptionsState:switch()
 	optionsPressStart:moveTo(0, 195)
 	optionsPressStart:addSprite()
 
+	if control == "manual" then
+		OptionsState:enableManualControl()
+	else
+		OptionsState:enableClassicControl()
+	end
+
 	SystemMenu:removeItems()
 end
 
