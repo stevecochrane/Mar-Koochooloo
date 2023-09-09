@@ -37,15 +37,15 @@ control = "classic"
 -- This is also configurable in the options screen. Can be either 1, 2, or 3.
 music = 1
 
--- This is what is displayed to the user for their difficulty setting.
-difficultySetting = 1
+-- This is what is displayed to the user for their speed setting.
+speedSetting = 1
 -- This is the mapping between the above two values.
-difficultyMap = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
-difficultyMin = 1
-difficultyMax = 10
+speedMap = {19, 17, 15, 13, 11, 9, 7, 5, 3, 1}
+speedMin = 1
+speedMax = 10
 -- The player will move every time the frameTimer hits this number.
 -- Declaring it here also lets us change it later.
-playerMoveInterval = difficultyMap[difficultySetting]
+playerMoveInterval = speedMap[speedSetting]
 manualPlayerMoveInterval = 5
 
 -- We'll check this on every frame to determine if it's time to move.

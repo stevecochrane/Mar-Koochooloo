@@ -4,14 +4,14 @@ local appleImage = gfx.image.new("images/apple")
 local arrowLeftImage = gfx.image.new("images/arrow-left")
 local arrowRightImage = gfx.image.new("images/arrow-right")
 
-class("OptionsDifficulty").extends(gfx.sprite)
+class("OptionsSpeed").extends(gfx.sprite)
 
-function OptionsDifficulty:init()
-	OptionsDifficulty.super.init(self)
+function OptionsSpeed:init()
+	OptionsSpeed.super.init(self)
 
 	self.appleSprite = nil
 	self.selected = false
-	self.difficulty = 0
+	self.speed = 0
 
 	self:setZIndex(1)
 	self:setCenter(0, 0)
@@ -29,12 +29,12 @@ function OptionsDifficulty:init()
 	self.arrowRightSprite:add()
 end
 
-function OptionsDifficulty:setDifficulty(newDifficulty)
-	self.difficulty = newDifficulty
+function OptionsSpeed:setSpeed(newSpeed)
+	self.speed = newSpeed
 	self:markDirty()
 end
 
-function OptionsDifficulty:select()
+function OptionsSpeed:select()
 	self.selected = true
 
 	self.appleSprite = gfx.sprite.new(appleImage)
@@ -45,7 +45,7 @@ function OptionsDifficulty:select()
 	self:markDirty()
 end
 
-function OptionsDifficulty:deselect()
+function OptionsSpeed:deselect()
 	self.selected = false
 
 	self.appleSprite:remove()
@@ -53,28 +53,28 @@ function OptionsDifficulty:deselect()
 	self:markDirty()
 end
 
-function OptionsDifficulty:hide()
+function OptionsSpeed:hide()
 	self:setVisible(false)
 	self.arrowLeftSprite:setVisible(false)
 	self.arrowRightSprite:setVisible(false)
 	self:markDirty()
 end
 
-function OptionsDifficulty:show()
+function OptionsSpeed:show()
 	self:setVisible(true)
 	self.arrowLeftSprite:setVisible(true)
 	self.arrowRightSprite:setVisible(true)
 	self:markDirty()
 end
 
-function OptionsDifficulty:draw()
+function OptionsSpeed:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
 
-	-- Draw "Difficulty" label text
-	gfx.drawText("Difficulty", 24, 0)
+	-- Draw "Speed" label text
+	gfx.drawText("Speed", 24, 0)
 
-	-- Draw difficulty setting number as string
-	gfx.drawTextAligned(tostring(self.difficulty), 152, 0, kTextAlignment.center)
+	-- Draw speed setting number as string
+	gfx.drawTextAligned(tostring(self.speed), 152, 0, kTextAlignment.center)
 
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end

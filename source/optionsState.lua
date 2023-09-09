@@ -1,5 +1,5 @@
 import "optionsControl"
-import "optionsDifficulty"
+import "optionsSpeed"
 import "optionsHeading"
 import "optionsMusic"
 import "optionsPressStart"
@@ -8,19 +8,19 @@ local gfx <const> = playdate.graphics
 
 local optionsHeading = nil
 local optionsControl = nil
-local optionsDifficulty = nil
+local optionsSpeed = nil
 local optionsMusic = nil
 local optionsPressStart = nil
 
 OptionsState = {}
 
 function OptionsState:enableManualControl()
-	optionsDifficulty:hide()
+	optionsSpeed:hide()
 	optionsMusic:moveToSecondRow()
 end
 
 function OptionsState:enableClassicControl()
-	optionsDifficulty:show()
+	optionsSpeed:show()
 	optionsMusic:moveToThirdRow()
 end
 
@@ -43,9 +43,9 @@ function OptionsState:switch()
 	optionsControl:select()
 	optionsControl:addSprite()
 
-	optionsDifficulty = OptionsDifficulty()
-	optionsDifficulty:setDifficulty(difficultySetting)
-	optionsDifficulty:addSprite()
+	optionsSpeed = OptionsSpeed()
+	optionsSpeed:setSpeed(speedSetting)
+	optionsSpeed:addSprite()
 
 	optionsMusic = OptionsMusic()
 	optionsMusic:setMusic(music)
@@ -77,11 +77,11 @@ function OptionsState:update()
 			end
 			optionsControl:setControl(control)
 
-		elseif optionsDifficulty.selected == true and difficultySetting > difficultyMin then
+		elseif optionsSpeed.selected == true and speedSetting > speedMin then
 			clickSound:play()
-			difficultySetting -= 1
-			playerMoveInterval = difficultyMap[difficultySetting]
-			optionsDifficulty:setDifficulty(difficultySetting)
+			speedSetting -= 1
+			playerMoveInterval = speedMap[speedSetting]
+			optionsSpeed:setSpeed(speedSetting)
 
 		elseif optionsMusic.selected == true then
 			clickSound:play()
@@ -108,11 +108,11 @@ function OptionsState:update()
 			end
 			optionsControl:setControl(control)
 
-		elseif optionsDifficulty.selected == true and difficultySetting < difficultyMax then
+		elseif optionsSpeed.selected == true and speedSetting < speedMax then
 			clickSound:play()
-			difficultySetting += 1
-			playerMoveInterval = difficultyMap[difficultySetting]
-			optionsDifficulty:setDifficulty(difficultySetting)
+			speedSetting += 1
+			playerMoveInterval = speedMap[speedSetting]
+			optionsSpeed:setSpeed(speedSetting)
 
 		elseif optionsMusic.selected == true then
 			clickSound:play()
@@ -133,13 +133,13 @@ function OptionsState:update()
 		if optionsControl.selected == true then
 			optionsControl:deselect()
 			optionsMusic:select()
-		elseif optionsDifficulty.selected == true then
-			optionsDifficulty:deselect()
+		elseif optionsSpeed.selected == true then
+			optionsSpeed:deselect()
 			optionsControl:select()
 		else
 			optionsMusic:deselect()
 			if control == "classic" then
-				optionsDifficulty:select()
+				optionsSpeed:select()
 			else
 				optionsControl:select()
 			end
@@ -152,13 +152,13 @@ function OptionsState:update()
 		if optionsControl.selected == true then
 			optionsControl:deselect()
 			if control == "classic" then
-				optionsDifficulty:select()
+				optionsSpeed:select()
 			else
 				optionsMusic:select()
 			end
-		elseif optionsDifficulty.selected == true then
+		elseif optionsSpeed.selected == true then
 			optionsMusic:select()
-			optionsDifficulty:deselect()
+			optionsSpeed:deselect()
 		else
 			optionsControl:select()
 			optionsMusic:deselect()
