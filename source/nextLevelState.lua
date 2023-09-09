@@ -28,7 +28,7 @@ function NextLevelState:switch()
 
 	local levelClearSprite = nil
 
-	if control == "classic" then
+	if mode == "classic" then
 		if currentLevel == 1 then
 			levelClearSprite = gfx.sprite.new(level1ClearImage)
 		elseif currentLevel == 2 then

@@ -32,7 +32,7 @@ stateSwitchInProgress = false
 currentLevel = 1
 
 -- This is configurable in the options screen. Can be either "classic" or "manual".
-control = "classic"
+mode = "classic"
 
 -- This is also configurable in the options screen. Can be either 1, 2, or 3.
 music = 1

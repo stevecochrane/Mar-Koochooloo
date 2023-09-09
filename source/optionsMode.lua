@@ -6,14 +6,14 @@ local classicSelectedImage = gfx.image.new("images/options-classic-selected")
 local manualImage = gfx.image.new("images/options-manual")
 local manualSelectedImage = gfx.image.new("images/options-manual-selected")
 
-class("OptionsControl").extends(gfx.sprite)
+class("OptionsMode").extends(gfx.sprite)
 
-function OptionsControl:init()
-	OptionsControl.super.init(self)
+function OptionsMode:init()
+	OptionsMode.super.init(self)
 
 	self.appleSprite = nil
 	self.classicSprite = nil
-	self.control = "classic"
+	self.mode = "classic"
 	self.manualSprite = nil
 	self.selected = false
 
@@ -33,13 +33,13 @@ function OptionsControl:init()
 	self.manualSprite:add()
 end
 
-function OptionsControl:setControl(newControl)
-	self.control = newControl
+function OptionsMode:setMode(newMode)
+	self.mode = newMode
 	self:updateDisplay()
 end
 
-function OptionsControl:updateDisplay()
-	if self.control == "classic" then
+function OptionsMode:updateDisplay()
+	if self.mode == "classic" then
 		self.classicSprite:setImage(classicSelectedImage)
 		self.manualSprite:setImage(manualImage)
 	else
@@ -50,7 +50,7 @@ function OptionsControl:updateDisplay()
 	self:markDirty()
 end
 
-function OptionsControl:select()
+function OptionsMode:select()
 	self.selected = true
 
 	self.appleSprite = gfx.sprite.new(appleImage)
@@ -61,14 +61,14 @@ function OptionsControl:select()
 	self:markDirty()
 end
 
-function OptionsControl:deselect()
+function OptionsMode:deselect()
 	self.selected = false
 	self.appleSprite:remove()
 	self:markDirty()
 end
 
-function OptionsControl:draw()
+function OptionsMode:draw()
 	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-	gfx.drawText("Control", 24, 3)
+	gfx.drawText("Mode", 24, 3)
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 end

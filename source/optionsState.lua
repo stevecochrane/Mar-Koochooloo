@@ -1,4 +1,4 @@
-import "optionsControl"
+import "optionsMode"
 import "optionsSpeed"
 import "optionsHeading"
 import "optionsMusic"
@@ -7,19 +7,19 @@ import "optionsPressStart"
 local gfx <const> = playdate.graphics
 
 local optionsHeading = nil
-local optionsControl = nil
+local optionsMode = nil
 local optionsSpeed = nil
 local optionsMusic = nil
 local optionsPressStart = nil
 
 OptionsState = {}
 
-function OptionsState:enableManualControl()
+function OptionsState:enableManualMode()
 	optionsSpeed:hide()
 	optionsMusic:moveToSecondRow()
 end
 
-function OptionsState:enableClassicControl()
+function OptionsState:enableClassicMode()
 	optionsSpeed:show()
 	optionsMusic:moveToThirdRow()
 end
@@ -38,10 +38,10 @@ function OptionsState:switch()
 	optionsHeading:moveTo(0, 0)
 	optionsHeading:addSprite()
 
-	optionsControl = OptionsControl()
-	optionsControl:setControl(control)
-	optionsControl:select()
-	optionsControl:addSprite()
+	optionsMode = OptionsMode()
+	optionsMode:setMode(mode)
+	optionsMode:select()
+	optionsMode:addSprite()
 
 	optionsSpeed = OptionsSpeed()
 	optionsSpeed:setSpeed(speedSetting)
@@ -55,10 +55,10 @@ function OptionsState:switch()
 	optionsPressStart:moveTo(0, 195)
 	optionsPressStart:addSprite()
 
-	if control == "manual" then
-		OptionsState:enableManualControl()
+	if mode == "manual" then
+		OptionsState:enableManualMode()
 	else
-		OptionsState:enableClassicControl()
+		OptionsState:enableClassicMode()
 	end
 
 	SystemMenu:removeItems()
@@ -66,16 +66,16 @@ end
 
 function OptionsState:update()
 	if playdate.buttonJustPressed(playdate.kButtonLeft) then
-		if optionsControl.selected == true then
+		if optionsMode.selected == true then
 			clickSound:play()
-			if control == "classic" then
-				control = "manual"
-				OptionsState:enableManualControl()
+			if mode == "classic" then
+				mode = "manual"
+				OptionsState:enableManualMode()
 			else
-				control = "classic"
-				OptionsState:enableClassicControl()
+				mode = "classic"
+				OptionsState:enableClassicMode()
 			end
-			optionsControl:setControl(control)
+			optionsMode:setMode(mode)
 
 		elseif optionsSpeed.selected == true and speedSetting > speedMin then
 			clickSound:play()
@@ -97,16 +97,16 @@ function OptionsState:update()
 	end
 
 	if playdate.buttonJustPressed(playdate.kButtonRight) then
-		if optionsControl.selected == true then
+		if optionsMode.selected == true then
 			clickSound:play()
-			if control == "classic" then
-				control = "manual"
-				OptionsState:enableManualControl()
+			if mode == "classic" then
+				mode = "manual"
+				OptionsState:enableManualMode()
 			else
-				control = "classic"
-				OptionsState:enableClassicControl()
+				mode = "classic"
+				OptionsState:enableClassicMode()
 			end
-			optionsControl:setControl(control)
+			optionsMode:setMode(mode)
 
 		elseif optionsSpeed.selected == true and speedSetting < speedMax then
 			clickSound:play()
@@ -130,18 +130,18 @@ function OptionsState:update()
 	if playdate.buttonJustPressed(playdate.kButtonUp) then
 		clickSound:play()
 
-		if optionsControl.selected == true then
-			optionsControl:deselect()
+		if optionsMode.selected == true then
+			optionsMode:deselect()
 			optionsMusic:select()
 		elseif optionsSpeed.selected == true then
 			optionsSpeed:deselect()
-			optionsControl:select()
+			optionsMode:select()
 		else
 			optionsMusic:deselect()
-			if control == "classic" then
+			if mode == "classic" then
 				optionsSpeed:select()
 			else
-				optionsControl:select()
+				optionsMode:select()
 			end
 		end
 	end
@@ -149,9 +149,9 @@ function OptionsState:update()
 	if playdate.buttonJustPressed(playdate.kButtonDown) then
 		clickSound:play()
 
-		if optionsControl.selected == true then
-			optionsControl:deselect()
-			if control == "classic" then
+		if optionsMode.selected == true then
+			optionsMode:deselect()
+			if mode == "classic" then
 				optionsSpeed:select()
 			else
 				optionsMusic:select()
@@ -160,7 +160,7 @@ function OptionsState:update()
 			optionsMusic:select()
 			optionsSpeed:deselect()
 		else
-			optionsControl:select()
+			optionsMode:select()
 			optionsMusic:deselect()
 		end
 	end
