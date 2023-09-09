@@ -260,7 +260,7 @@ function PlayState:setUpGame()
 	if mode == "classic" then
 		moveTimer = playdate.frameTimer.new(playerMoveInterval)
 	else
-		moveTimer = playdate.frameTimer.new(manualPlayerMoveInterval)
+		moveTimer = playdate.frameTimer.new(gentlePlayerMoveInterval)
 	end
 	moveTimer.repeats = true
 
@@ -378,7 +378,7 @@ function PlayState:update()
 			clickSound:play()
 			playerDirectionBuffer = "up"
 			justPressedButton = true
-			if mode == "manual" then
+			if mode == "gentle" then
 				directionHeldTimer = playdate.frameTimer.new(30, PlayState.upButtonIsHeld)
 			end
 		end
@@ -387,7 +387,7 @@ function PlayState:update()
 			clickSound:play()
 			playerDirectionBuffer = "right"
 			justPressedButton = true
-			if mode == "manual" then
+			if mode == "gentle" then
 				directionHeldTimer = playdate.frameTimer.new(30, PlayState.rightButtonIsHeld)
 			end
 		end
@@ -396,7 +396,7 @@ function PlayState:update()
 			clickSound:play()
 			playerDirectionBuffer = "down"
 			justPressedButton = true
-			if mode == "manual" then
+			if mode == "gentle" then
 				directionHeldTimer = playdate.frameTimer.new(30, PlayState.downButtonIsHeld)
 			end
 		end
@@ -405,20 +405,20 @@ function PlayState:update()
 			clickSound:play()
 			playerDirectionBuffer = "left"
 			justPressedButton = true
-			if mode == "manual" then
+			if mode == "gentle" then
 				directionHeldTimer = playdate.frameTimer.new(30, PlayState.leftButtonIsHeld)
 			end
 		end
 	end
 
-	if mode == "manual" then
+	if mode == "gentle" then
 		if playdate.buttonJustReleased(playdate.kButtonUp) or playdate.buttonJustReleased(playdate.kButtonDown) or playdate.buttonJustReleased(playdate.kButtonLeft) or playdate.buttonJustReleased(playdate.kButtonRight) then
 			directionHeldTimer:pause()
 			directionHeld = nil
 		end
 	end
 
-	if ((mode == "classic" and moveTimer.frame == playerMoveInterval) or (mode == "manual" and justPressedButton == true) or (mode == "manual" and moveTimer.frame == manualPlayerMoveInterval and directionHeld)) then
+	if ((mode == "classic" and moveTimer.frame == playerMoveInterval) or (mode == "gentle" and justPressedButton == true) or (mode == "gentle" and moveTimer.frame == gentlePlayerMoveInterval and directionHeld)) then
 		-- Initialize coordinates for next snake segment at position of current head
 		local nextCoordinates = {snakeCoordinates[1][1], snakeCoordinates[1][2]}
 		local nextSprite = nil
@@ -447,7 +447,7 @@ function PlayState:update()
 			nextCoordinates[1] -= screenWidth
 		end
 
-		if not (mode == "manual" and (PlayState:isCollidingWithSnake(nextCoordinates) or PlayState:isCollidingWithStage(nextCoordinates))) then
+		if not (mode == "gentle" and (PlayState:isCollidingWithSnake(nextCoordinates) or PlayState:isCollidingWithStage(nextCoordinates))) then
 
 			if playerDirectionBuffer ~= playerDirection then
 				turnSound:play()

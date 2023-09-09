@@ -14,7 +14,7 @@ local optionsPressStart = nil
 
 OptionsState = {}
 
-function OptionsState:enableManualMode()
+function OptionsState:enableGentleMode()
 	optionsSpeed:hide()
 	optionsMusic:moveToSecondRow()
 end
@@ -55,8 +55,8 @@ function OptionsState:switch()
 	optionsPressStart:moveTo(0, 195)
 	optionsPressStart:addSprite()
 
-	if mode == "manual" then
-		OptionsState:enableManualMode()
+	if mode == "gentle" then
+		OptionsState:enableGentleMode()
 	else
 		OptionsState:enableClassicMode()
 	end
@@ -69,8 +69,8 @@ function OptionsState:update()
 		if optionsMode.selected == true then
 			clickSound:play()
 			if mode == "classic" then
-				mode = "manual"
-				OptionsState:enableManualMode()
+				mode = "gentle"
+				OptionsState:enableGentleMode()
 			else
 				mode = "classic"
 				OptionsState:enableClassicMode()
@@ -100,8 +100,8 @@ function OptionsState:update()
 		if optionsMode.selected == true then
 			clickSound:play()
 			if mode == "classic" then
-				mode = "manual"
-				OptionsState:enableManualMode()
+				mode = "gentle"
+				OptionsState:enableGentleMode()
 			else
 				mode = "classic"
 				OptionsState:enableClassicMode()

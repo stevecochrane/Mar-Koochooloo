@@ -3,8 +3,8 @@ local gfx <const> = playdate.graphics
 local appleImage = gfx.image.new("images/apple")
 local classicImage = gfx.image.new("images/options-classic")
 local classicSelectedImage = gfx.image.new("images/options-classic-selected")
-local manualImage = gfx.image.new("images/options-manual")
-local manualSelectedImage = gfx.image.new("images/options-manual-selected")
+local gentleImage = gfx.image.new("images/options-gentle")
+local gentleSelectedImage = gfx.image.new("images/options-gentle-selected")
 
 class("OptionsMode").extends(gfx.sprite)
 
@@ -14,7 +14,7 @@ function OptionsMode:init()
 	self.appleSprite = nil
 	self.classicSprite = nil
 	self.mode = "classic"
-	self.manualSprite = nil
+	self.gentleSprite = nil
 	self.selected = false
 
 	self:setZIndex(1)
@@ -27,10 +27,10 @@ function OptionsMode:init()
 	self.classicSprite:moveTo(self.x + 128, self.y)
 	self.classicSprite:add()
 
-	self.manualSprite = gfx.sprite.new(manualSelectedImage)
-	self.manualSprite:setCenter(0, 0)
-	self.manualSprite:moveTo(self.x + 213, self.y)
-	self.manualSprite:add()
+	self.gentleSprite = gfx.sprite.new(gentleSelectedImage)
+	self.gentleSprite:setCenter(0, 0)
+	self.gentleSprite:moveTo(self.x + 213, self.y)
+	self.gentleSprite:add()
 end
 
 function OptionsMode:setMode(newMode)
@@ -41,10 +41,10 @@ end
 function OptionsMode:updateDisplay()
 	if self.mode == "classic" then
 		self.classicSprite:setImage(classicSelectedImage)
-		self.manualSprite:setImage(manualImage)
+		self.gentleSprite:setImage(gentleImage)
 	else
 		self.classicSprite:setImage(classicImage)
-		self.manualSprite:setImage(manualSelectedImage)
+		self.gentleSprite:setImage(gentleSelectedImage)
 	end
 
 	self:markDirty()

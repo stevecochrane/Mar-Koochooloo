@@ -31,7 +31,7 @@ stateSwitchInProgress = false
 
 currentLevel = 1
 
--- This is configurable in the options screen. Can be either "classic" or "manual".
+-- This is configurable in the options screen. Can be either "classic" or "gentle".
 mode = "classic"
 
 -- This is also configurable in the options screen. Can be either 1, 2, or 3.
@@ -46,7 +46,7 @@ speedMax = 10
 -- The player will move every time the frameTimer hits this number.
 -- Declaring it here also lets us change it later.
 playerMoveInterval = speedMap[speedSetting]
-manualPlayerMoveInterval = 5
+gentlePlayerMoveInterval = 5
 
 -- We'll check this on every frame to determine if it's time to move.
 moveTimer = nil
