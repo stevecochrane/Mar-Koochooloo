@@ -1,8 +1,8 @@
 local gfx <const> = playdate.graphics
 
-local appleImage = gfx.image.new("images/apple")
 local classicImage = gfx.image.new("images/options-classic")
 local classicSelectedImage = gfx.image.new("images/options-classic-selected")
+local foodImage = gfx.image.new("images/food")
 local gentleImage = gfx.image.new("images/options-gentle")
 local gentleSelectedImage = gfx.image.new("images/options-gentle-selected")
 
@@ -11,7 +11,7 @@ class("OptionsMode").extends(gfx.sprite)
 function OptionsMode:init()
 	OptionsMode.super.init(self)
 
-	self.appleSprite = nil
+	self.foodSprite = nil
 	self.classicSprite = nil
 	self.mode = "classic"
 	self.gentleSprite = nil
@@ -53,17 +53,17 @@ end
 function OptionsMode:select()
 	self.selected = true
 
-	self.appleSprite = gfx.sprite.new(appleImage)
-	self.appleSprite:setCenter(0, 0)
-	self.appleSprite:moveTo(self.x, self.y + 4)
-	self.appleSprite:add()
+	self.foodSprite = gfx.sprite.new(foodImage)
+	self.foodSprite:setCenter(0, 0)
+	self.foodSprite:moveTo(self.x, self.y + 4)
+	self.foodSprite:add()
 
 	self:markDirty()
 end
 
 function OptionsMode:deselect()
 	self.selected = false
-	self.appleSprite:remove()
+	self.foodSprite:remove()
 	self:markDirty()
 end
 

@@ -1,6 +1,6 @@
 local gfx <const> = playdate.graphics
 
-local appleImage = gfx.image.new("images/apple")
+local foodImage = gfx.image.new("images/food")
 
 class("TitleStart").extends(gfx.sprite)
 
@@ -12,7 +12,7 @@ function TitleStart:init()
 	self.blinker.onDuration = 150
 	self.blinker.offDuration = 150
 
-	self.appleSprite = nil
+	self.foodSprite = nil
 	self.selected = false
 	self.visible = true
 
@@ -29,10 +29,10 @@ end
 function TitleStart:select()
 	self.selected = true
 
-	self.appleSprite = gfx.sprite.new(appleImage)
-	self.appleSprite:setCenter(0, 0)
-	self.appleSprite:moveTo(self.x, self.y + 1)
-	self.appleSprite:add()
+	self.foodSprite = gfx.sprite.new(foodImage)
+	self.foodSprite:setCenter(0, 0)
+	self.foodSprite:moveTo(self.x, self.y + 1)
+	self.foodSprite:add()
 
 	self:markDirty()
 end
@@ -40,7 +40,7 @@ end
 function TitleStart:deselect()
 	self.selected = false
 
-	self.appleSprite:remove()
+	self.foodSprite:remove()
 
 	self:markDirty()
 end

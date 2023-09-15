@@ -1,6 +1,6 @@
 local gfx <const> = playdate.graphics
 
-local appleImage = gfx.image.new("images/apple")
+local foodImage = gfx.image.new("images/food")
 local music1Image = gfx.image.new("images/options-music-1")
 local music1SelectedImage = gfx.image.new("images/options-music-1-selected")
 local music2Image = gfx.image.new("images/options-music-2")
@@ -18,7 +18,7 @@ class("OptionsMusic").extends(gfx.sprite)
 function OptionsMusic:init()
 	OptionsMusic.super.init(self)
 
-	self.appleSprite = nil
+	self.foodSprite = nil
 	self.music = 1
 	self.music1Sprite = nil
 	self.music2Sprite = nil
@@ -72,17 +72,17 @@ end
 function OptionsMusic:select()
 	self.selected = true
 
-	self.appleSprite = gfx.sprite.new(appleImage)
-	self.appleSprite:setCenter(0, 0)
-	self.appleSprite:moveTo(self.x, self.y)
-	self.appleSprite:add()
+	self.foodSprite = gfx.sprite.new(foodImage)
+	self.foodSprite:setCenter(0, 0)
+	self.foodSprite:moveTo(self.x, self.y)
+	self.foodSprite:add()
 
 	self:markDirty()
 end
 
 function OptionsMusic:deselect()
 	self.selected = false
-	self.appleSprite:remove()
+	self.foodSprite:remove()
 	self:markDirty()
 end
 

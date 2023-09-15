@@ -1,15 +1,15 @@
 local gfx <const> = playdate.graphics
 
-local appleImage = gfx.image.new("images/apple")
 local arrowLeftImage = gfx.image.new("images/arrow-left")
 local arrowRightImage = gfx.image.new("images/arrow-right")
+local foodImage = gfx.image.new("images/food")
 
 class("OptionsSpeed").extends(gfx.sprite)
 
 function OptionsSpeed:init()
 	OptionsSpeed.super.init(self)
 
-	self.appleSprite = nil
+	self.foodSprite = nil
 	self.selected = false
 	self.speed = 0
 
@@ -37,10 +37,10 @@ end
 function OptionsSpeed:select()
 	self.selected = true
 
-	self.appleSprite = gfx.sprite.new(appleImage)
-	self.appleSprite:setCenter(0, 0)
-	self.appleSprite:moveTo(self.x, self.y)
-	self.appleSprite:add()
+	self.foodSprite = gfx.sprite.new(foodImage)
+	self.foodSprite:setCenter(0, 0)
+	self.foodSprite:moveTo(self.x, self.y)
+	self.foodSprite:add()
 
 	self:markDirty()
 end
@@ -48,7 +48,7 @@ end
 function OptionsSpeed:deselect()
 	self.selected = false
 
-	self.appleSprite:remove()
+	self.foodSprite:remove()
 
 	self:markDirty()
 end
