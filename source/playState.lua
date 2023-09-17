@@ -379,7 +379,7 @@ function PlayState:update()
 			playerDirectionBuffer = "up"
 			justPressedButton = true
 			if mode == "gentle" then
-				directionHeldTimer = playdate.frameTimer.new(30, PlayState.upButtonIsHeld)
+				directionHeldTimer = playdate.frameTimer.new(12, PlayState.upButtonIsHeld)
 			end
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonRight) then
@@ -388,7 +388,7 @@ function PlayState:update()
 			playerDirectionBuffer = "right"
 			justPressedButton = true
 			if mode == "gentle" then
-				directionHeldTimer = playdate.frameTimer.new(30, PlayState.rightButtonIsHeld)
+				directionHeldTimer = playdate.frameTimer.new(12, PlayState.rightButtonIsHeld)
 			end
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonDown) then
@@ -397,7 +397,7 @@ function PlayState:update()
 			playerDirectionBuffer = "down"
 			justPressedButton = true
 			if mode == "gentle" then
-				directionHeldTimer = playdate.frameTimer.new(30, PlayState.downButtonIsHeld)
+				directionHeldTimer = playdate.frameTimer.new(12, PlayState.downButtonIsHeld)
 			end
 		end
 	elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
@@ -406,7 +406,7 @@ function PlayState:update()
 			playerDirectionBuffer = "left"
 			justPressedButton = true
 			if mode == "gentle" then
-				directionHeldTimer = playdate.frameTimer.new(30, PlayState.leftButtonIsHeld)
+				directionHeldTimer = playdate.frameTimer.new(12, PlayState.leftButtonIsHeld)
 			end
 		end
 	end
