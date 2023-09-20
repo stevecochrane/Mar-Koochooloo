@@ -50,6 +50,9 @@ local playerDirectionBuffer = nil
 -- Stores coordinates (e.g. {x, y}) for each segment of the snake.
 local snakeCoordinates = nil
 
+-- Stores coordinates (e.g. {x, y}) for the next space that the snake is moving to.
+local nextCoordinates = nil
+
 -- Stores sprites for each segment of the snake.
 local snakeSprites = nil
 
@@ -117,12 +120,25 @@ function PlayState:isCollidingWithNoFoodZone(coordinates)
 	return collided
 end
 
+function PlayState:isCollidingWithNextCoordinates(coordinates)
+	local collided = false
+
+	if nextCoordinates then
+		if nextCoordinates[1] == coordinates[1] and nextCoordinates[2] == coordinates[2] then
+			collided = true
+		end
+	end
+
+	return collided
+end
+
 function PlayState:repositionFood()
 	local newX = nil
 	local newY = nil
 	local hasCollidedWithSnake = nil
 	local hasCollidedWithStage = nil
 	local hasCollidedWithNoFoodZone = nil
+	local hasCollidedWithNextCoordinates = nil
 
 	repeat
 		newX = math.random(0, screenWidth - 1)
@@ -132,13 +148,14 @@ function PlayState:repositionFood()
 		newX = newX - (newX % tileSize)
 		newY = newY - (newY % tileSize)
 
-		-- Check if new food position collides with any part of snake, stage or noFoodZone
+		-- Check if new food position collides with any part of snake, stage, noFoodZone or nextCoordinates
 		hasCollidedWithSnake = PlayState:isCollidingWithSnake({newX, newY})
 		hasCollidedWithStage = PlayState:isCollidingWithStage({newX, newY})
 		hasCollidedWithNoFoodZone = PlayState:isCollidingWithNoFoodZone({newX, newY})
+		hasCollidedWithNextCoordinates = PlayState:isCollidingWithNextCoordinates({newX, newY})
 
-	-- Repeat the above until the food is not on the same tile as the player
-	until not hasCollidedWithSnake and not hasCollidedWithStage and not hasCollidedWithNoFoodZone
+	-- Repeat the above until the food is on an open space
+	until not hasCollidedWithSnake and not hasCollidedWithStage and not hasCollidedWithNoFoodZone and not hasCollidedWithNextCoordinates
 
 	-- We have our new food position, move food sprite there
 	foodSprite:moveTo(newX, newY)
@@ -271,6 +288,7 @@ function PlayState:setUpGame()
 	noFoodZoneLocations = {}
 	directionHeld = nil
 	directionHeldTimer = nil
+	nextCoordinates = nil
 
 	segmentsGainedWhenEating = segmentsGainedWhenEatingDefault
 
@@ -419,11 +437,12 @@ function PlayState:update()
 	end
 
 	if ((mode == "classic" and moveTimer.frame == playerMoveInterval) or (mode == "gentle" and justPressedButton == true) or (mode == "gentle" and moveTimer.frame == gentlePlayerMoveInterval and directionHeld)) then
-		-- Initialize coordinates for next snake segment at position of current head
-		local nextCoordinates = {snakeCoordinates[1][1], snakeCoordinates[1][2]}
 		local nextSprite = nil
 		local nextSpriteImage = nil
 		local tailSprite = nil
+
+		-- Initialize coordinates for next snake segment at position of current head
+		nextCoordinates = {snakeCoordinates[1][1], snakeCoordinates[1][2]}
 
 		if playerDirectionBuffer == "up" then
 			nextCoordinates[2] -= tileSize
