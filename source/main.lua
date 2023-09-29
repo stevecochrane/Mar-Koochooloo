@@ -50,5 +50,5 @@ function playdate.update()
 	gfx.animation.blinker.updateAll()
 	playdate.frameTimer.updateTimers()
 	playdate.timer.updateTimers()
-	-- playdate.drawFPS(0,0)
+	playdate.drawFPS(0,0)
 end
