@@ -58,15 +58,15 @@
  "tileheight":16,
  "tilesets":[
         {
-         "columns":26,
+         "columns":34,
          "firstgid":1,
          "image":"..\/images\/walls-sprite.png",
          "imageheight":16,
-         "imagewidth":416,
+         "imagewidth":544,
          "margin":0,
          "name":"walls",
          "spacing":0,
-         "tilecount":26,
+         "tilecount":34,
          "tileheight":16,
          "tilewidth":16
         }],
