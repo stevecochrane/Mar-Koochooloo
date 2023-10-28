@@ -155,7 +155,7 @@ function Tilemap:getWallLocations(levelData)
 	for row = 1, rows do
 		for column = 1, columns do
 			local index = column + ((row - 1) * columns)
-			if wallsData[index] == 2 then
+			if wallsData[index] > 1 then
 				local wallLocation = {(column - 1) * tileWidth, (row - 1) * tileHeight}
 				table.insert(wallLocations, 1, wallLocation)
 			end
