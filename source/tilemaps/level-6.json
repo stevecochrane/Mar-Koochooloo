@@ -27,7 +27,7 @@
          "width":25,
          "x":0,
          "y":0
-        }, 
+        },
         {
          "draworder":"topdown",
          "id":3,
@@ -60,7 +60,7 @@
         {
          "columns":34,
          "firstgid":1,
-         "image":"..\/images\/walls-sprite.png",
+         "image":"..\/images\/walls-table-16-16.png",
          "imageheight":16,
          "imagewidth":544,
          "margin":0,
