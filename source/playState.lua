@@ -12,6 +12,9 @@ local tileSize = 16
 local playerSprite = nil
 local foodSprite = nil
 
+-- Initialize image tables
+local wallImageTable = gfx.imagetable.new("images/walls")
+
 -- Initialize images
 local food1Image = gfx.image.new("images/food-1")
 local food2Image = gfx.image.new("images/food-2")
@@ -36,7 +39,6 @@ local snakeTailDownImage = gfx.image.new("images/snake-tail-down")
 local snakeTailLeftImage = gfx.image.new("images/snake-tail-left")
 local snakeTailRightImage = gfx.image.new("images/snake-tail-right")
 local snakeTailUpImage = gfx.image.new("images/snake-tail-up")
-local wallImage = gfx.image.new("images/wall")
 
 -- Initialize sound effects
 local foodSound = snd.sampleplayer.new("sound/power-up")
@@ -299,6 +301,7 @@ function PlayState:setUpGame()
 	local startingY = snakeSpawnLocation[2]
 
 	for i = 1, #wallLocations do
+		local wallImage = wallImageTable:getImage(wallLocations[i][3])
 		local wallSprite = gfx.sprite.new(wallImage)
 		local wallSpriteX = wallLocations[i][1]
 		local wallSpriteY = wallLocations[i][2]
