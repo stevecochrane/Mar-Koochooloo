@@ -50,5 +50,7 @@ function playdate.update()
 	gfx.animation.blinker.updateAll()
 	playdate.frameTimer.updateTimers()
 	playdate.timer.updateTimers()
-	playdate.drawFPS(0,0)
+
+	-- Uncomment to view frame rate while playing.
+	-- playdate.drawFPS(0,0)
 end
