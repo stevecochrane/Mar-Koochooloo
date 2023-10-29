@@ -72,7 +72,7 @@ local segmentsToGain = 0
 local wallSpriteCoordinates = nil
 local noFoodZoneLocations = nil
 
-local lastLevel = 8
+local lastLevel = 9
 
 local justPressedButton = false
 
