@@ -27,7 +27,7 @@ function CreditsText:draw()
 	gfx.setFont(Roobert10Bold)
 	gfx.drawText("Music, Sound Effects", margin, margin + rowHeight * 5)
 	gfx.setFont(Roobert11Medium)
-	gfx.drawText("Nik", margin, margin + rowHeight * 6)
+	gfx.drawText("KRVB", margin, margin + rowHeight * 6)
 
 	gfx.setFont(Roobert10Bold)
 	gfx.drawText("Playtesting, Feedback", margin, margin + rowHeight * 8)
