@@ -44,7 +44,6 @@ local snakeTailUpImage = gfx.image.new("images/snake-tail-up")
 local foodSound = snd.sampleplayer.new("sound/power-up")
 local turnSound = snd.sampleplayer.new("sound/turn")
 
--- TODO: Implement as enum if possible?
 -- Possible values are "up", "right", "down", and "left"
 local playerDirection = nil
 local playerDirectionBuffer = nil

@@ -10,7 +10,6 @@ foodEatenCount = nil
 -- Number of food needed to clear a level
 foodGoal = 9
 
--- TODO: Implement as enum if possible?
 -- Possible values are "title", "options", "play", "end"
 gameState = "title"
 
@@ -31,7 +30,7 @@ stateSwitchInProgress = false
 
 currentLevel = 1
 
--- This is configurable in the options screen. Can be either "classic" or "gentle".
+-- This is configurable in the options screen. Possible values are "classic", "gentle"
 mode = "classic"
 
 -- This is also configurable in the options screen. Can be either 1, 2, or 3.
