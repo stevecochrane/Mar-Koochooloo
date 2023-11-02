@@ -2,7 +2,7 @@
 
 Mar Koochooloo (that's "little snake" in Farsi) is an iteration of the
 [snake game](https://en.wikipedia.org/wiki/Snake_(video_game_genre)) for
-[Playdate](https://play.date) with ten levels and a "gentle" mode for new
+[Playdate](https://play.date) with nine levels and a "gentle" mode for new
 players.
 
 I created the game for my daughter Darya and collaborated with my extremely
