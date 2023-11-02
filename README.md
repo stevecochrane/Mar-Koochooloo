@@ -29,11 +29,11 @@ effects were made with [jsfxr](https://sfxr.me).
 
 ## State of the code
 
-This project is definitely not my best work, though I don't intend to maintain
-this project or continue to build upon it after the intial release, so code
-maintainability was not much of a concern. It maintains a steady 30 FPS no
-matter what you do, which is the maximum frame rate for a Lua game, so there
-are no performance issues.
+This project is definitely not my best work from a code perspective, though I
+don't intend to maintain this project or continue to build upon it after the
+intial release, so code maintainability was not much of a concern. It maintains
+a steady 30 FPS no matter what you do, which is the maximum frame rate for a
+Lua game, so there are no performance issues.
 
 I've structured this similarly to my old
 [Flixel](https://lib.haxe.org/p/flixel) projects from a decade ago, where there
