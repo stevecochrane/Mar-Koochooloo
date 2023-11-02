@@ -30,7 +30,7 @@ local function getNoFoodZonesLayer(levelData)
 	end
 
 	if not noFoodZonesLayer then
-		print("ERROR LOCATING NO FOOD ZONES LAYER IN LEVEL DATA")
+		-- Not all levels have this layer so we don't need to print an error
 		return nil
 	end
 
@@ -101,7 +101,7 @@ local function getNoFoodZonesTileset(levelData)
 	end
 
 	if not noFoodZonesTileset then
-		print("ERROR LOCATING NO FOOD ZONES TILESET IN LEVEL DATA")
+		-- Not all levels have this tileset so we don't need to print an error
 		return nil
 	end
 

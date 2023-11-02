@@ -245,22 +245,18 @@ function PlayState:updateSnakeTail()
 end
 
 function PlayState:upButtonIsHeld()
-	print('button held: up')
 	directionHeld = "up"
 end
 
 function PlayState:downButtonIsHeld()
-	print('button held: down')
 	directionHeld = "down"
 end
 
 function PlayState:leftButtonIsHeld()
-	print('button held: left')
 	directionHeld = "left"
 end
 
 function PlayState:rightButtonIsHeld()
-	print('button held: right')
 	directionHeld = "right"
 end
 
