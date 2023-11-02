@@ -151,7 +151,6 @@ function Tilemap:getWallLocations(levelData)
 	local tileHeight = wallsTileset.tileheight
 	local tileWidth = wallsTileset.tilewidth
 
-	-- TODO: Iterate from 0 rather than from 1?
 	for row = 1, rows do
 		for column = 1, columns do
 			local index = column + ((row - 1) * columns)
@@ -182,7 +181,6 @@ function Tilemap:getNoFoodZoneLocations(levelData)
 	local tileHeight = noFoodZonesTileset.tileheight
 	local tileWidth = noFoodZonesTileset.tilewidth
 
-	-- TODO: Iterate from 0 rather than from 1?
 	for row = 1, rows do
 		for column = 1, columns do
 			local index = column + ((row - 1) * columns)
