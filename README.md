@@ -11,6 +11,14 @@ talented nephew who creates music as
 effects with GarageBand on his grandfather's old iPhone and was just 8 years
 old at the time. The music is easily the best part of the game.
 
+There are many versions of the snake game, but this is most inspired by QBasic
+Nibbles, which you can now miraculously
+[play through your web browser](https://archive.org/details/NibblesQbasic)
+thanks to the wizards at the Internet Archive. Nibbles is special to me because
+it's one of the two games that came with QBasic and one of the first games I
+began to tinker with when my grandfather introduced me to programming. Most of
+the level layouts in Mar Koochooloo are adopted from Nibbles.
+
 ## How this was made
 
 Mar Koochooloo was programmed in Lua with the
