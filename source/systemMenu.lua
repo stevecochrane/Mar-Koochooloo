@@ -6,7 +6,7 @@ SystemMenu = {}
 function SystemMenu:addItems()
 	systemMenu:removeAllMenuItems()
 
-	systemMenu:addMenuItem("New Game", function()
+	systemMenu:addMenuItem("Retry", function()
 		moveTimer:remove()
 		stageBgm:stop()
 		gfx.sprite.removeAll()
