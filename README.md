@@ -15,9 +15,9 @@ There are many versions of the snake game, but this is most inspired by QBasic
 Nibbles, which you can now miraculously
 [play through your web browser](https://archive.org/details/NibblesQbasic)
 thanks to the wizards at the Internet Archive. Nibbles is special to me because
-it's one of the two games that came with QBasic and one of the first games I
-began to tinker with when my grandfather introduced me to programming. Most of
-the level layouts in Mar Koochooloo are adopted from Nibbles.
+it's one of two games that came with QBasic and one of the first games I began
+to tinker with when my grandfather introduced me to programming. Most of the
+level layouts in Mar Koochooloo are adopted from Nibbles.
 
 ## How this was made
 
@@ -28,7 +28,7 @@ game for a gaming console and not just for PC, this is about as straightforward
 as it gets.
 
 The in-game fonts are Roobert 11 Medium and Roobert 10 Bold, both of which are
-included as part of the Playdate SDK.
+included in the Playdate SDK.
 
 The tilemaps were made in [Tiled](https://www.mapeditor.org), the pixel art
 was made with [Acorn](https://flyingmeat.com/acorn/) and the code was written
@@ -51,5 +51,5 @@ the game in the main `playdate.update()` function it will look to the current
 state and call the matching function. `playState` still does too much and would
 be broken up further if I was to keep working on this.
 
-If you want to read the code from the beginning, the main.lua file is the first
-file to be executed when running the game.
+If you want to read from the beginning, the main.lua file is the first file to
+be executed when running the game.
