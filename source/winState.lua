@@ -7,6 +7,7 @@ function WinState:switch()
 	gameState = "win"
 
 	stageBgm:stop()
+	gameStartSound:play()
 
 	local winStateTextImage = gfx.image.new("images/win-state-text")
 	local winStateTextSprite = gfx.sprite.new(winStateTextImage)
