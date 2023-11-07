@@ -429,7 +429,9 @@ function PlayState:update()
 
 	if mode == "gentle" then
 		if playdate.buttonJustReleased(playdate.kButtonUp) or playdate.buttonJustReleased(playdate.kButtonDown) or playdate.buttonJustReleased(playdate.kButtonLeft) or playdate.buttonJustReleased(playdate.kButtonRight) then
-			directionHeldTimer:pause()
+			if directionHeldTimer then
+				directionHeldTimer:pause()
+			end
 			directionHeld = nil
 		end
 	end
