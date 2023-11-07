@@ -65,7 +65,7 @@ function OptionsState:switch()
 end
 
 function OptionsState:update()
-	if playdate.buttonJustPressed(playdate.kButtonLeft) then
+	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonLeft) then
 		if optionsMode.selected == true then
 			clickSound:play()
 			if mode == "classic" then
@@ -96,7 +96,7 @@ function OptionsState:update()
 		end
 	end
 
-	if playdate.buttonJustPressed(playdate.kButtonRight) then
+	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonRight) then
 		if optionsMode.selected == true then
 			clickSound:play()
 			if mode == "classic" then
@@ -127,7 +127,7 @@ function OptionsState:update()
 		end
 	end
 
-	if playdate.buttonJustPressed(playdate.kButtonUp) then
+	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonUp) then
 		clickSound:play()
 
 		if optionsMode.selected == true then
@@ -146,7 +146,7 @@ function OptionsState:update()
 		end
 	end
 
-	if playdate.buttonJustPressed(playdate.kButtonDown) then
+	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonDown) then
 		clickSound:play()
 
 		if optionsMode.selected == true then
