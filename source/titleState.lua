@@ -25,7 +25,7 @@ function TitleState:switch()
 	titleCredits:addSprite()
 
 	menuBgm:load("music/menu")
-	menuBgm:setVolume("0.75")
+	menuBgm:setVolume("0.8")
 	menuBgm:play(0)
 end
 

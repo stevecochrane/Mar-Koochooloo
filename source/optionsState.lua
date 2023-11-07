@@ -31,7 +31,7 @@ function OptionsState:switch()
 	-- Clear player's progress whenever they enter/re-enter the Options screen
 	currentLevel = 1
 
-	menuBgm:setVolume("0.75")
+	menuBgm:setVolume("0.8")
 	menuBgm:play(0)
 
 	optionsHeading = OptionsHeading()

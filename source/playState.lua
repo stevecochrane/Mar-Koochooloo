@@ -371,7 +371,7 @@ function PlayState:setUpGame()
 	else
 		stageBgm:load("music/bgm3")
 	end
-	stageBgm:setVolume("0.75")
+	stageBgm:setVolume("0.8")
 	-- Play and loop forever
 	stageBgm:play(0)
 end
