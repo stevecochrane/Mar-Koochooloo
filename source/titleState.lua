@@ -30,29 +30,31 @@ function TitleState:switch()
 end
 
 function TitleState:update()
-	if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonDown) then
-		if titleStart.selected == true then
-			clickSound:play()
-			titleStart:deselect()
-			titleCredits:select()
-		elseif titleCredits.selected == true then
-			clickSound:play()
-			titleStart:select()
-			titleCredits:deselect()
+	if stateSwitchInProgress == false then
+		if playdate.buttonJustPressed(playdate.kButtonUp) or playdate.buttonJustPressed(playdate.kButtonDown) then
+			if titleStart.selected == true then
+				clickSound:play()
+				titleStart:deselect()
+				titleCredits:select()
+			elseif titleCredits.selected == true then
+				clickSound:play()
+				titleStart:select()
+				titleCredits:deselect()
+			end
 		end
-	end
 
-	if stateSwitchInProgress == false and playdate.buttonJustPressed(playdate.kButtonA) then
-		if titleStart.selected == true then
-			gameStartSound:play()
-			titleStart:blink()
-			stateSwitchInProgress = true
-			playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
-			playdate.timer.performAfterDelay(stateSwitchFullDuration, OptionsState.switch)
-		elseif titleCredits.selected == true then
-			gfx.sprite.removeAll()
-			stateSwitchInProgress = true
-			playdate.timer.performAfterDelay(stateSwitchPauseDuration, CreditsState.switch)
+		if playdate.buttonJustPressed(playdate.kButtonA) then
+			if titleStart.selected == true then
+				gameStartSound:play()
+				titleStart:blink()
+				stateSwitchInProgress = true
+				playdate.timer.performAfterDelay(stateSwitchAnimationDuration, gfx.sprite.removeAll)
+				playdate.timer.performAfterDelay(stateSwitchFullDuration, OptionsState.switch)
+			elseif titleCredits.selected == true then
+				gfx.sprite.removeAll()
+				stateSwitchInProgress = true
+				playdate.timer.performAfterDelay(stateSwitchPauseDuration, CreditsState.switch)
+			end
 		end
 	end
 end
