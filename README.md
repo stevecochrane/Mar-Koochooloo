@@ -5,6 +5,10 @@ Mar Koochooloo (that's "little snake" in Farsi) is an iteration of the
 [Playdate](https://play.date) with nine levels and a "gentle" mode for new
 players.
 
+<img src="https://raw.githubusercontent.com/stevecochrane/Mar-Koochooloo/main/screenshots/title-screen-2x.png" alt="Mar Koochooloo title screen" width="400" height="240" />
+
+<img src="https://raw.githubusercontent.com/stevecochrane/Mar-Koochooloo/main/screenshots/options-screen-2x.png" alt="Options screen" width="400" height="240" />
+
 I created the game for my daughter Darya and collaborated with my extremely
 talented nephew who creates music as
 [KSVR](https://www.youtube.com/@behgolbb202). He made the music and sound
