@@ -9,6 +9,18 @@ players.
 
 <img src="https://raw.githubusercontent.com/stevecochrane/Mar-Koochooloo/main/screenshots/options-screen-2x.png" alt="Options screen" width="400" height="240" />
 
+<img src="https://raw.githubusercontent.com/stevecochrane/Mar-Koochooloo/main/screenshots/first-stage-2x.png" alt="Snake in the first stage" width="400" height="240" />
+
+<img src="https://raw.githubusercontent.com/stevecochrane/Mar-Koochooloo/main/screenshots/early-stage-2x.png" alt="Snake in an early stage" width="400" height="240" />
+
+<img src="https://raw.githubusercontent.com/stevecochrane/Mar-Koochooloo/main/screenshots/zig-zag-2x.png" alt="Snake zig-zagging in staircase pattern" width="400" height="240" />
+
+<img src="https://raw.githubusercontent.com/stevecochrane/Mar-Koochooloo/main/screenshots/level-clear-2x.png" alt="Level Clear screen" width="400" height="240" />
+
+<img src="https://raw.githubusercontent.com/stevecochrane/Mar-Koochooloo/main/screenshots/screen-wrap-2x.png" alt="Snake wrapping around the screen" width="400" height="240" />
+
+<img src="https://raw.githubusercontent.com/stevecochrane/Mar-Koochooloo/main/screenshots/credits-screen-2x.png" alt="Credits screen" width="400" height="240" />
+
 I created the game for my daughter Darya and collaborated with my extremely
 talented nephew who creates music as
 [KSVR](https://www.youtube.com/@behgolbb202). He made the music and sound
