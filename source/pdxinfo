@@ -1,6 +1,7 @@
 name=Mar Koochooloo
 author=Steve Cochrane
-description=Mar Koochooloo
+description=Snake game for Playdate with nine levels and Gentle Mode for new players.
 bundleID=com.stevecochrane.markoochooloo
-version=0.1
+version=1.0.0
+buildNumber=1
 imagePath=launcher
