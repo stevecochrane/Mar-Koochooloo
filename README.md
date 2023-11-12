@@ -23,7 +23,7 @@ players.
 
 I created the game for my daughter Darya and collaborated with my extremely
 talented nephew who creates music as
-[KSVR](https://www.youtube.com/@behgolbb202). He made the music and sound
+[KRVB](https://www.youtube.com/@behgolbb202). He made the music and sound
 effects with GarageBand on his grandfather's old iPhone and was just 8 years
 old at the time. The music is easily the best part of the game.
 
