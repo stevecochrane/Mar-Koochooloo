@@ -54,11 +54,10 @@ effects were made with [jsfxr](https://sfxr.me).
 
 ## State of the code
 
-This is definitely not the best code I’ve ever written, though I don’t intend
-to maintain or continue to build upon it after the intial release so code
-maintainability isn’t much of a concern. It runs at a steady 30 frames per
-second no matter what you do, which is the maximum frame rate for a Lua game on
-Playdate, so there are no performance issues.
+This is definitely not the best code I’ve ever written, though it performs well
+and I don’t intend to maintain or continue to build upon it after the intial
+release, so maintainability isn’t much of a concern. It runs at a steady 30
+frames per second and that’s the maximum frame rate for a Lua game on Playdate.
 
 I’ve structured this like my old [Flixel](https://lib.haxe.org/p/flixel)
 projects from a decade ago where there are different state objects (playState,
